@@ -1,21 +1,30 @@
 import React, { useEffect } from "react";
 import { View, Text } from "react-native";
-import { Searchbar } from "react-native-paper";
-import { Redirect } from "react-router-native";
+import { Button, Searchbar } from "react-native-paper";
+import { Redirect, useHistory } from "react-router-native";
 
 /**
  * Search page in the app
  * receive the token "string or null"
  */
-const Search = ({ token, setSection }) => {
+const Search = ({
+  token,
+  setSection,
+  searchId,
+  setSearchId,
+  searchPatient,
+}) => {
+  let history = useHistory();
+
   useEffect(() => {
     setSection("Search");
   }, []);
+
   return (
     <View>
       {(!token || token === "") && <Redirect to="/" />}
-      <Text>Search</Text>
-      <Searchbar />
+      <Searchbar onChangeText={setSearchId} value={setSearchId} />
+      <Button onPress={()=>{searchPatient(history)}}>Buscar / Crear</Button>
     </View>
   );
 };

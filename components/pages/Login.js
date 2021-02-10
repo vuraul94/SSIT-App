@@ -16,8 +16,10 @@ const styles = StyleSheet.create({
  * Login page in the app
  * receive the token "string or null"
  * receive the setToken "function"
+ * receive the setTokenCreationTime "function"
+ * receive the setSection "function"
  */
-const Login = ({ token, setToken, setSection }) => {
+const Login = ({ token, setToken, setTokenCreationTime, setSection }) => {
   const [errorMsg, setErrorMsg] = useState();
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
@@ -37,6 +39,7 @@ const Login = ({ token, setToken, setSection }) => {
       })
       .then(function (response) {
         setErrorMsg(null);
+        setTokenCreationTime(Date.now());
         setToken(response.data.Token);
       })
       .catch(function (error) {
