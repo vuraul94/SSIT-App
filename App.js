@@ -82,7 +82,7 @@ export default function App() {
             )}
           </Appbar>
           <View style={styles.container}>
-            <Route
+            {/* <Route
               exact
               path="/"
               render={() => (
@@ -93,7 +93,7 @@ export default function App() {
                   setSection={setSection}
                 />
               )}
-            />
+            /> */}
 
             <Route
               path="/search"
@@ -109,7 +109,8 @@ export default function App() {
             />
 
             <Route
-              path="/create"
+              // path="/create"
+              path="/"
               setSection={setSection}
               render={() => (
                 <FormPatient
