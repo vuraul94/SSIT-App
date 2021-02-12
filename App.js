@@ -33,7 +33,7 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: "#004777",
-    accent: "#f1c40f",
+    accent: "#004777",
   },
 };
 
@@ -42,6 +42,57 @@ export default function App() {
   const [tokenCreationTime, setTokenCreationTime] = useState(Date.now());
   const [section, setSection] = useState("");
   const [searchId, setSearchId] = useState("");
+
+  /**Patient data: START */
+  const [photo, setPhoto] = useState();
+  const [name, setName] = useState("");
+  const [lastNames, setLastNames] = useState("");
+
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [province, setProvince] = useState("");
+  const [canton, setCanton] = useState("");
+  const [district, setDistrict] = useState("");
+  const [address, setAddress] = useState("");
+
+  const [gender, setGender] = useState(1);
+  const [birthDate, setBirthDate] = useState(Date.now());
+  const [occupation, setOccupation] = useState("");
+  const [health, setHealth] = useState(0);
+
+  const patientSets = {
+    setPhoto,
+    setName,
+    setLastNames,
+    setPhone,
+    setEmail,
+    setProvince,
+    setCanton,
+    setDistrict,
+    setAddress,
+    setGender,
+    setBirthDate,
+    setOccupation,
+    setHealth,
+  };
+
+  const patientData = {
+    photo,
+    name,
+    lastNames,
+    phone,
+    email,
+    province,
+    canton,
+    district,
+    address,
+    gender,
+    birthDate,
+    occupation,
+    health,
+  };
+
+  /**Patient data: END */
 
   useEffect(() => {
     /**
@@ -112,11 +163,14 @@ export default function App() {
           <Route
             path="/create"
             setSection={setSection}
+            photo={photo}
             render={() => (
               <FormPatient
                 token={token}
                 setSection={setSection}
                 patientId={searchId}
+                {...patientSets}
+                {...patientData}
               />
             )}
           />

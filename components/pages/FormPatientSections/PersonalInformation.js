@@ -6,19 +6,19 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 const PersonalInformation = ({
   gender,
   setGender,
-  bornDate,
-  setBornDate,
+  birthDate,
+  setBirthDate,
   ocupation,
   setOcupation,
-  healthcare,
-  setHealthcare,
+  health,
+  setHealth,
 }) => {
   const [checked, setChecked] = useState(false);
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
-  const handleConfirm = (date) => {
-    console.log("A date has been picked: ", date);
+  const handleBirthDate = (date) => {
+    setBirthDate(date);
     setDatePickerVisibility(false);
   };
 
@@ -31,24 +31,29 @@ const PersonalInformation = ({
       >
         <View>
           <Text>Masculino</Text>
-          <RadioButton value="masculino" />
+          <RadioButton value={1} />
         </View>
         <View>
           <Text>Femenino</Text>
-          <RadioButton value="femenino" />
+          <RadioButton value={0} />
         </View>
       </RadioButton.Group>
-      <Text>Fecha de nacimiento</Text>
 
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
-        onConfirm={handleConfirm}
+        onConfirm={handleBirthDate}
         onCancel={() => setDatePickerVisibility(false)}
+        value={birthDate}
       />
 
-      <Button mode="contained" onPress={() => setDatePickerVisibility(true)}>
-        Pick time
+      <Button
+        mode="outlined"
+        onPress={() => {
+          setDatePickerVisibility(true);
+        }}
+      >
+        Fecha de nacimiento
       </Button>
 
       <TextInput

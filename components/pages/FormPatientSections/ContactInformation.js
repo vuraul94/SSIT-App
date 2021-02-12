@@ -6,27 +6,35 @@ import { Button, TextInput, Menu } from "react-native-paper";
 const ContactInformation = ({
   phone,
   setPhone,
-  mail,
-  setMail,
+  email,
+  setEmail,
   province,
   setProvince,
   canton,
   setCanton,
   district,
   setDistrict,
-  direction,
-  setDirection
+  address,
+  setAddress,
 }) => {
- 
-
   const [visibleProvince, setVisibleProvince] = useState(false);
   const [visibleCanton, setVisibleCanton] = useState(false);
   const [visibleDistrict, setVisibleDistrict] = useState(false);
 
   return (
     <>
-      <TextInput label="Numero de teléfono" mode="outlined" />
-      <TextInput label="Correo" mode="outlined" />
+      <TextInput
+        label="Numero de teléfono"
+        mode="outlined"
+        value={phone}
+        onChangeText={setPhone}
+      />
+      <TextInput
+        label="Correo"
+        mode="outlined"
+        value={email}
+        onChangeText={setEmail}
+      />
 
       <Menu
         visible={visibleProvince}
@@ -127,6 +135,8 @@ const ContactInformation = ({
         mode="outlined"
         multiline
         numberOfLines={5}
+        value={address}
+        onChangeText={setAddress}
       />
     </>
   );

@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, Image } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { Camera } from "expo-camera";
+import { useHistory } from "react-router-dom";
+import { IconButton } from "react-native-paper";
 
 const styles = StyleSheet.create({
   container: {},
@@ -13,9 +15,10 @@ const BasicInformation = ({
   setPhoto,
   name,
   setName,
-  LastNames,
+  lastNames,
   setLastNames,
 }) => {
+  let history = useHistory();
   const [hasPermission, setHasPermission] = useState(null);
   const cameraRef = useRef();
 
@@ -43,6 +46,8 @@ const BasicInformation = ({
 
   return (
     <>
+      <IconButton icon="step-backward" onPress={history.goBack} />
+
       {photo ? (
         <Image
           style={{ height: 200, width: 200, alignSelf: "center" }}
@@ -69,8 +74,18 @@ const BasicInformation = ({
         onPress={snap}
       ></Button>
 
-      <TextInput label="Nombre" mode="outlined" />
-      <TextInput label="Apellidos" mode="outlined" />
+      <TextInput
+        label="Nombre"
+        mode="outlined"
+        value={name}
+        onChangeText={setName}
+      />
+      <TextInput
+        label="Apellidos"
+        mode="outlined"
+        value={lastNames}
+        onChangeText={setLastNames}
+      />
     </>
   );
 };
