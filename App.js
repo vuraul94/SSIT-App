@@ -16,6 +16,7 @@ import FormPatient from "./components/pages/FormPatient";
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    flex: 1,
   },
   appbar: {
     height: 80,
@@ -67,9 +68,9 @@ export default function App() {
   };
 
   return (
-    <NativeRouter>
-      <PaperProvider theme={theme}>
-        <View>
+    <PaperProvider theme={theme}>
+      <NativeRouter>
+        <View style={{ flex: 1 }}>
           <Appbar style={styles.appbar}>
             <Appbar.Content title="SSIT App" subtitle={section} />
             {token && token !== "" && (
@@ -81,48 +82,46 @@ export default function App() {
               />
             )}
           </Appbar>
-          <View style={styles.container}>
-            {/* <Route
-              exact
-              path="/"
-              render={() => (
-                <Login
-                  token={token}
-                  setToken={setToken}
-                  setTokenCreationTime={setTokenCreationTime}
-                  setSection={setSection}
-                />
-              )}
-            /> */}
 
-            <Route
-              path="/search"
-              render={() => (
-                <Search
-                  token={token}
-                  setSection={setSection}
-                  searchPatient={searchPatient}
-                  searchId={searchId}
-                  setSearchId={setSearchId}
-                />
-              )}
-            />
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <Login
+                token={token}
+                setToken={setToken}
+                setTokenCreationTime={setTokenCreationTime}
+                setSection={setSection}
+              />
+            )}
+          />
 
-            <Route
-              // path="/create"
-              path="/"
-              setSection={setSection}
-              render={() => (
-                <FormPatient
-                  token={token}
-                  setSection={setSection}
-                  patientId={searchId}
-                />
-              )}
-            />
-          </View>
+          <Route
+            path="/search"
+            render={() => (
+              <Search
+                token={token}
+                setSection={setSection}
+                searchPatient={searchPatient}
+                searchId={searchId}
+                setSearchId={setSearchId}
+              />
+            )}
+          />
+
+          <Route
+            path="/create"
+            setSection={setSection}
+            render={() => (
+              <FormPatient
+                token={token}
+                setSection={setSection}
+                patientId={searchId}
+              />
+            )}
+          />
         </View>
-      </PaperProvider>
-    </NativeRouter>
+      </NativeRouter>
+    </PaperProvider>
   );
 }

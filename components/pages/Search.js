@@ -23,8 +23,14 @@ const Search = ({
   return (
     <View>
       {(!token || token === "") && <Redirect to="/" />}
-      <Searchbar onChangeText={setSearchId} value={setSearchId} />
-      <Button onPress={()=>{searchPatient(history)}}>Buscar / Crear</Button>
+      <Searchbar onChangeText={setSearchId} value={searchId} />
+      <Button
+        onPress={() => {
+          searchPatient(history);
+        }}
+      >
+        Buscar / Crear
+      </Button>
     </View>
   );
 };

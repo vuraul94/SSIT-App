@@ -47,7 +47,9 @@ const PersonalInformation = ({
         onCancel={() => setDatePickerVisibility(false)}
       />
 
-      <Button onPress={() => setDatePickerVisibility(true)}>Pick time</Button>
+      <Button mode="contained" onPress={() => setDatePickerVisibility(true)}>
+        Pick time
+      </Button>
 
       <TextInput
         label="Ocupación"

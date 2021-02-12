@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
  */
 const Login = ({ token, setToken, setTokenCreationTime, setSection }) => {
   const [errorMsg, setErrorMsg] = useState();
-  const [user, setUser] = useState("");
-  const [pass, setPass] = useState("");
+  const [user, setUser] = useState("UserDev");
+  const [pass, setPass] = useState("Dev123");
 
   useEffect(() => {
     setSection("Login");

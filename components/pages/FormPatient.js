@@ -6,22 +6,26 @@ import { StyleSheet } from "react-native";
 import BasicInformation from "./FormPatientSections/BasicInformation";
 import ContactInformation from "./FormPatientSections/ContactInformation";
 import PersonalInformation from "./FormPatientSections/PersonalInformation";
+import { Button, IconButton } from "react-native-paper";
 
 const styles = StyleSheet.create({});
 
-const FormPatient = ({ setSection, token }) => {
+const FormPatient = ({ setSection, token, patientId }) => {
+  let history = useHistory();
   const [province, setProvince] = useState("");
   const [canton, setCanton] = useState("");
   const [district, setDistrict] = useState("");
 
   const [gender, setGender] = useState("masculino");
 
+  const [photo, setPhoto] = useState();
+
   useEffect(() => {
-    setSection("Crear");
-  }, []);
+    setSection(`Crear: ${patientId}`);
+  }, [history]);
 
   const formSections = [
-    <BasicInformation />,
+    <BasicInformation photo={photo} setPhoto={setPhoto} />,
     <ContactInformation
       province={province}
       setProvince={setProvince}
@@ -36,7 +40,8 @@ const FormPatient = ({ setSection, token }) => {
   ];
   return (
     <>
-      {/* {(!token || token === "") && <Redirect to="/" />} */}
+      <IconButton icon="step-backward" onPress={history.goBack}/>
+      {(!token || token === "") && <Redirect to="/" />}
       <Paginator sections={formSections}></Paginator>
     </>
   );
