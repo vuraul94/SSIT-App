@@ -56,15 +56,17 @@ const BasicInformation = ({
           }}
         />
       ) : (
-        <Camera
-          style={{
-            height: 200,
-            width: 200,
-            alignSelf: "center",
-          }}
-          type={Camera.Constants.Type.back}
-          ref={cameraRef}
-        ></Camera>
+        hasPermission && (
+          <Camera
+            style={{
+              height: 200,
+              width: 200,
+              alignSelf: "center",
+            }}
+            type={Camera.Constants.Type.back}
+            ref={cameraRef}
+          ></Camera>
+        )
       )}
 
       <Button

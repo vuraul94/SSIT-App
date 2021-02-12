@@ -39,7 +39,7 @@ const Paginator = ({ sections = [] }) => {
             Siguiente {">"}
           </Button>
         )}
-      </View>
+      </View> 
     </>
   );
 };
