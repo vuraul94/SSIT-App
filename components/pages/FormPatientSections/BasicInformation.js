@@ -38,7 +38,6 @@ const BasicInformation = ({
         quality: 0,
       });
       snapshot.then((res, rej) => {
-        console.log(res);
         setPhoto(`data:image/jpg;base64,${res.base64}`);
       });
     }
@@ -63,6 +62,8 @@ const BasicInformation = ({
               width: 200,
               alignSelf: "center",
             }}
+            pictureSize="1"
+            ratio="3:2"
             type={Camera.Constants.Type.back}
             ref={cameraRef}
           ></Camera>

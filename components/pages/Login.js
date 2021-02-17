@@ -41,6 +41,7 @@ const Login = ({ token, setToken, setTokenCreationTime, setSection }) => {
         setErrorMsg(null);
         setTokenCreationTime(Date.now());
         setToken(response.data.Token);
+        console.log(response.data.Token);
       })
       .catch(function (error) {
         if (error.message === "Request failed with status code 401") {
@@ -48,7 +49,6 @@ const Login = ({ token, setToken, setTokenCreationTime, setSection }) => {
         } else {
           setErrorMsg("Algo ocurrio");
         }
-        console.log(error);
       });
   };
 

@@ -7,13 +7,14 @@ import BasicInformation from "./FormPatientSections/BasicInformation";
 import ContactInformation from "./FormPatientSections/ContactInformation";
 import PersonalInformation from "./FormPatientSections/PersonalInformation";
 import Patient from "./Patient";
+import { locations } from "../../misc/locations";
 
 const styles = StyleSheet.create({});
 
 const FormPatient = ({
   setSection,
   token,
-  patientId,
+  identificationNumber,
   photo,
   name,
   lastNames,
@@ -40,12 +41,12 @@ const FormPatient = ({
   setBirthDate,
   setOccupation,
   setHealth,
+  createPatient,
 }) => {
   let history = useHistory();
 
   useEffect(() => {
-    setSection(`Crear: ${patientId}`);
-    console.log(name);
+    setSection(`ID: ${identificationNumber}`);
   }, [history]);
 
   const formSections = [
@@ -78,27 +79,31 @@ const FormPatient = ({
         birthDate={birthDate}
         setBirthDate={setBirthDate}
         occupation={occupation}
-        setOcupation={setOccupation}
+        setOccupation={setOccupation}
         health={health}
         setHealth={setHealth}
       />
     </>,
     <Patient
-      patientId={patientId}
+      identificationNumber={identificationNumber}
       photo={photo}
       name={name}
       lastNames={lastNames}
       phone={phone}
       email={email}
-      province={province}
-      canton={canton}
-      district={district}
-      address={address}
+      address={
+        province !== "" &&
+        canton !== "" &&
+        district !== "" &&
+        `${locations.province[province]}, ${locations.canton[province][canton]}, ${locations.district[province][canton][district]}. \n ${address}`
+      }
       gender={gender}
       birthDate={birthDate}
       occupation={occupation}
       health={health}
       preview={true}
+      createPatient={createPatient}
+      token={token}
     />,
   ];
   return (

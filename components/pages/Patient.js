@@ -1,7 +1,8 @@
 import moment from "moment";
 import React from "react";
 import { Image, ScrollView, StyleSheet, Text } from "react-native";
-import { Button, Divider } from "react-native-paper";
+import { Button, Divider, IconButton } from "react-native-paper";
+import { useHistory, Redirect } from "react-router-dom";
 
 const styles = StyleSheet.create({
   label: {
@@ -10,25 +11,36 @@ const styles = StyleSheet.create({
 });
 
 const Patient = ({
-  patientId,
+  token,
+  identificationNumber,
   photo,
   name,
   lastNames,
   phone,
   email,
-  province,
-  canton,
-  district,
   address,
   gender,
   birthDate,
   occupation,
   health,
   preview = false,
+  createPatient,
 }) => {
+  let history = useHistory();
+
   return (
     <>
+      {(!token || token === "") && <Redirect to="/" />}
       <ScrollView>
+        {!preview && (
+          <>
+            <IconButton
+              icon="step-backward"
+              onPress={() => history.push("/search")}
+            />
+            <IconButton icon="pencil" onPress={() => history.push("/create")} />
+          </>
+        )}
         <Image
           style={{ height: 200, width: 200, alignSelf: "center" }}
           source={{
@@ -36,7 +48,7 @@ const Patient = ({
           }}
         />
         <Text>
-          <Text style={styles.label}>ID:</Text> {patientId}
+          <Text style={styles.label}>ID:</Text> {identificationNumber}
           {"\n"}
           {"\n"}
           <Text style={styles.label}>Apellidos:</Text> {lastNames}
@@ -73,15 +85,16 @@ const Patient = ({
           <Text style={styles.label}>Correo:</Text> {email}
           {"\n"}
           {"\n"}
-          <Text style={styles.label}>Dirección:</Text>{" "}
-          {`${province},${canton},${district}`}
-          {"\n"}
-          {address}
+          <Text style={styles.label}>Dirección:</Text> {address}
           {"\n"}
           {"\n"}
         </Text>
         <Divider />
-        {preview && <Button mode="contained">Crear</Button>}
+        {preview && (
+          <Button mode="contained" onPress={() => createPatient(history)}>
+            Crear
+          </Button>
+        )}
       </ScrollView>
     </>
   );

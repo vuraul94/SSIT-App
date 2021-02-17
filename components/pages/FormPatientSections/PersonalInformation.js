@@ -8,12 +8,11 @@ const PersonalInformation = ({
   setGender,
   birthDate,
   setBirthDate,
-  ocupation,
-  setOcupation,
+  occupation,
+  setOccupation,
   health,
   setHealth,
 }) => {
-  const [checked, setChecked] = useState(false);
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -61,12 +60,19 @@ const PersonalInformation = ({
         mode="outlined"
         multiline
         numberOfLines={5}
-      />
+        value={occupation}
+        onChangeText={setOccupation}
+      /> 
+
       <Text>Seguro de salud</Text>
       <Checkbox
-        status={checked ? "checked" : "unchecked"}
+        status={health === 1 ? "checked" : "unchecked"}
         onPress={() => {
-          setChecked(!checked);
+          if (health === 0) {
+            setHealth(1);
+          } else {
+            setHealth(0);
+          }
         }}
       />
     </>

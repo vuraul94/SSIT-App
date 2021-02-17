@@ -10,8 +10,8 @@ import { Redirect, useHistory } from "react-router-native";
 const Search = ({
   token,
   setSection,
-  searchId,
-  setSearchId,
+  identificationNumber,
+  setIdentificationNumber,
   searchPatient,
 }) => {
   let history = useHistory();
@@ -23,7 +23,7 @@ const Search = ({
   return (
     <View>
       {(!token || token === "") && <Redirect to="/" />}
-      <Searchbar onChangeText={setSearchId} value={searchId} />
+      <Searchbar onChangeText={setIdentificationNumber} value={identificationNumber} />
       <Button
         onPress={() => {
           searchPatient(history);

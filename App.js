@@ -12,6 +12,10 @@ import { CONSTANTS } from "./misc/constants";
 import Login from "./components/pages/Login";
 import Search from "./components/pages/Search";
 import FormPatient from "./components/pages/FormPatient";
+import Patient from "./components/pages/Patient";
+import moment from "moment";
+import axios from "axios";
+import { locations } from "./misc/locations";
 
 const styles = StyleSheet.create({
   container: {
@@ -41,10 +45,11 @@ export default function App() {
   const [token, setToken] = useState();
   const [tokenCreationTime, setTokenCreationTime] = useState(Date.now());
   const [section, setSection] = useState("");
-  const [searchId, setSearchId] = useState("");
+  const [patientId, setPatientId] = useState(0);
+  const [identificationNumber, setIdentificationNumber] = useState("");
 
   /**Patient data: START */
-  const [photo, setPhoto] = useState();
+  const [photo, setPhoto] = useState("");
   const [name, setName] = useState("");
   const [lastNames, setLastNames] = useState("");
 
@@ -58,7 +63,7 @@ export default function App() {
   const [gender, setGender] = useState(1);
   const [birthDate, setBirthDate] = useState(Date.now());
   const [occupation, setOccupation] = useState("");
-  const [health, setHealth] = useState(0);
+  const [health, setHealth] = useState(1);
 
   const patientSets = {
     setPhoto,
@@ -114,8 +119,112 @@ export default function App() {
     };
   }, [token, setToken]);
 
+  const createPatient = (history) => {
+    const patient = {
+      PatientId: patientId,
+      Name: name,
+      Surnames: lastNames,
+      Phones: phone,
+      IdentificationNumber: identificationNumber,
+      GenderId: parseInt(2),
+      EmailAddress: email,
+      Birthdate: moment(birthDate, "DD/MM/YYYY"),
+      Age: parseInt(
+        moment(birthDate)
+          .fromNow(true)
+          .replace(" years", "")
+          .replace(" años", "")
+      ),
+      AddressDetail: `${locations.province[province]}, ${locations.canton[province][canton]}, ${locations.district[province][canton][district]}. \n ${address}`,
+      Occupation: occupation,
+      PatientStatus: parseInt(health),
+      PathologicalHistoryList: [],
+      PersonalPhoto: photo.toString(),
+    };
+    console.log({ ...patient, PersonalPhoto: "" });
+    axios
+      .post(`${CONSTANTS.API.URL}/api/Patient/CreatePatient`, patient, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      })
+      .then((res, rej) => {
+        setPatientId(patient.PatientId);
+        history.push("/search");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const searchPatient = (history) => {
-    history.push("/create");
+    axios
+      .post(
+        `${CONSTANTS.API.URL}/api/Patient/GetPatient`,
+        {
+          IdentificationNumber: identificationNumber,
+        },
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      )
+      .then((res, rej) => {
+        const patient = res.data.Response;
+        if (patient.PatientId === 0) {
+          history.push("/create");
+        } else {
+          setPatientId(patient.PatientId);
+          setPhoto(patient.PersonalPhoto);
+          setName(patient.Name);
+          setLastNames(patient.Surnames);
+          setPhone(patient.Phones);
+          setEmail(patient.EmailAddress);
+          setGender(patient.GenderId);
+          setBirthDate(patient.Birthdate);
+          setOccupation(patient.Occupation);
+          setHealth(patient.PatientStatus);
+
+          const addressArray = patient.AddressDetail.split(".");
+          let regions = [];
+          if (addressArray.length === 2) {
+            regions = addressArray[0].split(",");
+            setAddress(addressArray[1].replace("\n","").trim());
+          } else {
+            setAddress(addressArray[0]);
+          }
+          if (regions.length === 3) {
+            Object.keys(locations.province).forEach((p) => {
+              if (locations.province[p] === regions[0].trim()) {
+                setProvince(p);
+                Object.keys(locations.canton[province]).forEach((c) => {
+                  if (
+                    province &&
+                    locations.canton[p][c] === regions[1].trim()
+                  ) {
+                    setCanton(c);
+                    Object.keys(locations.district[p][c]).forEach((d) => {
+                      if (
+                        canton &&
+                        locations.district[p][c][d] === regions[2].trim()
+                      ) {
+                        setDistrict(d);
+                        history.push("/patient");
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          } else {
+            history.push("/patient");
+          }
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -154,8 +263,8 @@ export default function App() {
                 token={token}
                 setSection={setSection}
                 searchPatient={searchPatient}
-                searchId={searchId}
-                setSearchId={setSearchId}
+                identificationNumber={identificationNumber}
+                setIdentificationNumber={setIdentificationNumber}
               />
             )}
           />
@@ -163,14 +272,32 @@ export default function App() {
           <Route
             path="/create"
             setSection={setSection}
-            photo={photo}
             render={() => (
               <FormPatient
                 token={token}
                 setSection={setSection}
-                patientId={searchId}
+                identificationNumber={identificationNumber}
+                createPatient={createPatient}
                 {...patientSets}
                 {...patientData}
+              />
+            )}
+          />
+
+          <Route
+            path="/patient"
+            setSection={setSection}
+            render={() => (
+              <Patient
+                token={token}
+                setSection={setSection}
+                identificationNumber={identificationNumber}
+                {...patientData}
+                address={
+                  province !== "" && canton !== "" && district !== ""
+                    ? `${locations.province[province]}, ${locations.canton[province][canton]}, ${locations.district[province][canton][district]}. \n ${address}`
+                    : address
+                }
               />
             )}
           />
