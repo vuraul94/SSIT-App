@@ -17,6 +17,9 @@ const BasicInformation = ({
   setName,
   lastNames,
   setLastNames,
+  setProvince,
+  setCanton,
+  setDistrict,
 }) => {
   let history = useHistory();
   const [hasPermission, setHasPermission] = useState(null);
@@ -45,7 +48,19 @@ const BasicInformation = ({
 
   return (
     <>
-      <IconButton icon="step-backward" onPress={history.goBack} />
+      <IconButton
+        icon="step-backward"
+        onPress={() => {
+          if(
+            history.entries[history.entries.length - 2].pathname === "/search"
+          ){
+            setProvince("P1");
+            setCanton("C1");
+            setDistrict("D1");
+          }
+          history.goBack();
+        }}
+      />
 
       {photo ? (
         <Image

@@ -27,7 +27,7 @@ const FormPatient = ({
   gender,
   birthDate,
   occupation,
-  health,
+  status,
   setPhoto,
   setName,
   setLastNames,
@@ -40,13 +40,21 @@ const FormPatient = ({
   setGender,
   setBirthDate,
   setOccupation,
-  setHealth,
+  setStatus,
   createPatient,
+  patientStatusCatalog,
+  genderCatalog,
 }) => {
   let history = useHistory();
 
   useEffect(() => {
+    console.log(status);
+  }, [status]);
+
+
+  useEffect(() => {
     setSection(`ID: ${identificationNumber}`);
+    console.log(status);
   }, [history]);
 
   const formSections = [
@@ -57,6 +65,9 @@ const FormPatient = ({
       setName={setName}
       lastNames={lastNames}
       setLastNames={setLastNames}
+      setProvince={setProvince}
+      setCanton={setCanton}
+      setDistrict={setDistrict}
     />,
     <ContactInformation
       phone={phone}
@@ -80,8 +91,10 @@ const FormPatient = ({
         setBirthDate={setBirthDate}
         occupation={occupation}
         setOccupation={setOccupation}
-        health={health}
-        setHealth={setHealth}
+        status={status}
+        setStatus={setStatus}
+        patientStatusCatalog={patientStatusCatalog}
+        genderCatalog={genderCatalog}
       />
     </>,
     <Patient
@@ -100,10 +113,12 @@ const FormPatient = ({
       gender={gender}
       birthDate={birthDate}
       occupation={occupation}
-      health={health}
+      status={setStatus}
       preview={true}
       createPatient={createPatient}
       token={token}
+      genderCatalog={genderCatalog}
+      patientStatusCatalog={patientStatusCatalog}
     />,
   ];
   return (

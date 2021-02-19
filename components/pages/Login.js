@@ -19,7 +19,15 @@ const styles = StyleSheet.create({
  * receive the setTokenCreationTime "function"
  * receive the setSection "function"
  */
-const Login = ({ token, setToken, setTokenCreationTime, setSection }) => {
+const Login = ({
+  token,
+  setToken,
+  setTokenCreationTime,
+  setSection,
+  setCountryCatalog,
+  setGenderCatalog,
+  setPatientStatusCatalog,
+}) => {
   const [errorMsg, setErrorMsg] = useState();
   const [user, setUser] = useState("UserDev");
   const [pass, setPass] = useState("Dev123");
@@ -37,18 +45,31 @@ const Login = ({ token, setToken, setTokenCreationTime, setSection }) => {
         Username: user,
         Password: pass,
       })
-      .then(function (response) {
+      .then((response) => {
         setErrorMsg(null);
         setTokenCreationTime(Date.now());
-        setToken(response.data.Token);
-        console.log(response.data.Token);
+        getCatalog(response.data.Token);
       })
-      .catch(function (error) {
+      .catch((error) => {
         if (error.message === "Request failed with status code 401") {
           setErrorMsg("Credenciales equivocadas");
         } else {
           setErrorMsg("Algo ocurrio");
         }
+      });
+  };
+
+  const getCatalog = (token) => {
+    axios
+      .get(`${CONSTANTS.API.URL}/api/CatalogController/GetAllCatalog`, {
+        headers: { Authorization: token },
+      })
+      .then((response) => {
+        const data = response.data.Response;
+        setCountryCatalog(data.CountryCatalog);
+        setGenderCatalog(data.GenderCatalog);
+        setPatientStatusCatalog(data.PatientStatus);
+        setToken(token);
       });
   };
 

@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Button, TextInput, RadioButton, Checkbox } from "react-native-paper";
+import {
+  Button,
+  TextInput,
+  RadioButton,
+  Menu,
+} from "react-native-paper";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import moment from "moment";
 
 const PersonalInformation = ({
   gender,
@@ -10,16 +16,22 @@ const PersonalInformation = ({
   setBirthDate,
   occupation,
   setOccupation,
-  health,
-  setHealth,
+  status,
+  setStatus,
+  patientStatusCatalog,
+  genderCatalog,
 }) => {
-
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [visbleStatus, setVisibleStatus] = useState();
 
   const handleBirthDate = (date) => {
     setBirthDate(date);
     setDatePickerVisibility(false);
   };
+
+  useEffect(() => {
+    console.log(status);
+  }, []);
 
   return (
     <>
@@ -28,14 +40,13 @@ const PersonalInformation = ({
         onValueChange={(newValue) => setGender(newValue)}
         value={gender}
       >
-        <View>
-          <Text>Masculino</Text>
-          <RadioButton value={1} />
-        </View>
-        <View>
-          <Text>Femenino</Text>
-          <RadioButton value={0} />
-        </View>
+        {genderCatalog &&
+          genderCatalog.map((genderItem) => (
+            <React.Fragment key={`gender_${genderItem.GenderId}`}>
+              <Text>{genderItem.Name}</Text>
+              <RadioButton value={genderItem.GenderId} />
+            </React.Fragment>
+          ))}
       </RadioButton.Group>
 
       <DateTimePickerModal
@@ -52,7 +63,9 @@ const PersonalInformation = ({
           setDatePickerVisibility(true);
         }}
       >
-        Fecha de nacimiento
+        {birthDate === ""
+          ? `Fecha de nacimiento`
+          : moment(birthDate).format("DD/MM/YYYY")}
       </Button>
 
       <TextInput
@@ -62,19 +75,39 @@ const PersonalInformation = ({
         numberOfLines={5}
         value={occupation}
         onChangeText={setOccupation}
-      /> 
-
-      <Text>Seguro de salud</Text>
-      <Checkbox
-        status={health === 1 ? "checked" : "unchecked"}
-        onPress={() => {
-          if (health === 0) {
-            setHealth(1);
-          } else {
-            setHealth(0);
-          }
-        }}
       />
+
+      <Text>Estado del paciente</Text>
+      <Menu
+        visible={visbleStatus}
+        onDismiss={() => setVisibleStatus(false)}
+        anchor={
+          <Button onPress={() => setVisibleStatus(true)} mode="outlined">
+            {status !== 0
+              ? patientStatusCatalog[status - 1].Name
+              : "Estado del paciente"}
+          </Button>
+        }
+      >
+        <Menu.Item
+          onPress={() => {
+            setStatus(0);
+            setVisibleStatus(false);
+          }}
+          title="Estado del paciente"
+        />
+        {patientStatusCatalog &&
+          patientStatusCatalog.map((statusItem) => (
+            <Menu.Item
+              key={`status_${statusItem.PatientStatusId}`}
+              onPress={() => {
+                setStatus(statusItem.PatientStatusId);
+                setVisibleStatus(false);
+              }}
+              title={statusItem.Name}
+            />
+          ))}
+      </Menu>
     </>
   );
 };

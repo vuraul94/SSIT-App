@@ -44,26 +44,30 @@ const theme = {
 export default function App() {
   const [token, setToken] = useState();
   const [tokenCreationTime, setTokenCreationTime] = useState(Date.now());
+  const [countryCatalog, setCountryCatalog] = useState([]);
+  const [genderCatalog, setGenderCatalog] = useState([]);
+  const [patientStatusCatalog, setPatientStatusCatalog] = useState([]);
   const [section, setSection] = useState("");
   const [patientId, setPatientId] = useState(0);
   const [identificationNumber, setIdentificationNumber] = useState("");
 
   /**Patient data: START */
+  const [country, setCountry] = useState(60);
   const [photo, setPhoto] = useState("");
   const [name, setName] = useState("");
   const [lastNames, setLastNames] = useState("");
 
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [province, setProvince] = useState("");
-  const [canton, setCanton] = useState("");
-  const [district, setDistrict] = useState("");
+  const [province, setProvince] = useState("P1");
+  const [canton, setCanton] = useState("C1");
+  const [district, setDistrict] = useState("D1");
   const [address, setAddress] = useState("");
 
   const [gender, setGender] = useState(1);
   const [birthDate, setBirthDate] = useState(Date.now());
   const [occupation, setOccupation] = useState("");
-  const [health, setHealth] = useState(1);
+  const [status, setStatus] = useState(0);
 
   const patientSets = {
     setPhoto,
@@ -78,7 +82,7 @@ export default function App() {
     setGender,
     setBirthDate,
     setOccupation,
-    setHealth,
+    setStatus,
   };
 
   const patientData = {
@@ -94,7 +98,7 @@ export default function App() {
     gender,
     birthDate,
     occupation,
-    health,
+    status,
   };
 
   /**Patient data: END */
@@ -125,7 +129,9 @@ export default function App() {
       Name: name,
       Surnames: lastNames,
       Phones: phone,
-      IdentificationNumber: identificationNumber,
+      IdentificationNumber: `${
+        countryCatalog[country - 1].Abbreviation
+      }${identificationNumber}`,
       GenderId: parseInt(2),
       EmailAddress: email,
       Birthdate: moment(birthDate, "DD/MM/YYYY"),
@@ -137,11 +143,12 @@ export default function App() {
       ),
       AddressDetail: `${locations.province[province]}, ${locations.canton[province][canton]}, ${locations.district[province][canton][district]}. \n ${address}`,
       Occupation: occupation,
-      PatientStatus: parseInt(health),
+      PatientStatus: parseInt(status),
+      CountryId: country,
+      CountryName: countryCatalog[country - 1].Name,
       PathologicalHistoryList: [],
       PersonalPhoto: photo.toString(),
     };
-    console.log({ ...patient, PersonalPhoto: "" });
     axios
       .post(`${CONSTANTS.API.URL}/api/Patient/CreatePatient`, patient, {
         headers: {
@@ -162,7 +169,9 @@ export default function App() {
       .post(
         `${CONSTANTS.API.URL}/api/Patient/GetPatient`,
         {
-          IdentificationNumber: identificationNumber,
+          IdentificationNumber: `${
+            countryCatalog[country - 1].Abbreviation
+          }:${identificationNumber}`,
         },
         {
           headers: {
@@ -172,10 +181,14 @@ export default function App() {
       )
       .then((res, rej) => {
         const patient = res.data.Response;
-        if (patient.PatientId === 0) {
+        if (res.data.Status === 204) {
+          Object.keys(patientSets).map((set) => {
+            patientSets[set]("");
+            setStatus(0);
+          });
           history.push("/create");
         } else {
-          setPatientId(patient.PatientId);
+          setPatientId(patient.IdentificationNumber);
           setPhoto(patient.PersonalPhoto);
           setName(patient.Name);
           setLastNames(patient.Surnames);
@@ -184,39 +197,18 @@ export default function App() {
           setGender(patient.GenderId);
           setBirthDate(patient.Birthdate);
           setOccupation(patient.Occupation);
-          setHealth(patient.PatientStatus);
+          setStatus(patient.PatientStatus);
 
           const addressArray = patient.AddressDetail.split(".");
           let regions = [];
           if (addressArray.length === 2) {
             regions = addressArray[0].split(",");
-            setAddress(addressArray[1].replace("\n","").trim());
+            setAddress(addressArray[1].replace(/[\n]/g, "").trim());
           } else {
             setAddress(addressArray[0]);
           }
           if (regions.length === 3) {
-            Object.keys(locations.province).forEach((p) => {
-              if (locations.province[p] === regions[0].trim()) {
-                setProvince(p);
-                Object.keys(locations.canton[province]).forEach((c) => {
-                  if (
-                    province &&
-                    locations.canton[p][c] === regions[1].trim()
-                  ) {
-                    setCanton(c);
-                    Object.keys(locations.district[p][c]).forEach((d) => {
-                      if (
-                        canton &&
-                        locations.district[p][c][d] === regions[2].trim()
-                      ) {
-                        setDistrict(d);
-                        history.push("/patient");
-                      }
-                    });
-                  }
-                });
-              }
-            });
+            setRegions(regions, history);
           } else {
             history.push("/patient");
           }
@@ -225,6 +217,25 @@ export default function App() {
       .catch((error) => {
         console.error(error);
       });
+  };
+
+  const setRegions = (regions, history) => {
+    Object.keys(locations.province).forEach((p) => {
+      if (locations.province[p] === regions[0].trim()) {
+        setProvince(p);
+        Object.keys(locations.canton[province]).forEach((c) => {
+          if (province && locations.canton[p][c] === regions[1].trim()) {
+            setCanton(c);
+            Object.keys(locations.district[p][c]).forEach((d) => {
+              if (canton && locations.district[p][c][d] === regions[2].trim()) {
+                setDistrict(d);
+                history.push("/patient");
+              }
+            });
+          }
+        });
+      }
+    });
   };
 
   return (
@@ -252,6 +263,9 @@ export default function App() {
                 setToken={setToken}
                 setTokenCreationTime={setTokenCreationTime}
                 setSection={setSection}
+                setCountryCatalog={setCountryCatalog}
+                setGenderCatalog={setGenderCatalog}
+                setPatientStatusCatalog={setPatientStatusCatalog}
               />
             )}
           />
@@ -265,6 +279,9 @@ export default function App() {
                 searchPatient={searchPatient}
                 identificationNumber={identificationNumber}
                 setIdentificationNumber={setIdentificationNumber}
+                country={country}
+                setCountry={setCountry}
+                countryCatalog={countryCatalog}
               />
             )}
           />
@@ -276,10 +293,14 @@ export default function App() {
               <FormPatient
                 token={token}
                 setSection={setSection}
-                identificationNumber={identificationNumber}
+                identificationNumber={`${
+                  countryCatalog[country - 1].Abbreviation
+                }:${identificationNumber}`}
                 createPatient={createPatient}
                 {...patientSets}
                 {...patientData}
+                patientStatusCatalog={patientStatusCatalog}
+                genderCatalog={genderCatalog}
               />
             )}
           />
@@ -291,7 +312,10 @@ export default function App() {
               <Patient
                 token={token}
                 setSection={setSection}
-                identificationNumber={identificationNumber}
+                identificationNumber={`${countryCatalog[country - 1].Abbreviation}:${identificationNumber}`}
+                setProvince={setProvince}
+                setCanton={setCanton}
+                setDistrict={setDistrict}
                 {...patientData}
                 address={
                   province !== "" && canton !== "" && district !== ""

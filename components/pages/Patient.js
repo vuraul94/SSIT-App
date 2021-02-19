@@ -22,9 +22,12 @@ const Patient = ({
   gender,
   birthDate,
   occupation,
-  health,
+  status,
   preview = false,
   createPatient,
+  setProvince,
+  setCanton,
+  setDistrict,
 }) => {
   let history = useHistory();
 
@@ -36,7 +39,12 @@ const Patient = ({
           <>
             <IconButton
               icon="step-backward"
-              onPress={() => history.push("/search")}
+              onPress={() => {
+                setProvince("P1");
+                setCanton("C1");
+                setDistrict("D1");
+                history.push("/search");
+              }}
             />
             <IconButton icon="pencil" onPress={() => history.push("/create")} />
           </>
@@ -58,7 +66,7 @@ const Patient = ({
         </Text>
         <Divider />
         <Text>
-          <Text style={styles.label}>Salud:</Text> {health}
+          <Text style={styles.label}>Salud:</Text> {status}
           {"\n"}
           {"\n"}
           <Text style={styles.label}>Género:</Text>{" "}
@@ -92,7 +100,7 @@ const Patient = ({
         <Divider />
         {preview && (
           <Button mode="contained" onPress={() => createPatient(history)}>
-            Crear
+            Crear/Actualizar
           </Button>
         )}
       </ScrollView>
