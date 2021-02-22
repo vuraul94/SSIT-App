@@ -127,8 +127,10 @@ export default function App() {
   const cleanPatient = () => {
     Object.keys(patientSets).map((set) => {
       patientSets[set]("");
-      setStatus(0);
     });
+    setGender(1);
+    setCountry(60);
+    setStatus(0);
   };
 
   return (

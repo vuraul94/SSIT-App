@@ -28,6 +28,7 @@ const Patient = ({
   setProvince,
   setCanton,
   setDistrict,
+  validateForm
 }) => {
   let history = useHistory();
 
@@ -66,7 +67,7 @@ const Patient = ({
         </Text>
         <Divider />
         <Text>
-          <Text style={styles.label}>Salud:</Text> {status}
+          <Text style={styles.label}>Estado:</Text> {status}
           {"\n"}
           {"\n"}
           <Text style={styles.label}>Género:</Text>{" "}
@@ -98,8 +99,8 @@ const Patient = ({
           {"\n"}
         </Text>
         <Divider />
-        {preview && (
-          <Button mode="contained" onPress={() => createPatient(history)}>
+        {preview  && (
+          <Button mode="contained" disabled={!validateForm()} onPress={() => createPatient(history)}>
             Crear/Actualizar
           </Button>
         )}

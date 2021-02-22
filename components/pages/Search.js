@@ -34,7 +34,7 @@ const Search = ({
   setBirthDate,
   setOccupation,
   setStatus,
-  cleanPatient
+  cleanPatient,
 }) => {
   let history = useHistory();
   const [visbleCountry, setVisibleCountry] = useState();
@@ -44,55 +44,59 @@ const Search = ({
   }, []);
 
   const searchPatient = (history) => {
-    axios
-      .post(
-        `${CONSTANTS.API.URL}/api/Patient/GetPatient`,
-        {
-          IdentificationNumber: `${
-            countryCatalog[country - 1].Abbreviation
-          }:${identificationNumber}`,
-        },
-        {
-          headers: {
-            Authorization: `${token}`,
+    if (identificationNumber && identificationNumber.trim() !== "") {
+      axios
+        .post(
+          `${CONSTANTS.API.URL}/api/Patient/GetPatient`,
+          {
+            IdentificationNumber: `${
+              countryCatalog[country - 1].Abbreviation
+            }:${identificationNumber}`,
           },
-        }
-      )
-      .then((res, rej) => {
-        const patient = res.data.Response;
-        if (res.data.Status === 204) {
-          cleanPatient();
-          history.push("/create");
-        } else {
-          setPatientId(patient.IdentificationNumber);
-          setPhoto(patient.PersonalPhoto);
-          setName(patient.Name);
-          setLastNames(patient.Surnames);
-          setPhone(patient.Phones);
-          setEmail(patient.EmailAddress);
-          setGender(patient.GenderId);
-          setBirthDate(patient.Birthdate);
-          setOccupation(patient.Occupation);
-          setStatus(patient.PatientStatus);
+          {
+            headers: {
+              Authorization: `${token}`,
+            },
+          }
+        )
+        .then((res, rej) => {
+          const patient = res.data.Response;
+          if (res.data.Status === 204) {
+            cleanPatient();
+            history.push("/create");
+          } else {
+            setPatientId(patient.IdentificationNumber);
+            setPhoto(patient.PersonalPhoto);
+            setName(patient.Name);
+            setLastNames(patient.Surnames);
+            setPhone(patient.Phones);
+            setEmail(patient.EmailAddress);
+            setGender(patient.GenderId);
+            setBirthDate(patient.Birthdate);
+            setOccupation(patient.Occupation);
+            setStatus(patient.PatientStatus);
 
-          const addressArray = patient.AddressDetail.split(".");
-          let regions = [];
-          if (addressArray.length === 2) {
-            regions = addressArray[0].split(",");
-            setAddress(addressArray[1].replace(/[\n]/g, "").trim());
-          } else {
-            setAddress(addressArray[0]);
+            const addressArray = patient.AddressDetail.split(".");
+            let regions = [];
+            if (addressArray.length === 2) {
+              regions = addressArray[0].split(",");
+              setAddress(addressArray[1].replace(/[\n]/g, "").trim());
+            } else {
+              setAddress(addressArray[0]);
+            }
+            if (regions.length === 3) {
+              setRegions(regions, history);
+            } else {
+              history.push("/patient");
+            }
           }
-          if (regions.length === 3) {
-            setRegions(regions, history);
-          } else {
-            history.push("/patient");
-          }
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      console.log("La identificación no puede ir vacia");
+    }
   };
 
   const setRegions = (regions, history) => {

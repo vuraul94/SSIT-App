@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import {
-  Button,
-  TextInput,
-  RadioButton,
-  Menu,
-} from "react-native-paper";
+import { Button, TextInput, RadioButton, Menu } from "react-native-paper";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
 
@@ -40,7 +35,12 @@ const PersonalInformation = ({
           genderCatalog.map((genderItem) => (
             <React.Fragment key={`gender_${genderItem.GenderId}`}>
               <Text>{genderItem.Name}</Text>
-              <RadioButton value={genderItem.GenderId} />
+              <RadioButton
+                value={genderItem.GenderId}
+                status={
+                  genderItem.GenderId === gender ? "checked" : "unchecked"
+                }
+              />
             </React.Fragment>
           ))}
       </RadioButton.Group>

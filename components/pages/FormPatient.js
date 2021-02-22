@@ -95,6 +95,53 @@ const FormPatient = ({
       });
   };
 
+  const validateForm = () => {
+    const phoneRegex = new RegExp(
+      /^[+]?([(]{0,1}[0-9]{1,4}[)]){0,1}[-\s\./0-9]*$/
+    );
+    const emailRegex = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
+    if (!name || name.trim() === "") {
+      console.log("El nombre es obligatotio");
+      return false;
+    } else if (!lastNames || lastNames.trim() === "") {
+      console.log("El apellido es obligatotio");
+      return false;
+    } else if (!phone || phone.trim() === "" || !phoneRegex.test(phone)) {
+      if (!phoneRegex.test(phone)) {
+        console.log("No es un telefono valido");
+      } else {
+        console.log("El telefono es obligatotio");
+      }
+      return false;
+    } else if (email && email.trim() !== "" && !emailRegex.test(email)) {
+      console.log("No es un email valido");
+      return false;
+    } else if (
+      !province ||
+      province.trim() === "" ||
+      !canton ||
+      canton.trim() === "" ||
+      !district ||
+      district.trim() === "" ||
+      !address ||
+      address.trim() === ""
+    ) {
+      console.log("La dirección es obligatoria");
+      return false;
+    } else if (!birthDate || birthDate === "") {
+      console.log("La fecha de nacimiento es obligatoria");
+      return false;
+    } else if (!occupation || occupation.trim() === "") {
+      console.log("La fecha de nacimiento es obligatoria");
+      return false;
+    }
+    if (!status || status === 0) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   const formSections = [
     <BasicInformation
       photo={photo}
@@ -151,12 +198,13 @@ const FormPatient = ({
       gender={gender}
       birthDate={birthDate}
       occupation={occupation}
-      status={setStatus}
+      status={status}
       preview={true}
       createPatient={createPatient}
       token={token}
       genderCatalog={genderCatalog}
       patientStatusCatalog={patientStatusCatalog}
+      validateForm={validateForm}
     />,
   ];
   return (
