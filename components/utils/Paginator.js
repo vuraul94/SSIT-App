@@ -33,7 +33,7 @@ const Paginator = ({ sections = [] }) => {
       <View style={styles.navButtons}>
         {page != 0 && page < sections.length && (
           <Button
-          style={styles.buttonLeft}
+          style={styles.buttonLeft} //ESTO ROMPE EL BOTON EN LA ULTIMA PAGINA DEL FORMULARIO
           mode="contained"
             onPress={() => {
               handlePagination(-1);

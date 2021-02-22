@@ -12,8 +12,7 @@ const styles = StyleSheet.create({
   error: {
     color: "red",
   },
-  button:{
-  },
+  button: {},
 });
 
 const Patient = ({
@@ -37,7 +36,7 @@ const Patient = ({
   setProvince,
   setCanton,
   setDistrict,
-  validateForm,
+  validateForm = () => true,
 }) => {
   let history = useHistory();
 
