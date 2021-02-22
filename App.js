@@ -103,6 +103,7 @@ export default function App() {
   };
 
   /**Patient data: END */
+  
 
   useEffect(() => {
     /**
@@ -122,7 +123,7 @@ export default function App() {
     return () => {
       clearInterval(expInterval);
     };
-  }, [token, setToken]);
+  }, [token, setToken, tokenCreationTime]);
 
   const cleanPatient = () => {
     Object.keys(patientSets).map((set) => {

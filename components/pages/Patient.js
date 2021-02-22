@@ -3,10 +3,14 @@ import { Image, ScrollView, StyleSheet, Text } from "react-native";
 import { Button, Divider, IconButton } from "react-native-paper";
 import { useHistory, Redirect } from "react-router-dom";
 import moment from "moment";
+import { CONSTANTS } from "../../misc/constants";
 
 const styles = StyleSheet.create({
   label: {
     fontWeight: "bold",
+  },
+  error: {
+    color: "red",
   },
 });
 
@@ -18,6 +22,9 @@ const Patient = ({
   lastNames,
   phone,
   email,
+  province,
+  canton,
+  district,
   address,
   gender,
   birthDate,
@@ -28,7 +35,7 @@ const Patient = ({
   setProvince,
   setCanton,
   setDistrict,
-  validateForm
+  validateForm,
 }) => {
   let history = useHistory();
 
@@ -50,24 +57,42 @@ const Patient = ({
             <IconButton icon="pencil" onPress={() => history.push("/create")} />
           </>
         )}
-        <Image
-          style={{ height: 200, width: 200, alignSelf: "center" }}
-          source={{
-            uri: photo,
-          }}
-        />
+        {photo !== "" && (
+          <Image
+            style={{ height: 200, width: 200, alignSelf: "center" }}
+            source={{
+              uri: photo,
+            }}
+          />
+        )}
         <Text>
           <Text style={styles.label}>ID:</Text> {identificationNumber}
           {"\n"}
           {"\n"}
-          <Text style={styles.label}>Apellidos:</Text> {lastNames}
+          <Text style={styles.label}>Apellidos:</Text>{" "}
+          {lastNames && lastNames.trim() !== "" ? (
+            lastNames
+          ) : (
+            <Text style={styles.error}>* El apellido es obligatorio</Text>
+          )}
           {"\n"}
           {"\n"}
-          <Text style={styles.label}>Nombre:</Text> {name}
+          <Text style={styles.label}>Nombre:</Text>{" "}
+          {name && name.trim() !== "" ? (
+            name
+          ) : (
+            <Text style={styles.error}>* El nombre es obligatorio</Text>
+          )}
         </Text>
         <Divider />
+        <Text>{"\n"}</Text>
         <Text>
-          <Text style={styles.label}>Estado:</Text> {status}
+          <Text style={styles.label}>Estado:</Text>{" "}
+          {status && status !== 0 ? (
+            status
+          ) : (
+            <Text style={styles.error}>* El estado es obligatorio</Text>
+          )}
           {"\n"}
           {"\n"}
           <Text style={styles.label}>Género:</Text>{" "}
@@ -75,32 +100,81 @@ const Patient = ({
           {"\n"}
           {"\n"}
           <Text style={styles.label}>Fecha de nacimiento:</Text>
-          {moment(birthDate).format("DD/MM/YYYY")}
+          {birthDate && birthDate.trim() !== "" ? (
+            moment(birthDate).format("DD/MM/YYYY")
+          ) : (
+            <Text style={styles.error}>* La fecha es obligatorio</Text>
+          )}
           {"\n"}
           {"\n"}
           <Text style={styles.label}>Edad:</Text>{" "}
-          {moment(birthDate).fromNow(true).replace("years", "años")}
+          {birthDate && birthDate.trim() !== "" ? (
+            moment(birthDate).fromNow(true).replace("years", "años")
+          ) : (
+            <Text style={styles.error}>* La fecha es obligatorio</Text>
+          )}
           {"\n"}
           {"\n"}
-          <Text style={styles.label}>Ocupación:</Text> {occupation}
-          {"\n"}
-          {"\n"}
+          <Text style={styles.label}>Ocupación:</Text>
+          {occupation && occupation.trim() !== "" ? (
+            occupation
+          ) : (
+            <Text style={styles.error}>* La ocupación es obligatorio</Text>
+          )}
         </Text>
         <Divider />
+        <Text>{"\n"}</Text>
         <Text>
-          <Text style={styles.label}>Telefono:</Text> {phone}
+          <Text style={styles.label}>Telefono:</Text>{" "}
+          {phone && phone.trim() !== "" ? (
+            CONSTANTS.REGEX.PHONE.test(phone) ? (
+              phone
+            ) : (
+              <Text style={styles.error}>
+                * El telefono ingresado es invalido
+              </Text>
+            )
+          ) : (
+            <Text style={styles.error}>* El telefono es obligatorio</Text>
+          )}
           {"\n"}
           {"\n"}
-          <Text style={styles.label}>Correo:</Text> {email}
+          <Text style={styles.label}>Correo:</Text>{" "}
+          {email !== "" ? (
+            CONSTANTS.REGEX.EMAIL.test(email) ? (
+              email
+            ) : (
+              <Text style={styles.error}>
+                * El correo ingresado es invalido
+              </Text>
+            )
+          ) : (
+            "---"
+          )}
           {"\n"}
           {"\n"}
-          <Text style={styles.label}>Dirección:</Text> {address}
+          <Text style={styles.label}>Dirección:</Text>{" "}
+          {(province !== "" && canton !== "" && district !== "" && address) || (
+            <Text style={styles.error}>
+              * Los valores de dirección son necesarios (Provincia, Cantón,
+              Distrito y Dirección)
+            </Text>
+          )}
           {"\n"}
           {"\n"}
         </Text>
+        {!validateForm() && (
+          <Text style={styles.error}>
+            ** Corrija los errores en el formulario para poder enviar
+          </Text>
+        )}
         <Divider />
-        {preview  && (
-          <Button mode="contained" disabled={!validateForm()} onPress={() => createPatient(history)}>
+        {preview && (
+          <Button
+            mode="contained"
+            disabled={!validateForm()}
+            onPress={() => createPatient(history)}
+          >
             Crear/Actualizar
           </Button>
         )}
