@@ -1,8 +1,8 @@
-import moment from "moment";
 import React from "react";
 import { Image, ScrollView, StyleSheet, Text } from "react-native";
 import { Button, Divider, IconButton } from "react-native-paper";
 import { useHistory, Redirect } from "react-router-dom";
+import moment from "moment";
 
 const styles = StyleSheet.create({
   label: {

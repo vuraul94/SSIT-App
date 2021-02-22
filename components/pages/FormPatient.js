@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Redirect, useHistory } from "react-router-native";
 import Paginator from "../utils/Paginator";
 import { StyleSheet } from "react-native";
+import moment from "moment";
 
 import BasicInformation from "./FormPatientSections/BasicInformation";
 import ContactInformation from "./FormPatientSections/ContactInformation";
 import PersonalInformation from "./FormPatientSections/PersonalInformation";
 import Patient from "./Patient";
 import { locations } from "../../misc/locations";
+import { CONSTANTS } from "../../misc/constants";
 
 const styles = StyleSheet.create({});
 
@@ -15,6 +17,7 @@ const FormPatient = ({
   setSection,
   token,
   identificationNumber,
+  patientId,
   photo,
   name,
   lastNames,
@@ -28,6 +31,7 @@ const FormPatient = ({
   birthDate,
   occupation,
   status,
+  setPatientId,
   setPhoto,
   setName,
   setLastNames,
@@ -41,21 +45,55 @@ const FormPatient = ({
   setBirthDate,
   setOccupation,
   setStatus,
-  createPatient,
   patientStatusCatalog,
   genderCatalog,
 }) => {
   let history = useHistory();
 
   useEffect(() => {
-    console.log(status);
-  }, [status]);
-
-
-  useEffect(() => {
     setSection(`ID: ${identificationNumber}`);
-    console.log(status);
   }, [history]);
+
+  const createPatient = (history) => {
+    const patient = {
+      PatientId: patientId,
+      Name: name,
+      Surnames: lastNames,
+      Phones: phone,
+      IdentificationNumber: `${
+        countryCatalog[country - 1].Abbreviation
+      }${identificationNumber}`,
+      GenderId: parseInt(2),
+      EmailAddress: email,
+      Birthdate: moment(birthDate, "DD/MM/YYYY"),
+      Age: parseInt(
+        moment(birthDate)
+          .fromNow(true)
+          .replace(" years", "")
+          .replace(" años", "")
+      ),
+      AddressDetail: `${locations.province[province]}, ${locations.canton[province][canton]}, ${locations.district[province][canton][district]}. \n ${address}`,
+      Occupation: occupation,
+      PatientStatus: parseInt(status),
+      CountryId: country,
+      CountryName: countryCatalog[country - 1].Name,
+      PathologicalHistoryList: [],
+      PersonalPhoto: photo.toString(),
+    };
+    axios
+      .post(`${CONSTANTS.API.URL}/api/Patient/CreatePatient`, patient, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      })
+      .then((res, rej) => {
+        setPatientId(patient.PatientId);
+        history.push("/search");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   const formSections = [
     <BasicInformation

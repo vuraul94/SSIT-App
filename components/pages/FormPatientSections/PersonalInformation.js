@@ -29,10 +29,6 @@ const PersonalInformation = ({
     setDatePickerVisibility(false);
   };
 
-  useEffect(() => {
-    console.log(status);
-  }, []);
-
   return (
     <>
       <Text>Género</Text>

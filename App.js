@@ -13,7 +13,6 @@ import Login from "./components/pages/Login";
 import Search from "./components/pages/Search";
 import FormPatient from "./components/pages/FormPatient";
 import Patient from "./components/pages/Patient";
-import moment from "moment";
 import axios from "axios";
 import { locations } from "./misc/locations";
 
@@ -70,6 +69,7 @@ export default function App() {
   const [status, setStatus] = useState(0);
 
   const patientSets = {
+    setPatientId,
     setPhoto,
     setName,
     setLastNames,
@@ -86,6 +86,7 @@ export default function App() {
   };
 
   const patientData = {
+    patientId,
     photo,
     name,
     lastNames,
@@ -123,118 +124,10 @@ export default function App() {
     };
   }, [token, setToken]);
 
-  const createPatient = (history) => {
-    const patient = {
-      PatientId: patientId,
-      Name: name,
-      Surnames: lastNames,
-      Phones: phone,
-      IdentificationNumber: `${
-        countryCatalog[country - 1].Abbreviation
-      }${identificationNumber}`,
-      GenderId: parseInt(2),
-      EmailAddress: email,
-      Birthdate: moment(birthDate, "DD/MM/YYYY"),
-      Age: parseInt(
-        moment(birthDate)
-          .fromNow(true)
-          .replace(" years", "")
-          .replace(" años", "")
-      ),
-      AddressDetail: `${locations.province[province]}, ${locations.canton[province][canton]}, ${locations.district[province][canton][district]}. \n ${address}`,
-      Occupation: occupation,
-      PatientStatus: parseInt(status),
-      CountryId: country,
-      CountryName: countryCatalog[country - 1].Name,
-      PathologicalHistoryList: [],
-      PersonalPhoto: photo.toString(),
-    };
-    axios
-      .post(`${CONSTANTS.API.URL}/api/Patient/CreatePatient`, patient, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      })
-      .then((res, rej) => {
-        setPatientId(patient.PatientId);
-        history.push("/search");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const searchPatient = (history) => {
-    axios
-      .post(
-        `${CONSTANTS.API.URL}/api/Patient/GetPatient`,
-        {
-          IdentificationNumber: `${
-            countryCatalog[country - 1].Abbreviation
-          }:${identificationNumber}`,
-        },
-        {
-          headers: {
-            Authorization: `${token}`,
-          },
-        }
-      )
-      .then((res, rej) => {
-        const patient = res.data.Response;
-        if (res.data.Status === 204) {
-          Object.keys(patientSets).map((set) => {
-            patientSets[set]("");
-            setStatus(0);
-          });
-          history.push("/create");
-        } else {
-          setPatientId(patient.IdentificationNumber);
-          setPhoto(patient.PersonalPhoto);
-          setName(patient.Name);
-          setLastNames(patient.Surnames);
-          setPhone(patient.Phones);
-          setEmail(patient.EmailAddress);
-          setGender(patient.GenderId);
-          setBirthDate(patient.Birthdate);
-          setOccupation(patient.Occupation);
-          setStatus(patient.PatientStatus);
-
-          const addressArray = patient.AddressDetail.split(".");
-          let regions = [];
-          if (addressArray.length === 2) {
-            regions = addressArray[0].split(",");
-            setAddress(addressArray[1].replace(/[\n]/g, "").trim());
-          } else {
-            setAddress(addressArray[0]);
-          }
-          if (regions.length === 3) {
-            setRegions(regions, history);
-          } else {
-            history.push("/patient");
-          }
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const setRegions = (regions, history) => {
-    Object.keys(locations.province).forEach((p) => {
-      if (locations.province[p] === regions[0].trim()) {
-        setProvince(p);
-        Object.keys(locations.canton[province]).forEach((c) => {
-          if (province && locations.canton[p][c] === regions[1].trim()) {
-            setCanton(c);
-            Object.keys(locations.district[p][c]).forEach((d) => {
-              if (canton && locations.district[p][c][d] === regions[2].trim()) {
-                setDistrict(d);
-                history.push("/patient");
-              }
-            });
-          }
-        });
-      }
+  const cleanPatient = () => {
+    Object.keys(patientSets).map((set) => {
+      patientSets[set]("");
+      setStatus(0);
     });
   };
 
@@ -243,7 +136,7 @@ export default function App() {
       <NativeRouter>
         <View style={{ flex: 1 }}>
           <Appbar style={styles.appbar}>
-            <Appbar.Content title="SSIT App" subtitle={section} />
+            <Appbar.Content title="REXIS" subtitle={section} />
             {token && token !== "" && (
               <Appbar.Action
                 icon="logout"
@@ -276,12 +169,15 @@ export default function App() {
               <Search
                 token={token}
                 setSection={setSection}
-                searchPatient={searchPatient}
                 identificationNumber={identificationNumber}
                 setIdentificationNumber={setIdentificationNumber}
+                province={province}
+                canton={canton}
                 country={country}
                 setCountry={setCountry}
                 countryCatalog={countryCatalog}
+                cleanPatient={cleanPatient}
+                {...patientSets}
               />
             )}
           />
@@ -296,7 +192,6 @@ export default function App() {
                 identificationNumber={`${
                   countryCatalog[country - 1].Abbreviation
                 }:${identificationNumber}`}
-                createPatient={createPatient}
                 {...patientSets}
                 {...patientData}
                 patientStatusCatalog={patientStatusCatalog}
@@ -312,7 +207,9 @@ export default function App() {
               <Patient
                 token={token}
                 setSection={setSection}
-                identificationNumber={`${countryCatalog[country - 1].Abbreviation}:${identificationNumber}`}
+                identificationNumber={`${
+                  countryCatalog[country - 1].Abbreviation
+                }:${identificationNumber}`}
                 setProvince={setProvince}
                 setCanton={setCanton}
                 setDistrict={setDistrict}
