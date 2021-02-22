@@ -3,6 +3,22 @@ import { StyleSheet } from "react-native";
 import { locations } from "../../../misc/locations";
 import { Button, TextInput, Menu } from "react-native-paper";
 
+const styles = StyleSheet.create({
+  input:{
+    margin: 12,
+  },
+  button:{
+    width: "90%",
+    marginLeft: "5%",
+    marginTop: "2%",
+    marginBottom: "2%",
+  },
+  menu:{
+    margin: "10%",
+    width: "80%",
+  },
+});
+
 const ContactInformation = ({
   phone,
   setPhone,
@@ -24,12 +40,14 @@ const ContactInformation = ({
   return (
     <>
       <TextInput
+        style={styles.input}
         label="Numero de teléfono"
         mode="outlined"
         value={phone}
         onChangeText={setPhone}
       />
       <TextInput
+        style={styles.input}
         label="Correo"
         mode="outlined"
         value={email}
@@ -37,10 +55,11 @@ const ContactInformation = ({
       />
 
       <Menu
+        style={styles.menu}
         visible={visibleProvince}
         onDismiss={() => setVisibleProvince(false)}
         anchor={
-          <Button onPress={() => setVisibleProvince(true)} mode="outlined">
+          <Button icon="chevron-down" style={styles.button} onPress={() => setVisibleProvince(true)} mode="outlined">
             {province !== "" ? locations.province[province] : "Provincia"}
           </Button>
         }
@@ -69,10 +88,11 @@ const ContactInformation = ({
       </Menu>
 
       <Menu
+        style={styles.menu}
         visible={visibleCanton}
         onDismiss={() => setVisibleCanton(false)}
         anchor={
-          <Button onPress={() => setVisibleCanton(true)} mode="outlined">
+          <Button icon="chevron-down" style={styles.button} onPress={() => setVisibleCanton(true)} mode="outlined">
             {canton !== "" ? locations.canton[province][canton] : "Cantón"}
           </Button>
         }
@@ -100,10 +120,11 @@ const ContactInformation = ({
       </Menu>
 
       <Menu
+        style={styles.menu}
         visible={visibleDistrict}
         onDismiss={() => setVisibleDistrict(false)}
         anchor={
-          <Button onPress={() => setVisibleDistrict(true)} mode="outlined">
+          <Button icon="chevron-down" style={styles.button} onPress={() => setVisibleDistrict(true)} mode="outlined">
             {district !== ""
               ? locations.district[province][canton][district]
               : "Distrito"}
@@ -131,6 +152,7 @@ const ContactInformation = ({
       </Menu>
 
       <TextInput
+        style={styles.input}
         label="Dirección"
         mode="outlined"
         multiline

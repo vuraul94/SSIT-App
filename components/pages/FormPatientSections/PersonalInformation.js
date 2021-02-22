@@ -4,6 +4,14 @@ import { Button, TextInput, RadioButton, Menu } from "react-native-paper";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
 
+const styles = StyleSheet.create({
+  radioGroup: {
+  },
+  radioButton:{
+  },
+});
+
+
 const PersonalInformation = ({
   gender,
   setGender,
@@ -28,12 +36,13 @@ const PersonalInformation = ({
     <>
       <Text>Género</Text>
       <RadioButton.Group
+        styles={styles.radioGroup}
         onValueChange={(newValue) => setGender(newValue)}
         value={gender}
       >
         {genderCatalog &&
           genderCatalog.map((genderItem) => (
-            <React.Fragment key={`gender_${genderItem.GenderId}`}>
+            <View styles={styles.radioButton} key={`gender_${genderItem.GenderId}`}>
               <Text>{genderItem.Name}</Text>
               <RadioButton
                 value={genderItem.GenderId}
@@ -41,7 +50,7 @@ const PersonalInformation = ({
                   genderItem.GenderId === gender ? "checked" : "unchecked"
                 }
               />
-            </React.Fragment>
+            </View>
           ))}
       </RadioButton.Group>
 

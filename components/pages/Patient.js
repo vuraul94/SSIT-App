@@ -12,6 +12,8 @@ const styles = StyleSheet.create({
   error: {
     color: "red",
   },
+  button:{
+  },
 });
 
 const Patient = ({
@@ -46,7 +48,7 @@ const Patient = ({
         {!preview && (
           <>
             <IconButton
-              icon="step-backward"
+              icon="chevron-left"
               onPress={() => {
                 setProvince("P1");
                 setCanton("C1");

@@ -22,9 +22,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   appbar: {
-    height: 80,
+    height: 100,
     padding: 10,
-    paddingTop: 20,
+    paddingTop: 30,
     justifyContent: "flex-end",
     color: "#ffffff",
   },
@@ -35,8 +35,8 @@ const theme = {
   roundness: 10,
   colors: {
     ...DefaultTheme.colors,
-    primary: "#004777",
-    accent: "#004777",
+    primary: "#074c76",
+    accent: "#d22936",
   },
 };
 

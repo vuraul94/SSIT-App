@@ -8,6 +8,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
   },
+  buttonLeft:{
+    marginTop: 20,
+    position: 'absolute', 
+    left: 10,
+  },
+  buttonRight:{
+    marginTop: 20,
+    position: 'absolute', 
+    right: 10,
+  }
 });
 
 const Paginator = ({ sections = [] }) => {
@@ -23,6 +33,8 @@ const Paginator = ({ sections = [] }) => {
       <View style={styles.navButtons}>
         {page != 0 && page < sections.length && (
           <Button
+          style={styles.buttonLeft}
+          mode="contained"
             onPress={() => {
               handlePagination(-1);
             }}
@@ -32,6 +44,8 @@ const Paginator = ({ sections = [] }) => {
         )}
         {page >= 0 && sections.length > 1 && page < sections.length - 1 && (
           <Button
+            style={styles.buttonRight}
+            mode="contained"
             onPress={() => {
               handlePagination(1);
             }}

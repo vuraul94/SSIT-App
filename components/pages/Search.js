@@ -1,10 +1,35 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import axios from "axios";
+import { View, Text, StyleSheet } from "react-native";
 import { Button, Menu, Searchbar } from "react-native-paper";
 import { Redirect, useHistory } from "react-router-native";
 import { CONSTANTS } from "../../misc/constants";
 import { locations } from "../../misc/locations";
+
+const styles = StyleSheet.create({
+  button:{
+    width: "80%",
+    marginLeft: "10%",
+    marginTop: "5%",
+    marginBottom: "5%",
+  },
+  menu:{
+    marginTop: "14%",
+    marginLeft: "2%",
+    marginRight: "2%",
+    width: "90%",
+  },
+  searchbar:{
+    width: "98%",
+    marginLeft: "1%",
+  },
+  text:{
+    fontSize: 15,
+    marginLeft: "10%",
+    marginTop: "5%",
+    marginBottom: "2%",
+  },
+});
 
 /**
  * Search page in the app
@@ -126,12 +151,13 @@ const Search = ({
   return (
     <View>
       {(!token || token === "") && <Redirect to="/" />}
-
+      <Text style={styles.text}>Seleccione el país al que pertenece el paciente:</Text>
       <Menu
+        style={styles.menu}
         visible={visbleCountry}
         onDismiss={() => setVisibleCountry(false)}
         anchor={
-          <Button onPress={() => setVisibleCountry(true)} mode="outlined">
+          <Button icon="chevron-down" style={styles.button} onPress={() => setVisibleCountry(true)} mode="outlined">
             {country !== 0 ? countryCatalog[country - 1].Name : "País"}
           </Button>
         }
@@ -157,12 +183,15 @@ const Search = ({
       </Menu>
 
       <Searchbar
+        style={styles.searchbar}
         onChangeText={(e) => {
           setIdentificationNumber(e);
         }}
         value={identificationNumber}
       />
-      <Button
+      <Button 
+        style={styles.button}
+        mode="contained"
         onPress={() => {
           searchPatient(history);
         }}

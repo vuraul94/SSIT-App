@@ -8,8 +8,13 @@ import { CONSTANTS } from "../../misc/constants";
 const styles = StyleSheet.create({
   container: {},
   input: {
-    margin: 5,
+    margin: 12,
   },
+  button:{
+    width: "80%",
+    marginTop: 10,
+    marginLeft: "10%",
+  }
 });
 
 /**
@@ -98,7 +103,7 @@ const Login = ({
         }}
       ></TextInput>
       {errorMsg && <Text>{errorMsg}</Text>}
-      <Button onPress={handleLogin}>Login</Button>
+      <Button  style={styles.button} mode="contained" onPress={handleLogin}>Login</Button>
     </View>
   );
 };

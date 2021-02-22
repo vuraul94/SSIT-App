@@ -7,7 +7,28 @@ import { IconButton } from "react-native-paper";
 
 const styles = StyleSheet.create({
   container: {},
-  image_btn: {},
+  image_btn: {
+    width: "80%",
+    marginTop: 10,
+    marginLeft: "10%",
+  },
+  photo: {
+    marginBottom: 20,
+    height: 200, 
+    width: 200, 
+    alignSelf: "center",
+  },
+  camera:{
+    marginBottom: 20,
+    height: 200,
+    width: 200,
+    alignSelf: "center",
+  },
+  input:{
+    marginTop: 10,
+    marginLeft: 15,
+    marginRight: 15,
+  },
 });
 
 const BasicInformation = ({
@@ -49,7 +70,7 @@ const BasicInformation = ({
   return (
     <>
       <IconButton
-        icon="step-backward"
+        icon="chevron-left"
         onPress={() => {
           if(
             history.entries[history.entries.length - 2].pathname === "/search"
@@ -64,7 +85,7 @@ const BasicInformation = ({
 
       {photo ? (
         <Image
-          style={{ height: 200, width: 200, alignSelf: "center" }}
+          style={styles.photo}
           source={{
             uri: photo,
           }}
@@ -72,11 +93,7 @@ const BasicInformation = ({
       ) : (
         hasPermission && (
           <Camera
-            style={{
-              height: 200,
-              width: 200,
-              alignSelf: "center",
-            }}
+            style={styles.camera}
             pictureSize="1"
             ratio="3:2"
             type={Camera.Constants.Type.back}
@@ -93,12 +110,14 @@ const BasicInformation = ({
       ></Button>
 
       <TextInput
+        style={styles.input}
         label="Nombre"
         mode="outlined"
         value={name}
         onChangeText={setName}
       />
       <TextInput
+        style={styles.input}
         label="Apellidos"
         mode="outlined"
         value={lastNames}

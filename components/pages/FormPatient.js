@@ -10,6 +10,7 @@ import PersonalInformation from "./FormPatientSections/PersonalInformation";
 import Patient from "./Patient";
 import { locations } from "../../misc/locations";
 import { CONSTANTS } from "../../misc/constants";
+import axios from "axios";
 
 const styles = StyleSheet.create({});
 
@@ -27,6 +28,7 @@ const FormPatient = ({
   canton,
   district,
   address,
+  country,
   gender,
   birthDate,
   occupation,
@@ -47,6 +49,7 @@ const FormPatient = ({
   setStatus,
   patientStatusCatalog,
   genderCatalog,
+  countryCatalog,
 }) => {
   let history = useHistory();
 
