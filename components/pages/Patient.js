@@ -109,7 +109,7 @@ const Patient = ({
           {"\n"}
           {"\n"}
           <Text style={styles.label}>Edad:</Text>{" "}
-          {birthDate && birthDate.trim() !== "" ? (
+          {birthDate && birthDate !== "" ? (
             moment(birthDate).fromNow(true).replace("years", "años")
           ) : (
             <Text style={styles.error}>* La fecha es obligatorio</Text>
