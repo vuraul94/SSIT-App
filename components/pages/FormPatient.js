@@ -58,6 +58,7 @@ const FormPatient = ({
   }, [history]);
 
   const createPatient = (history) => {
+    console.log(countryCatalog[0]);
     const patient = {
       PatientId: patientId,
       Name: name,

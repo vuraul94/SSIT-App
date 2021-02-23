@@ -79,6 +79,7 @@ export default function App() {
     setCanton,
     setDistrict,
     setAddress,
+    setCountry,
     setGender,
     setBirthDate,
     setOccupation,
@@ -96,6 +97,7 @@ export default function App() {
     canton,
     district,
     address,
+    country,
     gender,
     birthDate,
     occupation,
@@ -103,7 +105,6 @@ export default function App() {
   };
 
   /**Patient data: END */
-  
 
   useEffect(() => {
     /**
@@ -198,6 +199,7 @@ export default function App() {
                 {...patientSets}
                 {...patientData}
                 patientStatusCatalog={patientStatusCatalog}
+                countryCatalog={countryCatalog}
                 genderCatalog={genderCatalog}
               />
             )}

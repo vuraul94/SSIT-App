@@ -183,6 +183,7 @@ const Search = ({
       </Menu>
 
       <Searchbar
+      keyboardType="number-pad"
         style={styles.searchbar}
         onChangeText={(e) => {
           setIdentificationNumber(e);
