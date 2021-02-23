@@ -6,8 +6,29 @@ import moment from "moment";
 
 const styles = StyleSheet.create({
   radioGroup: {
+    marginLeft: 20,
+    marginTop: 3,
+    flexDirection: 'row',
+    alignSelf: 'flex-start'
   },
-  radioButton:{
+  text:{
+    paddingTop: 7,
+  },
+  title: {
+    marginTop: 20,
+    marginLeft: 10,
+    fontSize: 18,
+  },
+  button:{
+    width: "90%",
+    margin: "5%",
+  },
+  input: {
+    margin: 10,
+  },
+  menu:{
+    margin: "10%",
+    width: "80%",
   },
 });
 
@@ -34,16 +55,15 @@ const PersonalInformation = ({
 
   return (
     <>
-      <Text>Género</Text>
+      <Text style={styles.title}>Género</Text>
       <RadioButton.Group
-        styles={styles.radioGroup}
         onValueChange={(newValue) => setGender(newValue)}
         value={gender}
       >
         {genderCatalog &&
           genderCatalog.map((genderItem) => (
-            <View styles={styles.radioButton} key={`gender_${genderItem.GenderId}`}>
-              <Text>{genderItem.Name}</Text>
+            <View style={styles.radioGroup} key={`gender_${genderItem.GenderId}`}>
+              <Text style={styles.text}>{genderItem.Name}</Text>
               <RadioButton
                 value={genderItem.GenderId}
                 status={
@@ -63,6 +83,8 @@ const PersonalInformation = ({
       />
 
       <Button
+        style={styles.button}
+        icon="chevron-down"
         mode="outlined"
         onPress={() => {
           setDatePickerVisibility(true);
@@ -74,6 +96,7 @@ const PersonalInformation = ({
       </Button>
 
       <TextInput
+        style={styles.input}
         label="Ocupación"
         mode="outlined"
         multiline
@@ -82,12 +105,16 @@ const PersonalInformation = ({
         onChangeText={setOccupation}
       />
 
-      <Text>Estado del paciente</Text>
+      <Text style={styles.title}>Estado del paciente</Text>
       <Menu
+        style={styles.menu}
         visible={visbleStatus}
         onDismiss={() => setVisibleStatus(false)}
         anchor={
-          <Button onPress={() => setVisibleStatus(true)} mode="outlined">
+          <Button 
+            style={styles.button}
+            icon="chevron-down" 
+            onPress={() => setVisibleStatus(true)} mode="outlined">
             {status !== 0
               ? patientStatusCatalog[status - 1].Name
               : "Estado del paciente"}

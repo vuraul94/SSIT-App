@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
   buttonLeft:{
     marginTop: 20,
-    position: 'absolute', 
+    marginBottom: 30,
     left: 10,
   },
   buttonRight:{
