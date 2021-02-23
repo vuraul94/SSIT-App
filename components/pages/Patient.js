@@ -101,7 +101,7 @@ const Patient = ({
           {"\n"}
           {"\n"}
           <Text style={styles.label}>Fecha de nacimiento:</Text>
-          {birthDate && birthDate.trim() !== "" ? (
+          {birthDate && birthDate !== "" ? (
             moment(birthDate).format("DD/MM/YYYY")
           ) : (
             <Text style={styles.error}>* La fecha es obligatorio</Text>
