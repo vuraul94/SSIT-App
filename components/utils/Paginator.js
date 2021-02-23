@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   buttonRight:{
     marginTop: 20,
     position: 'absolute', 
+    marginBottom: 30,
     right: 10,
   }
 });
