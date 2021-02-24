@@ -68,18 +68,12 @@ const FormPatient = ({
   pathologicalCatalog,
 }) => {
   let history = useHistory();
-  
-  useEffect(() => {
-    console.log(typeof patologicalHistory);
-  }, []);
-  
 
   useEffect(() => {
     setSection(`ID: ${identificationNumber}`);
   }, [history]);
 
   const createPatient = (history) => {
-    console.log(countryCatalog[0]);
     const patient = {
       PatientId: patientId,
       Name: name,

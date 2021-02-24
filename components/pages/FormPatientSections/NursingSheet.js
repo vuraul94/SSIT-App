@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Redirect, useHistory } from "react-router-native";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Checkbox, TextInput, Switch } from "react-native-paper";
@@ -20,7 +20,7 @@ const NursingSheet = ({
   setOphthalmologistHistory,
   pathologicalCatalog,
 }) => {
-  const [text, setText] = useState("");
+  const [checkManager, setCheckMager] = useState(false);
   const [isSwitchPatologyOn, setIsSwitchPatologyOn] = useState(false);
   const [checkOtherPatology, setOtherPatology] = useState(false);
   const [isSwitchAlergyOn, setIsSwitchAlergyOn] = useState(false);
@@ -39,12 +39,14 @@ const NursingSheet = ({
     newPatologicalHistory[index] =
       newPatologicalHistory[index] !== "" ? "" : value;
     setPatologicalHistory(newPatologicalHistory);
+    setCheckMager(!checkManager);
   };
-  
+
   const handleAlergy = (index, value) => {
     const newAlergyHistory = alergyHistory;
     newAlergyHistory[index] = newAlergyHistory[index] !== "" ? "" : value;
     setAlergyHistory(newAlergyHistory);
+    setCheckMager(!checkManager);
   };
 
   return (
@@ -66,56 +68,56 @@ const NursingSheet = ({
             />
             <Text>HTA</Text>
             <Checkbox
-              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              status={patologicalHistory[1] !== "" ? "checked" : "unchecked"}
               onPress={() => {
                 handlePatology(1, "HTA");
               }}
             />
             <Text>Hipotiroidismo</Text>
             <Checkbox
-              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              status={patologicalHistory[2] !== "" ? "checked" : "unchecked"}
               onPress={() => {
                 handlePatology(2, "Hipotiroidismo");
               }}
             />
             <Text>AR</Text>
             <Checkbox
-              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              status={patologicalHistory[3] !== "" ? "checked" : "unchecked"}
               onPress={() => {
                 handlePatology(3, "AR");
               }}
             />
             <Text>Enfermedades Inmunológicas</Text>
             <Checkbox
-              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              status={patologicalHistory[4] !== "" ? "checked" : "unchecked"}
               onPress={() => {
                 handlePatology(4, "Enfermedades Inmunológicas");
               }}
             />
             <Text>LES</Text>
             <Checkbox
-              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              status={patologicalHistory[5] !== "" ? "checked" : "unchecked"}
               onPress={() => {
                 handlePatology(5, "LES");
               }}
             />
             <Text>Asma</Text>
             <Checkbox
-              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              status={patologicalHistory[6] !== "" ? "checked" : "unchecked"}
               onPress={() => {
                 handlePatology(6, "Asma");
               }}
             />
             <Text>Dicromatopsias</Text>
             <Checkbox
-              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              status={patologicalHistory[7] !== "" ? "checked" : "unchecked"}
               onPress={() => {
                 handlePatology(7, "Dicromatopsias");
               }}
             />
             <Text>Cáncer</Text>
             <Checkbox
-              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              status={patologicalHistory[8] !== "" ? "checked" : "unchecked"}
               onPress={() => {
                 handlePatology(8, "Cáncer");
               }}

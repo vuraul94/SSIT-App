@@ -69,7 +69,18 @@ export default function App() {
   const [occupation, setOccupation] = useState("");
   const [status, setStatus] = useState(0);
 
-  const [patologicalHistory, setPatologicalHistory] = useState(["a", "", "","","","","","","",""]);
+  const [patologicalHistory, setPatologicalHistory] = useState([
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ]);
   const [medicamentHistory, setMedicamentHistory] = useState("");
   const [alergyHistory, setAlergyHistory] = useState([]);
   const [personalHistory, setPersonalHistory] = useState([]);
@@ -151,10 +162,11 @@ export default function App() {
 
   const cleanPatient = () => {
     Object.keys(patientSets).map((set) => {
-      if(set!=="setCountry"){
+      if (set !== "setCountry") {
         patientSets[set]("");
       }
     });
+    setPatologicalHistory(["", "", "", "", "", "", "", "", "", ""]);
     setGender(1);
     setStatus(0);
   };
@@ -223,7 +235,6 @@ export default function App() {
                 }:${identificationNumber}`}
                 {...patientSets}
                 {...patientData}
-                patologicalHistory={patologicalHistory}
                 patientStatusCatalog={patientStatusCatalog}
                 countryCatalog={countryCatalog}
                 genderCatalog={genderCatalog}
