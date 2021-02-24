@@ -32,10 +32,12 @@ const Login = ({
   setCountryCatalog,
   setGenderCatalog,
   setPatientStatusCatalog,
+  setPathologicalCatalog,
 }) => {
   const [errorMsg, setErrorMsg] = useState();
   const [user, setUser] = useState("UserDev");
   const [pass, setPass] = useState("Dev123");
+
 
   useEffect(() => {
     setSection("Login");
@@ -74,6 +76,7 @@ const Login = ({
         setCountryCatalog(data.CountryCatalog);
         setGenderCatalog(data.GenderCatalog);
         setPatientStatusCatalog(data.PatientStatus);
+        setPathologicalCatalog(data.PathologicalCatalog)
         setToken(token);
       });
   };

@@ -18,170 +18,220 @@ const NursingSheet = ({
   setHeritageHistory,
   setTraumaHistory,
   setOphthalmologistHistory,
+  pathologicalCatalog,
 }) => {
-  const [checked, setChecked] = useState(false);
   const [text, setText] = useState("");
+  const [isSwitchPatologyOn, setIsSwitchPatologyOn] = useState(false);
+  const [checkOtherPatology, setOtherPatology] = useState(false);
   const [isSwitchAlergyOn, setIsSwitchAlergyOn] = useState(false);
   const [isSwitchMedicamentOn, setIsSwitchMedicamentOn] = useState(false);
-  const [isSwitchAntibioticOn, setIsSwitchAntibioticOn] = useState(false);
+  const [checkAntibiotics, setCheckAntibiotics] = useState(false);
+  const [checkFood, setCheckFood] = useState(false);
+  const [checkOtherAlergies, setCheckOtherAlergies] = useState(false);
+  const onTogglePatalogySwitch = () =>
+    setIsSwitchPatologyOn(!isSwitchPatologyOn);
   const onToggleAlergySwitch = () => setIsSwitchAlergyOn(!isSwitchAlergyOn);
-  const onToggleMedicamentSwitch = () => setIsSwitchMedicamentOn(!isSwitchMedicamentOn);
-  const onToggleAntibioticSwitch = () => setIsSwitchAntibioticOn(!isSwitchAntibioticOn);
+  const onToggleMedicamentSwitch = () =>
+    setIsSwitchMedicamentOn(!isSwitchMedicamentOn);
+
+  const handlePatology = (index, value) => {
+    let newPatologicalHistory = patologicalHistory;
+    newPatologicalHistory[index] =
+      newPatologicalHistory[index] !== "" ? "" : value;
+    setPatologicalHistory(newPatologicalHistory);
+  };
+  
+  const handleAlergy = (index, value) => {
+    const newAlergyHistory = alergyHistory;
+    newAlergyHistory[index] = newAlergyHistory[index] !== "" ? "" : value;
+    setAlergyHistory(newAlergyHistory);
+  };
 
   return (
-    <View>
-      <ScrollView>
-        <Text>Atecedentes personales patológicos</Text>
-        <Switch value={isSwitchAlergyOn} onValueChange={onToggleAlergySwitch}/>
-        <Checkbox
-          status={checked ? "checked" : "unchecked"}
-          onPress={() => {
-            setChecked(!checked);
-          }}
+    <ScrollView>
+      <View>
+        <Text>{pathologicalCatalog[0].Name}</Text>
+        <Switch
+          value={isSwitchPatologyOn}
+          onValueChange={onTogglePatalogySwitch}
         />
-        <Text>DM-2</Text>
-        <Checkbox
-          status={checked ? "checked" : "unchecked"}
-          onPress={() => {
-            setChecked(!checked);
-          }}
+        {isSwitchPatologyOn && (
+          <>
+            <Text>DM-2</Text>
+            <Checkbox
+              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              onPress={() => {
+                handlePatology(0, "DM-2");
+              }}
+            />
+            <Text>HTA</Text>
+            <Checkbox
+              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              onPress={() => {
+                handlePatology(1, "HTA");
+              }}
+            />
+            <Text>Hipotiroidismo</Text>
+            <Checkbox
+              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              onPress={() => {
+                handlePatology(2, "Hipotiroidismo");
+              }}
+            />
+            <Text>AR</Text>
+            <Checkbox
+              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              onPress={() => {
+                handlePatology(3, "AR");
+              }}
+            />
+            <Text>Enfermedades Inmunológicas</Text>
+            <Checkbox
+              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              onPress={() => {
+                handlePatology(4, "Enfermedades Inmunológicas");
+              }}
+            />
+            <Text>LES</Text>
+            <Checkbox
+              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              onPress={() => {
+                handlePatology(5, "LES");
+              }}
+            />
+            <Text>Asma</Text>
+            <Checkbox
+              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              onPress={() => {
+                handlePatology(6, "Asma");
+              }}
+            />
+            <Text>Dicromatopsias</Text>
+            <Checkbox
+              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              onPress={() => {
+                handlePatology(7, "Dicromatopsias");
+              }}
+            />
+            <Text>Cáncer</Text>
+            <Checkbox
+              status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
+              onPress={() => {
+                handlePatology(8, "Cáncer");
+              }}
+            />
+            <Text>Otros</Text>
+            <Checkbox
+              status={checkOtherPatology ? "checked" : "unchecked"}
+              onPress={() => {
+                setOtherPatology(!checkOtherPatology);
+              }}
+            />
+            {checkOtherPatology && (
+              <TextInput
+                label="Detalles"
+                mode="outlined"
+                value={text}
+                onChangeText={(text) => handlePatology(9, `(${text})`)}
+              />
+            )}
+          </>
+        )}
+        <Text>{pathologicalCatalog[1].Name}</Text>
+        <Switch
+          value={isSwitchMedicamentOn}
+          onValueChange={onToggleMedicamentSwitch}
         />
-        <Text>HTA</Text>
-        <Checkbox
-          status={checked ? "checked" : "unchecked"}
-          onPress={() => {
-            setChecked(!checked);
-          }}
-        />
-        <Text>Hipotiroidismo</Text>
-        <Checkbox
-          status={checked ? "checked" : "unchecked"}
-          onPress={() => {
-            setChecked(!checked);
-          }}
-        />
-        <Text>AR</Text>
-        <Checkbox
-          status={checked ? "checked" : "unchecked"}
-          onPress={() => {
-            setChecked(!checked);
-          }}
-        />
-        <Text>Enfermedades Inmunológicas</Text>
-        <Checkbox
-          status={checked ? "checked" : "unchecked"}
-          onPress={() => {
-            setChecked(!checked);
-          }}
-        />
-        <Text>LES</Text>
-        <Checkbox
-          status={checked ? "checked" : "unchecked"}
-          onPress={() => {
-            setChecked(!checked);
-          }}
-        />
-        <Text>Asma</Text>
-        <Checkbox
-          status={checked ? "checked" : "unchecked"}
-          onPress={() => {
-            setChecked(!checked);
-          }}
-        />
-        <Text>Dicromatopsias</Text>
-        <Checkbox
-          status={checked ? "checked" : "unchecked"}
-          onPress={() => {
-            setChecked(!checked);
-          }}
-        />
-        <Text>Cancer</Text>
-        <Checkbox
-          status={checked ? "checked" : "unchecked"}
-          onPress={() => {
-            setChecked(!checked);
-          }}
-        />
-        <Text>Otros</Text>
-        <TextInput
-          label="Detalles"
-          mode="outlined"
-          value={text}
-          onChangeText={(text) => setText(text)}
-        />
-        <Text>Medicamentos</Text>
-        <Switch value={isSwitchMedicamentOn} onValueChange={onToggleMedicamentSwitch}/>
-        <Text>Gotas, cremas, inhaladores, pastillas de uso crónico:</Text>
-        <TextInput
-          label="Detalles"
-          mode="outlined"
-          value={text}
-          onChangeText={(text) => setText(text)}
-        />
-        <Text>Alergias</Text>
-        <Switch value={isSwitchAntibioticOn} onValueChange={onToggleAntibioticSwitch}/>
-        <Text>Antibióticos</Text>
-        <Checkbox
-          status={checked ? "checked" : "unchecked"}
-          onPress={() => {
-            setChecked(!checked);
-          }}
-        />
-        <TextInput
-          label="Detalles"
-          mode="outlined"
-          value={text}
-          onChangeText={(text) => setText(text)}
-        />
-        <Text>Sulfas</Text>
-        <Checkbox
-          status={checked ? "checked" : "unchecked"}
-          onPress={() => {
-            setChecked(!checked);
-          }}
-        />
-        <Text>Aines</Text>
-        <Checkbox
-          status={checked ? "checked" : "unchecked"}
-          onPress={() => {
-            setChecked(!checked);
-          }}
-        />
-        <Text>Anestésia</Text>
-        <Checkbox
-          status={checked ? "checked" : "unchecked"}
-          onPress={() => {
-            setChecked(!checked);
-          }}
-        />
-        <Text>Alimentos</Text>
-        <Checkbox
-          status={checked ? "checked" : "unchecked"}
-          onPress={() => {
-            setChecked(!checked);
-          }}
-        />
-        <TextInput
-          label="Detalles"
-          mode="outlined"
-          value={text}
-          onChangeText={(text) => setText(text)}
-        />
-        <Text>Otros</Text>
-        <Checkbox
-          status={checked ? "checked" : "unchecked"}
-          onPress={() => {
-            setChecked(!checked);
-          }}
-        />
-        <TextInput
-          label="Detalles"
-          mode="outlined"
-          value={text}
-          onChangeText={(text) => setText(text)}
-        />
-      </ScrollView>
-    </View>
+        {isSwitchMedicamentOn && (
+          <>
+            <Text>Gotas, cremas, inhaladores, pastillas de uso crónico:</Text>
+            <TextInput
+              label="Detalles"
+              mode="outlined"
+              value={text}
+              onChangeText={(text) => setMedicamentHistory(text)}
+            />
+          </>
+        )}
+        <Text>{pathologicalCatalog[2].Name}</Text>
+        <Switch value={isSwitchAlergyOn} onValueChange={onToggleAlergySwitch} />
+        {isSwitchAlergyOn && (
+          <>
+            <Text>Antibióticos</Text>
+            <Checkbox
+              status={checkAntibiotics ? "checked" : "unchecked"}
+              onPress={() => {
+                setCheckAntibiotics(!checkAntibiotics);
+              }}
+            />
+            {checkAntibiotics && (
+              <TextInput
+                label="Detalles"
+                placeholder="¿Cuáles antibioticos?"
+                mode="outlined"
+                value={text}
+                onChangeText={(text) => handleAlergy(0, `(${text})`)}
+              />
+            )}
+            <Text>Sulfas</Text>
+            <Checkbox
+              status={alergyHistory[0] !== "" ? "checked" : "unchecked"}
+              onPress={() => {
+                handleAlergy(1, "Sulfas");
+              }}
+            />
+            <Text>Aines</Text>
+            <Checkbox
+              status={alergyHistory[0] !== "" ? "checked" : "unchecked"}
+              onPress={() => {
+                handleAlergy(2, "Aines");
+              }}
+            />
+            <Text>Anestésia</Text>
+            <Checkbox
+              status={alergyHistory[0] !== "" ? "checked" : "unchecked"}
+              onPress={() => {
+                handleAlergy(3, "Anestésia");
+              }}
+            />
+            <Text>Alimentos</Text>
+            <Checkbox
+              status={checkFood ? "checked" : "unchecked"}
+              onPress={() => {
+                setCheckFood(!checkFood);
+              }}
+            />
+            {checkFood && (
+              <TextInput
+                label="Detalles"
+                mode="outlined"
+                value={text}
+                onChangeText={(text) => handleAlergy(4, `(${text})`)}
+              />
+            )}
+            <Text>Otros</Text>
+            <Checkbox
+              status={checkOtherAlergies ? "checked" : "unchecked"}
+              onPress={() => {
+                setCheckOtherAlergies(!checkOtherAlergies);
+              }}
+            />
+            {checkOtherAlergies && (
+              <TextInput
+                label="Detalles"
+                mode="outlined"
+                value={text}
+                onChangeText={(text) => handleAlergy(5, `(${text})`)}
+              />
+            )}
+          </>
+        )}
+        <Text>{pathologicalCatalog[3].Name}</Text>
+        <Text>{pathologicalCatalog[4].Name}</Text>
+        <Text>{pathologicalCatalog[5].Name}</Text>
+        <Text>{pathologicalCatalog[6].Name}</Text>
+      </View>
+    </ScrollView>
   );
 };
 

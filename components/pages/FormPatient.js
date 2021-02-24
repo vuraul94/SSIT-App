@@ -65,8 +65,14 @@ const FormPatient = ({
   patientStatusCatalog,
   genderCatalog,
   countryCatalog,
+  pathologicalCatalog,
 }) => {
   let history = useHistory();
+  
+  useEffect(() => {
+    console.log(typeof patologicalHistory);
+  }, []);
+  
 
   useEffect(() => {
     setSection(`ID: ${identificationNumber}`);
@@ -203,6 +209,7 @@ const FormPatient = ({
         setHeritageHistory={setHeritageHistory}
         setTraumaHistory={setTraumaHistory}
         setOphthalmologistHistory={setOphthalmologistHistory}
+        pathologicalCatalog={pathologicalCatalog}
       />
     </>,
     <Patient

@@ -46,6 +46,7 @@ export default function App() {
   const [countryCatalog, setCountryCatalog] = useState([]);
   const [genderCatalog, setGenderCatalog] = useState([]);
   const [patientStatusCatalog, setPatientStatusCatalog] = useState([]);
+  const [pathologicalCatalog, setPathologicalCatalog] = useState([]);
   const [section, setSection] = useState("");
   const [patientId, setPatientId] = useState(0);
   const [identificationNumber, setIdentificationNumber] = useState("");
@@ -68,14 +69,13 @@ export default function App() {
   const [occupation, setOccupation] = useState("");
   const [status, setStatus] = useState(0);
 
-  const [patologicalHistory, setPatologicalHistory] = useState("");
+  const [patologicalHistory, setPatologicalHistory] = useState(["a", "", "","","","","","","",""]);
   const [medicamentHistory, setMedicamentHistory] = useState("");
-  const [alergyHistory, setAlergyHistory] = useState("");
-  const [personalHistory, setPersonalHistory] = useState("");
-  const [heritageHistory, setHeritageHistory] = useState("");
-  const [traumaHistory, setTraumaHistory] = useState("");
-  const [ophthalmologistHistory, setOphthalmologistHistory] = useState("");
-
+  const [alergyHistory, setAlergyHistory] = useState([]);
+  const [personalHistory, setPersonalHistory] = useState([]);
+  const [heritageHistory, setHeritageHistory] = useState([]);
+  const [traumaHistory, setTraumaHistory] = useState([]);
+  const [ophthalmologistHistory, setOphthalmologistHistory] = useState([]);
 
   const patientSets = {
     setPatientId,
@@ -151,10 +151,11 @@ export default function App() {
 
   const cleanPatient = () => {
     Object.keys(patientSets).map((set) => {
-      patientSets[set]("");
+      if(set!=="setCountry"){
+        patientSets[set]("");
+      }
     });
     setGender(1);
-    setCountry(60);
     setStatus(0);
   };
 
@@ -186,6 +187,7 @@ export default function App() {
                 setCountryCatalog={setCountryCatalog}
                 setGenderCatalog={setGenderCatalog}
                 setPatientStatusCatalog={setPatientStatusCatalog}
+                setPathologicalCatalog={setPathologicalCatalog}
               />
             )}
           />
@@ -221,9 +223,11 @@ export default function App() {
                 }:${identificationNumber}`}
                 {...patientSets}
                 {...patientData}
+                patologicalHistory={patologicalHistory}
                 patientStatusCatalog={patientStatusCatalog}
                 countryCatalog={countryCatalog}
                 genderCatalog={genderCatalog}
+                pathologicalCatalog={pathologicalCatalog}
               />
             )}
           />

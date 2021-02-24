@@ -44,7 +44,6 @@ const Search = ({
   canton,
   country,
   setCountry,
-  countryCatalog,
   setPatientId,
   setPhoto,
   setName,
@@ -60,6 +59,7 @@ const Search = ({
   setOccupation,
   setStatus,
   cleanPatient,
+  countryCatalog,
 }) => {
   let history = useHistory();
   const [visbleCountry, setVisibleCountry] = useState();
