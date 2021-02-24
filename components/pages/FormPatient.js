@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Redirect, useHistory } from "react-router-native";
 import Paginator from "../utils/Paginator";
 import { StyleSheet } from "react-native";
@@ -7,6 +7,7 @@ import moment from "moment";
 import BasicInformation from "./FormPatientSections/BasicInformation";
 import ContactInformation from "./FormPatientSections/ContactInformation";
 import PersonalInformation from "./FormPatientSections/PersonalInformation";
+import NursingSheet from "./FormPatientSections/NursingSheet";
 import Patient from "./Patient";
 import { locations } from "../../misc/locations";
 import { CONSTANTS } from "../../misc/constants";
@@ -33,6 +34,13 @@ const FormPatient = ({
   birthDate,
   occupation,
   status,
+  patologicalHistory,
+  medicamentHistory,
+  alergyHistory,
+  personalHistory,
+  heritageHistory,
+  traumaHistory,
+  ophthalmologistHistory,
   setPatientId,
   setPhoto,
   setName,
@@ -47,6 +55,13 @@ const FormPatient = ({
   setBirthDate,
   setOccupation,
   setStatus,
+  setPatologicalHistory,
+  setMedicamentHistory,
+  setAlergyHistory,
+  setPersonalHistory,
+  setHeritageHistory,
+  setTraumaHistory,
+  setOphthalmologistHistory,
   patientStatusCatalog,
   genderCatalog,
   countryCatalog,
@@ -169,6 +184,24 @@ const FormPatient = ({
         setStatus={setStatus}
         patientStatusCatalog={patientStatusCatalog}
         genderCatalog={genderCatalog}
+      />
+    </>,
+    <>
+      <NursingSheet
+        patologicalHistory={patologicalHistory}
+        medicamentHistory={medicamentHistory}
+        alergyHistory={alergyHistory}
+        personalHistory={personalHistory}
+        heritageHistory={heritageHistory}
+        traumaHistory={traumaHistory}
+        ophthalmologistHistory={ophthalmologistHistory}
+        setPatologicalHistory={setPatologicalHistory}
+        setMedicamentHistory={setMedicamentHistory}
+        setAlergyHistory={setAlergyHistory}
+        setPersonalHistory={setPersonalHistory}
+        setHeritageHistory={setHeritageHistory}
+        setTraumaHistory={setTraumaHistory}
+        setOphthalmologistHistory={setOphthalmologistHistory}
       />
     </>,
     <Patient

@@ -68,6 +68,15 @@ export default function App() {
   const [occupation, setOccupation] = useState("");
   const [status, setStatus] = useState(0);
 
+  const [patologicalHistory, setPatologicalHistory] = useState("");
+  const [medicamentHistory, setMedicamentHistory] = useState("");
+  const [alergyHistory, setAlergyHistory] = useState("");
+  const [personalHistory, setPersonalHistory] = useState("");
+  const [heritageHistory, setHeritageHistory] = useState("");
+  const [traumaHistory, setTraumaHistory] = useState("");
+  const [ophthalmologistHistory, setOphthalmologistHistory] = useState("");
+
+
   const patientSets = {
     setPatientId,
     setPhoto,
@@ -83,6 +92,13 @@ export default function App() {
     setBirthDate,
     setOccupation,
     setStatus,
+    setPatologicalHistory,
+    setMedicamentHistory,
+    setAlergyHistory,
+    setPersonalHistory,
+    setHeritageHistory,
+    setTraumaHistory,
+    setOphthalmologistHistory,
   };
 
   const patientData = {
@@ -100,6 +116,13 @@ export default function App() {
     birthDate,
     occupation,
     status,
+    patologicalHistory,
+    medicamentHistory,
+    alergyHistory,
+    personalHistory,
+    heritageHistory,
+    traumaHistory,
+    ophthalmologistHistory,
   };
 
   /**Patient data: END */
