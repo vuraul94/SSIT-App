@@ -34,7 +34,7 @@ const AlergyHistory = ({
               placeholder="¿Cuáles antibioticos?"
               mode="outlined"
               value={alergyHistory[0]}
-              onChangeText={(text) => handleAlergy(0, text)}
+              onChangeText={(text) => handleAlergy(0, text, true)}
             />
           )}
           <Text>Sulfas</Text>
@@ -70,7 +70,7 @@ const AlergyHistory = ({
               label="Detalles"
               mode="outlined"
               value={alergyHistory[4]}
-              onChangeText={(text) => handleAlergy(4, text)}
+              onChangeText={(text) => handleAlergy(4, text, true)}
             />
           )}
           <Text>Otros</Text>
@@ -85,7 +85,7 @@ const AlergyHistory = ({
               label="Detalles"
               mode="outlined"
               value={alergyHistory[5]}
-              onChangeText={(text) => handleAlergy(5, text)}
+              onChangeText={(text) => handleAlergy(5, text, true)}
             />
           )}
         </>

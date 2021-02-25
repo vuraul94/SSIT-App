@@ -88,9 +88,7 @@ const FormPatient = ({
       Name: name,
       Surnames: lastNames,
       Phones: phone,
-      IdentificationNumber: `${
-        countryCatalog[country - 1].Abbreviation
-      }${identificationNumber}`,
+      IdentificationNumber: identificationNumber,
       GenderId: parseInt(2),
       EmailAddress: email,
       Birthdate: moment(birthDate, "DD/MM/YYYY"),
@@ -137,6 +135,7 @@ const FormPatient = ({
         },
       ]
     };
+    console.log(patient);
     axios
       .post(`${CONSTANTS.API.URL}/api/Patient/CreatePatient`, patient, {
         headers: {

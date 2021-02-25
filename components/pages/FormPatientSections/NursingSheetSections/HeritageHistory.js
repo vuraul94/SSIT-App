@@ -59,7 +59,7 @@ const HeritageHistory = ({
               label="Detalles"
               mode="outlined"
               value={heritageHistory[3]}
-              onChangeText={(text) => handleHeritageHistory(3, text)}
+              onChangeText={(text) => handleHeritageHistory(3, text, true)}
             />
           )}
           <Text>Otros</Text>
@@ -74,7 +74,7 @@ const HeritageHistory = ({
               label="Detalles"
               mode="outlined"
               value={heritageHistory[4]}
-              onChangeText={(text) => handleHeritageHistory(4, text)}
+              onChangeText={(text) => handleHeritageHistory(4, text, true)}
             />
           )}
         </>

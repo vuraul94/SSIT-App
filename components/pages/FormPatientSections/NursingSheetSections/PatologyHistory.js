@@ -94,7 +94,7 @@ const PatologyHistory = ({ name, patologicalHistory, handlePatology }) => {
               label="Detalles"
               mode="outlined"
               value={patologicalHistory[9]}
-              onChangeText={(text) => handlePatology(9, text)}
+              onChangeText={(text) => handlePatology(9, text, true)}
             />
           )}
         </>

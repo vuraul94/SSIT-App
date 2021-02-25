@@ -56,7 +56,7 @@ const PersonalHistory = ({
               label="Detalles"
               mode="outlined"
               value={personalHistory[2]}
-              onChangeText={(text) => handlePersonalHistory(2, text)}
+              onChangeText={(text) => handlePersonalHistory(2, text, true)}
             />
           )}
           <Text>Horas de exposición a dispositivos electrónicos</Text>
@@ -65,7 +65,7 @@ const PersonalHistory = ({
             label="Horas de exposición"
             mode="outlined"
             value={personalHistory[3]}
-            onChangeText={(text) => handlePersonalHistory(3, text)}
+            onChangeText={(text) => handlePersonalHistory(3, text, true)}
           />
           <Text>Usuario de anteojos</Text>
           <Checkbox

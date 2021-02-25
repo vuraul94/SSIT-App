@@ -33,54 +33,83 @@ const NursingSheet = ({
 }) => {
   const [checkManager, setCheckMager] = useState(false);
 
-  const handlePatology = (index, value) => {
+  const handlePatology = (index, value, isText = false) => {
     let newPatologicalHistory = patologicalHistory;
-    newPatologicalHistory[index] =
-      newPatologicalHistory[index] !== "" ? "" : value;
+    if (isText) {
+      newPatologicalHistory[index] = value;
+    } else {
+      newPatologicalHistory[index] =
+        newPatologicalHistory[index] !== "" ? "" : value;
+    }
     setPatologicalHistory(newPatologicalHistory);
     setCheckMager(!checkManager);
   };
 
-  const handleAlergy = (index, value) => {
+  const handleAlergy = (index, value, isText = false) => {
     let newAlergyHistory = alergyHistory;
-    newAlergyHistory[index] = newAlergyHistory[index] !== "" ? "" : value;
+    if (isText) {
+      newAlergyHistory[index] = value;
+    } else {
+      newAlergyHistory[index] = newAlergyHistory[index] !== "" ? "" : value;
+    }
     setAlergyHistory(newAlergyHistory);
     setCheckMager(!checkManager);
   };
 
-  const handlePersonalHistory = (index, value) => {
+  const handlePersonalHistory = (index, value, isText = false) => {
     let newPersonalHistory = personalHistory;
-    newPersonalHistory[index] = newPersonalHistory[index] !== "" ? "" : value;
+    if (isText) {
+      newPersonalHistory[index] = value;
+    } else {
+      newPersonalHistory[index] = newPersonalHistory[index] !== "" ? "" : value;
+    }
     setPatologicalHistory(newPersonalHistory);
     setCheckMager(!checkManager);
   };
 
-  const handleGlassesList = (index, value) => {
+  const handleGlassesList = (index, value, isText = false) => {
     let newCheckGlassesList = checkGlassesList;
-    newCheckGlassesList[index] = newCheckGlassesList[index] !== "" ? "" : value;
+    if (isText) {
+      newCheckGlassesList[index] = value;
+    } else {
+      newCheckGlassesList[index] =
+        newCheckGlassesList[index] !== "" ? "" : value;
+    }
     setCheckGlassesList(newCheckGlassesList);
     setCheckMager(!checkManager);
-    console.log(checkGlassesList[index]);
   };
 
-  const handleCotactLens = (index, value) => {
+  const handleCotactLens = (index, value, isText = false) => {
     let newCheckContactLensList = checkContactLensList;
-    newCheckContactLensList[index] =
-      newCheckContactLensList[index] !== "" ? "" : value;
+    if (isText) {
+      newCheckContactLensList[index] = value;
+    } else {
+      newCheckContactLensList[index] =
+        newCheckContactLensList[index] !== "" ? "" : value;
+    }
     setCheckContactLensList(newCheckContactLensList);
     setCheckMager(!checkManager);
   };
 
-  const handleHeritageHistory = (index, value) => {
+  const handleHeritageHistory = (index, value, isText = false) => {
     let newHeritageHistory = heritageHistory;
-    newHeritageHistory[index] = newHeritageHistory[index] !== "" ? "" : value;
+    if (isText) {
+      newHeritageHistory[index] = value;
+    } else {
+      newHeritageHistory[index] = newHeritageHistory[index] !== "" ? "" : value;
+    }
     setHeritageHistory(newHeritageHistory);
     setCheckMager(!checkManager);
   };
 
-  const handleOphthalmologistHistory = (index, value) => {
+  const handleOphthalmologistHistory = (index, value, isText = false) => {
     let newOphthalmologistHistory = ophthalmologistHistory;
-    newOphthalmologistHistory[index] = newOphthalmologistHistory[index] !== "" ? "" : value;
+    if (isText) {
+      newOphthalmologistHistory[index] = value;
+    } else {
+      newOphthalmologistHistory[index] =
+        newOphthalmologistHistory[index] !== "" ? "" : value;
+    }
     setOphthalmologistHistory(newOphthalmologistHistory);
     setCheckMager(!checkManager);
   };

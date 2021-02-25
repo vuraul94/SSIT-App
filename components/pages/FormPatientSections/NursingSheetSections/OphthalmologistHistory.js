@@ -41,7 +41,7 @@ const OphtalmologistHistory = ({
                 mode="outlined"
                 value={ophthalmologistHistory[0]}
                 onChangeText={(text) =>
-                  handleOphthalmologistHistory(0, text)
+                  handleOphthalmologistHistory(0, text, true)
                 }
               />
               <Text>Diagnóstico de la consulta</Text>
@@ -50,7 +50,7 @@ const OphtalmologistHistory = ({
                 mode="outlined"
                 value={ophthalmologistHistory[1]}
                 onChangeText={(text) =>
-                  handleOphthalmologistHistory(1, text)
+                  handleOphthalmologistHistory(1, text, true)
                 }
               />
             </>
@@ -69,7 +69,7 @@ const OphtalmologistHistory = ({
                 mode="outlined"
                 value={ophthalmologistHistory[2]}
                 onChangeText={(text) =>
-                handleOphthalmologistHistory(2, text)
+                handleOphthalmologistHistory(2, text, true)
                 }
               />
             </>)}

@@ -8,8 +8,6 @@ const TraumaHistory = ({ name, traumaHistory, setTraumaHistory}) => {
   const onToggleTraumaHistorySwitch = () =>
     setIsSwitchTraumaHistoryOn(!isSwitchTraumaHistoryOn);
 
-  const [checkTraumaHistory, setCheckTraumaHistory] = useState(false);
-
   return (
     <>
       <Text>{name}</Text>
