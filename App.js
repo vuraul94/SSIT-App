@@ -82,11 +82,11 @@ export default function App() {
     "",
   ]);
   const [medicamentHistory, setMedicamentHistory] = useState("");
-  const [alergyHistory, setAlergyHistory] = useState([]);
-  const [personalHistory, setPersonalHistory] = useState([]);
-  const [heritageHistory, setHeritageHistory] = useState([]);
-  const [traumaHistory, setTraumaHistory] = useState([]);
-  const [ophthalmologistHistory, setOphthalmologistHistory] = useState([]);
+  const [alergyHistory, setAlergyHistory] = useState(["","","","","",""]);
+  const [personalHistory, setPersonalHistory] = useState(["","","","","",""]);
+  const [heritageHistory, setHeritageHistory] = useState(["","","","",""]);
+  const [traumaHistory, setTraumaHistory] = useState("");
+  const [ophthalmologistHistory, setOphthalmologistHistory] = useState(["","",""]);
 
   const patientSets = {
     setPatientId,
@@ -167,6 +167,10 @@ export default function App() {
       }
     });
     setPatologicalHistory(["", "", "", "", "", "", "", "", "", ""]);
+    setAlergyHistory(["","","","","",""]);
+    setPersonalHistory(["","","","","",""]);
+    setHeritageHistory(["","","","",""]);
+    setOphthalmologistHistory(["","",""]);
     setGender(1);
     setStatus(0);
   };

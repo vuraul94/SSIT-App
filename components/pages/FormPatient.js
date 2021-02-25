@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Redirect, useHistory } from "react-router-native";
 import Paginator from "../utils/Paginator";
 import { StyleSheet } from "react-native";
@@ -69,6 +69,15 @@ const FormPatient = ({
 }) => {
   let history = useHistory();
 
+  const [checkGlassesList, setCheckGlassesList] = useState(["", "", ""]);
+  const [checkContactLensList, setCheckContactLensList] = useState([
+    "",
+    "",
+    "",
+    "",
+    "",
+  ]);
+  
   useEffect(() => {
     setSection(`ID: ${identificationNumber}`);
   }, [history]);
@@ -96,8 +105,37 @@ const FormPatient = ({
       PatientStatus: parseInt(status),
       CountryId: country,
       CountryName: countryCatalog[country - 1].Name,
-      PathologicalHistoryList: [],
       PersonalPhoto: photo.toString(),
+      PathologicalHistoryList: [
+        {
+          PathologicalHistoryId: 1,
+          Detail: patologicalHistory.join("*"),
+        },
+        {
+          PathologicalHistoryId: 2,
+          Detail: medicamentHistory,
+        },
+        {
+          PathologicalHistoryId: 3,
+          Detail: alergyHistory.join("*"),
+        },
+        {
+          PathologicalHistoryId: 4,
+          Detail: [personalHistory.slice(0,3),checkGlassesList.join("/"),checkContactLensList.join("/")].join("*")
+        },
+        {
+          PathologicalHistoryId: 5,
+          Detail: heritageHistory.join("*"),
+        },
+        {
+          PathologicalHistoryId: 6,
+          Detail: traumaHistory,
+        },
+        {
+          PathologicalHistoryId: 7,
+          Detail: ophthalmologistHistory.join("*")
+        },
+      ]
     };
     axios
       .post(`${CONSTANTS.API.URL}/api/Patient/CreatePatient`, patient, {
@@ -204,6 +242,11 @@ const FormPatient = ({
         setTraumaHistory={setTraumaHistory}
         setOphthalmologistHistory={setOphthalmologistHistory}
         pathologicalCatalog={pathologicalCatalog}
+        setCheckGlassesList={setCheckGlassesList}
+        checkGlassesList={checkGlassesList}
+        setCheckContactLensList={setCheckContactLensList}
+        checkContactLensList={checkContactLensList}
+        ophthalmologistHistory={ophthalmologistHistory}
       />
     </>,
     <Patient
