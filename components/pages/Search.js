@@ -60,6 +60,15 @@ const Search = ({
   setStatus,
   cleanPatient,
   countryCatalog,
+  setPatologicalHistory,
+  setMedicamentHistory,
+  setAlergyHistory,
+  setPersonalHistory,
+  setHeritageHistory,
+  setTraumaHistory,
+  setOphthalmologistHistory,
+  setCheckGlassesList,
+  setCheckContactLensList,
 }) => {
   let history = useHistory();
   const [visbleCountry, setVisibleCountry] = useState();
@@ -100,7 +109,27 @@ const Search = ({
             setBirthDate(patient.Birthdate);
             setOccupation(patient.Occupation);
             setStatus(patient.PatientStatus);
-            console.log(patient.PathologicalHistoryList);
+
+            const patologyHistory = patient.PathologicalHistoryList[0].Detail.split("*");
+            setPatologicalHistory(patologyHistory);
+            const medicamentHistory = patient.PathologicalHistoryList[1];
+            setPatologicalHistory(medicamentHistory);
+            const alergyHistory = patient.PathologicalHistoryList[2].Detail.split("*");
+            setPatologicalHistory(alergyHistory);
+            
+            const personalHistory = patient.PathologicalHistoryList[3].Detail.split("*");
+            setPatologicalHistory(personalHistory);
+            const glasses = personalHistory[1].split("/");
+            const contactLens = personalHistory[2].split("/");
+            setCheckGlassesList(glasses);
+            setCheckContactLensList(contactLens);
+
+            const heritageHistory = patient.PathologicalHistoryList[4].Detail.split("*");
+            setPatologicalHistory(heritageHistory);
+            const traumaHistory = patient.PathologicalHistoryList[5];
+            setPatologicalHistory(traumaHistory);
+            const ophthalmologistHistory = patient.PathologicalHistoryList[6].Detail.split("*");
+            setPatologicalHistory(ophthalmologistHistory);
 
             const addressArray = patient.AddressDetail.split(".");
             let regions = [];

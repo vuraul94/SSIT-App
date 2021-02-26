@@ -82,11 +82,30 @@ export default function App() {
     "",
   ]);
   const [medicamentHistory, setMedicamentHistory] = useState("");
-  const [alergyHistory, setAlergyHistory] = useState(["","","","","",""]);
-  const [personalHistory, setPersonalHistory] = useState(["","","","","",""]);
-  const [heritageHistory, setHeritageHistory] = useState(["","","","",""]);
+  const [alergyHistory, setAlergyHistory] = useState(["", "", "", "", "", ""]);
+  const [personalHistory, setPersonalHistory] = useState([
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ]);
+  const [heritageHistory, setHeritageHistory] = useState(["", "", "", "", ""]);
   const [traumaHistory, setTraumaHistory] = useState("");
-  const [ophthalmologistHistory, setOphthalmologistHistory] = useState(["","",""]);
+  const [ophthalmologistHistory, setOphthalmologistHistory] = useState([
+    "",
+    "",
+    "",
+  ]);
+  const [checkGlassesList, setCheckGlassesList] = useState(["", "", ""]);
+  const [checkContactLensList, setCheckContactLensList] = useState([
+    "",
+    "",
+    "",
+    "",
+    "",
+  ]);
 
   const patientSets = {
     setPatientId,
@@ -167,10 +186,10 @@ export default function App() {
       }
     });
     setPatologicalHistory(["", "", "", "", "", "", "", "", "", ""]);
-    setAlergyHistory(["","","","","",""]);
-    setPersonalHistory(["","","","","",""]);
-    setHeritageHistory(["","","","",""]);
-    setOphthalmologistHistory(["","",""]);
+    setAlergyHistory(["", "", "", "", "", ""]);
+    setPersonalHistory(["", "", "", "", "", ""]);
+    setHeritageHistory(["", "", "", "", ""]);
+    setOphthalmologistHistory(["", "", ""]);
     setGender(1);
     setStatus(0);
   };
@@ -223,6 +242,8 @@ export default function App() {
                 countryCatalog={countryCatalog}
                 cleanPatient={cleanPatient}
                 {...patientSets}
+                setCheckGlassesList={setCheckGlassesList}
+                setCheckContactLensList={setCheckContactLensList}
               />
             )}
           />
@@ -243,6 +264,10 @@ export default function App() {
                 countryCatalog={countryCatalog}
                 genderCatalog={genderCatalog}
                 pathologicalCatalog={pathologicalCatalog}
+                checkGlassesList={checkGlassesList}
+                setCheckGlassesList={setCheckGlassesList}
+                checkContactLensList={checkContactLensList}
+                setCheckContactLensList={setCheckContactLensList}
               />
             )}
           />
@@ -266,6 +291,13 @@ export default function App() {
                     ? `${locations.province[province]}, ${locations.canton[province][canton]}, ${locations.district[province][canton][district]}. \n ${address}`
                     : address
                 }
+                patologicalHistory={patologicalHistory}
+                medicamentHistory={medicamentHistory}
+                alergyHistory={alergyHistory}
+                personalHistory={personalHistory}
+                heritageHistory={heritageHistory}
+                traumaHistory={traumaHistory}
+                ophthalmologistHistory={ophthalmologistHistory}
               />
             )}
           />

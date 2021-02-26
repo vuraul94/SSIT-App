@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, ScrollView, StyleSheet, Text, View} from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Button, Divider, IconButton, Colors } from "react-native-paper";
 import { useHistory, Redirect } from "react-router-dom";
 import moment from "moment";
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: "5%",
   },
-  container:{
+  container: {
     marginTop: 15,
     marginLeft: 15,
     marginRight: 15,
@@ -25,12 +25,12 @@ const styles = StyleSheet.create({
   },
   photo: {
     height: 200,
-    width: 200, 
+    width: 200,
     alignSelf: "center",
     marginBottom: 25,
   },
   editBtn: {
-    position: 'absolute',
+    position: "absolute",
     backgroundColor: "#d22936",
     marginBottom: 30,
     right: 15,
@@ -58,33 +58,45 @@ const Patient = ({
   setProvince,
   setCanton,
   setDistrict,
+  patologicalHistory,
+  medicamentHistory,
+  alergyHistory,
+  personalHistory,
+  heritageHistory,
+  traumaHistory,
+  ophthalmologistHistory,
   validateForm = () => true,
 }) => {
   let history = useHistory();
+  console.log(patologicalHistory);
+  console.log(alergyHistory);
+  console.log(personalHistory);
+  console.log(heritageHistory);
+  console.log(ophthalmologistHistory);
 
   return (
     <>
       {(!token || token === "") && <Redirect to="/" />}
-        <ScrollView>
-          {!preview && (
-            <>
-              <IconButton
-                icon="chevron-left"
-                onPress={() => {
-                  setProvince("P1");
-                  setCanton("C1");
-                  setDistrict("D1");
-                  history.push("/search");
-                }}
-              />
-              <IconButton
-                style={styles.editBtn}
-                color={Colors.white}
-                icon="pencil"
-                onPress={() => history.push("/create")}
-              />
-            </>
-          )}
+      <ScrollView>
+        {!preview && (
+          <>
+            <IconButton
+              icon="chevron-left"
+              onPress={() => {
+                setProvince("P1");
+                setCanton("C1");
+                setDistrict("D1");
+                history.push("/search");
+              }}
+            />
+            <IconButton
+              style={styles.editBtn}
+              color={Colors.white}
+              icon="pencil"
+              onPress={() => history.push("/create")}
+            />
+          </>
+        )}
         <View style={styles.container}>
           {photo !== "" && (
             <Image
@@ -194,6 +206,34 @@ const Patient = ({
             )}
             {"\n"}
             {"\n"}
+            <Text>Antecedentes personales patológicos:</Text>
+            {patologicalHistory && <Text>{patologicalHistory.join(",")}</Text>}
+            {"\n"}
+            {"\n"}
+            <Text>Medicamentos:</Text>
+            {medicamentHistory && <Text>{medicamentHistory}</Text>}
+            {"\n"}
+            {"\n"}
+            <Text>Alergias:</Text>
+            {alergyHistory && <Text>{alergyHistory.join(",")}</Text>}
+            {"\n"}
+            {"\n"}
+            <Text>Antecedentes personales no patológicos:</Text>
+            {personalHistory && <Text>{personalHistory.join(",")}</Text>}
+            {"\n"}
+            {"\n"}
+            <Text>Antecedentes heredo familiares:</Text>
+            {heritageHistory && <Text>{heritageHistory.join(",")}</Text>}
+            {"\n"}
+            {"\n"}
+            <Text>Antecedentes traumáticos en la cabeza:</Text>
+            {traumaHistory && <Text>{traumaHistory}</Text>}
+            {"\n"}
+            {"\n"}
+            <Text>Antecedentes oftalmológicos:</Text>
+            {ophthalmologistHistory && <Text>{ophthalmologistHistory.join(",")}</Text>}
+            {"\n"}
+            {"\n"}
           </Text>
           {!validateForm() && (
             <Text style={styles.error}>
@@ -211,8 +251,8 @@ const Patient = ({
               Crear/Actualizar
             </Button>
           )}
-          </View>
-        </ScrollView>
+        </View>
+      </ScrollView>
     </>
   );
 };

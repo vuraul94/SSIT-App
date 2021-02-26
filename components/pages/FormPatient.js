@@ -66,17 +66,12 @@ const FormPatient = ({
   genderCatalog,
   countryCatalog,
   pathologicalCatalog,
+  checkGlassesList,
+  setCheckGlassesList,
+  checkContactLensList,
+  setCheckContactLensList,
 }) => {
   let history = useHistory();
-
-  const [checkGlassesList, setCheckGlassesList] = useState(["", "", ""]);
-  const [checkContactLensList, setCheckContactLensList] = useState([
-    "",
-    "",
-    "",
-    "",
-    "",
-  ]);
 
   useEffect(() => {
     setSection(`ID: ${identificationNumber}`);
@@ -272,6 +267,13 @@ const FormPatient = ({
         district !== "" &&
         `${locations.province[province]}, ${locations.canton[province][canton]}, ${locations.district[province][canton][district]}. \n ${address}`
       }
+      patologicalHistory={patologicalHistory}
+      medicamentHistory={medicamentHistory}
+      alergyHistory={alergyHistory}
+      personalHistory={personalHistory}
+      heritageHistory={heritageHistory}
+      traumaHistory={traumaHistory}
+      ophthalmologistHistory={ophthalmologistHistory}
       gender={gender}
       birthDate={birthDate}
       occupation={occupation}
