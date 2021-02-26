@@ -27,7 +27,14 @@
       "package": "com.rexis"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "build": {
+        "babel": {
+          "include": [
+            "react-router-dom"
+          ]
+        }
+      }
     },
     "description": "",
     "githubUrl": "https://github.com/vuraul94/SSIT-App"

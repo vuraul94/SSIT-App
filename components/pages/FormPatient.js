@@ -77,7 +77,7 @@ const FormPatient = ({
     "",
     "",
   ]);
-  
+
   useEffect(() => {
     setSection(`ID: ${identificationNumber}`);
   }, [history]);
@@ -91,7 +91,7 @@ const FormPatient = ({
       IdentificationNumber: identificationNumber,
       GenderId: parseInt(2),
       EmailAddress: email,
-      Birthdate: moment(birthDate, "DD/MM/YYYY"),
+      Birthdate: moment(new Date(birthDate), "DD/MM/YYYY"),
       Age: parseInt(
         moment(birthDate)
           .fromNow(true)
@@ -119,7 +119,11 @@ const FormPatient = ({
         },
         {
           PathologicalHistoryId: 4,
-          Detail: [personalHistory.slice(0,3),checkGlassesList.join("/"),checkContactLensList.join("/")].join("*")
+          Detail: [
+            personalHistory.slice(0, 3),
+            checkGlassesList.join("/"),
+            checkContactLensList.join("/"),
+          ].join("*"),
         },
         {
           PathologicalHistoryId: 5,
@@ -131,11 +135,11 @@ const FormPatient = ({
         },
         {
           PathologicalHistoryId: 7,
-          Detail: ophthalmologistHistory.join("*")
+          Detail: ophthalmologistHistory.join("*"),
         },
-      ]
+      ],
     };
-    console.log(JSON.stringify(patient));
+    console.log(birthDate);
     axios
       .post(`${CONSTANTS.API.URL}/api/Patient/CreatePatient`, patient, {
         headers: {
@@ -152,14 +156,21 @@ const FormPatient = ({
   };
 
   const validateForm = () => {
-    
     if (!name || name.trim() === "") {
       return false;
     } else if (!lastNames || lastNames.trim() === "") {
       return false;
-    } else if (!phone || phone.trim() === "" || !CONSTANTS.REGEX.PHONE.test(phone)) {
+    } else if (
+      !phone ||
+      phone.trim() === "" ||
+      !CONSTANTS.REGEX.PHONE.test(phone)
+    ) {
       return false;
-    } else if (email && email.trim() !== "" && !CONSTANTS.REGEX.EMAIL.test(email)) {
+    } else if (
+      email &&
+      email.trim() !== "" &&
+      !CONSTANTS.REGEX.EMAIL.test(email)
+    ) {
       return false;
     } else if (
       !province ||
