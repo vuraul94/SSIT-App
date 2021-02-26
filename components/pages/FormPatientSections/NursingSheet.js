@@ -63,7 +63,7 @@ const NursingSheet = ({
     } else {
       newPersonalHistory[index] = newPersonalHistory[index] !== "" ? "" : value;
     }
-    setPatologicalHistory(newPersonalHistory);
+    setPersonalHistory(newPersonalHistory);
     setCheckMager(!checkManager);
   };
 

@@ -100,6 +100,7 @@ const Search = ({
             setBirthDate(patient.Birthdate);
             setOccupation(patient.Occupation);
             setStatus(patient.PatientStatus);
+            console.log(patient.PathologicalHistoryList);
 
             const addressArray = patient.AddressDetail.split(".");
             let regions = [];
