@@ -135,7 +135,7 @@ const FormPatient = ({
         },
       ]
     };
-    console.log(patient);
+    console.log(JSON.stringify(patient));
     axios
       .post(`${CONSTANTS.API.URL}/api/Patient/CreatePatient`, patient, {
         headers: {

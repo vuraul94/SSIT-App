@@ -90,7 +90,7 @@ const Search = ({
             cleanPatient();
             history.push("/create");
           } else {
-            setPatientId(patient.IdentificationNumber);
+            setPatientId(patient.PatientId);
             setPhoto(patient.PersonalPhoto);
             setName(patient.Name);
             setLastNames(patient.Surnames);
