@@ -237,10 +237,10 @@ const Patient = ({
                   .slice(0, patologicalHistory.length - 2)
                   .join(", ")}${
                   alergyHistory[alergyHistory.length - 2] !== "" &&
-                  `, Alimentos: ${alergyHistory[alergyHistory.length - 2]}`
+                  `, Alimentos: (${alergyHistory[alergyHistory.length - 2]})`
                 }${
                   alergyHistory[alergyHistory.length - 1] !== "" &&
-                  `Otros: ${alergyHistory[alergyHistory.length - 1]}`
+                  `, Otros: (${alergyHistory[alergyHistory.length - 1]})`
                 }`}
               </Text>
             )}
@@ -275,7 +275,7 @@ const Patient = ({
                   .filter((history) => history !== "")
                   .join(", ")}${
                   heritageHistory[heritageHistory.length - 1] !== "" &&
-                  `, Otros: ${heritageHistory[heritageHistory.length - 1]}`
+                  `, Otros: (${heritageHistory[heritageHistory.length - 1]})`
                 }`}
               </Text>
             )}
@@ -292,13 +292,13 @@ const Patient = ({
               <Text>
                 {`${
                   ophthalmologistHistory[0] !== "" &&
-                  `Detalles consulta: ${ophthalmologistHistory[0]}`
+                  `Detalles consulta: (${ophthalmologistHistory[0]})`
                 }${
                   ophthalmologistHistory[1] !== "" &&
-                  `, Diagnótico de consulta: ${ophthalmologistHistory[1]}`
+                  `, Diagnótico de consulta: (${ophthalmologistHistory[1]})`
                 }${
                   ophthalmologistHistory[2] !== "" &&
-                  `, Cirugía: ${ophthalmologistHistory[2]}`
+                  `, Cirugía: (${ophthalmologistHistory[2]})`
                 }`}
               </Text>
             )}
