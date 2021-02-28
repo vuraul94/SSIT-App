@@ -115,7 +115,7 @@ const FormPatient = ({
         {
           PathologicalHistoryId: 4,
           Detail: [
-            personalHistory.slice(0, 3),
+            ...personalHistory.slice(0, 4),
             checkGlassesList.join("/"),
             checkContactLensList.join("/"),
           ].join("*"),
@@ -134,7 +134,6 @@ const FormPatient = ({
         },
       ],
     };
-    console.log(birthDate);
     axios
       .post(`${CONSTANTS.API.URL}/api/Patient/CreatePatient`, patient, {
         headers: {
@@ -283,6 +282,8 @@ const FormPatient = ({
       token={token}
       genderCatalog={genderCatalog}
       patientStatusCatalog={patientStatusCatalog}
+      checkGlassesList={checkGlassesList}
+      checkContactLensList={checkContactLensList}
       validateForm={validateForm}
     />,
   ];

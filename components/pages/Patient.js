@@ -65,15 +65,11 @@ const Patient = ({
   heritageHistory,
   traumaHistory,
   ophthalmologistHistory,
+  checkGlassesList,
+  checkContactLensList,
   validateForm = () => true,
 }) => {
   let history = useHistory();
-  console.log(patologicalHistory);
-  console.log(alergyHistory);
-  console.log(personalHistory);
-  console.log(heritageHistory);
-  console.log(ophthalmologistHistory);
-
   return (
     <>
       {(!token || token === "") && <Redirect to="/" />}
@@ -204,34 +200,53 @@ const Patient = ({
                 Distrito y Dirección)
               </Text>
             )}
+            <Divider />
             {"\n"}
             {"\n"}
-            <Text>Antecedentes personales patológicos:</Text>
+            <Text style={styles.label}>
+              Antecedentes personales patológicos:
+            </Text>
             {patologicalHistory && <Text>{patologicalHistory.join(",")}</Text>}
             {"\n"}
             {"\n"}
-            <Text>Medicamentos:</Text>
+            <Text style={styles.label}>Medicamentos:</Text>
             {medicamentHistory && <Text>{medicamentHistory}</Text>}
             {"\n"}
             {"\n"}
-            <Text>Alergias:</Text>
+            <Text style={styles.label}>Alergias:</Text>
             {alergyHistory && <Text>{alergyHistory.join(",")}</Text>}
             {"\n"}
             {"\n"}
-            <Text>Antecedentes personales no patológicos:</Text>
-            {personalHistory && <Text>{personalHistory.join(",")}</Text>}
+            <Text style={styles.label}>
+              Antecedentes personales no patológicos:
+            </Text>
+            {personalHistory && (
+              <Text>{`${personalHistory.slice(0, 4).join(",")}${
+                personalHistory[4] !== "" &&
+                `,Usuario de antejos :(${checkGlassesList.join(",")})`
+              }${
+                personalHistory[5] !== "" &&
+                `,Usuario de lentes de contacto :(${checkContactLensList.join(
+                  ","
+                )})`
+              }`}</Text>
+            )}
             {"\n"}
             {"\n"}
-            <Text>Antecedentes heredo familiares:</Text>
+            <Text style={styles.label}>Antecedentes heredo familiares:</Text>
             {heritageHistory && <Text>{heritageHistory.join(",")}</Text>}
             {"\n"}
             {"\n"}
-            <Text>Antecedentes traumáticos en la cabeza:</Text>
+            <Text style={styles.label}>
+              Antecedentes traumáticos en la cabeza:
+            </Text>
             {traumaHistory && <Text>{traumaHistory}</Text>}
             {"\n"}
             {"\n"}
-            <Text>Antecedentes oftalmológicos:</Text>
-            {ophthalmologistHistory && <Text>{ophthalmologistHistory.join(",")}</Text>}
+            <Text style={styles.label}>Antecedentes oftalmológicos:</Text>
+            {ophthalmologistHistory && (
+              <Text>{ophthalmologistHistory.join(",")}</Text>
+            )}
             {"\n"}
             {"\n"}
           </Text>

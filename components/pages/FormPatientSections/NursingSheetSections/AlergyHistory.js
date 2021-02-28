@@ -3,15 +3,13 @@ import { Redirect, useHistory } from "react-router-native";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Checkbox, TextInput, Switch } from "react-native-paper";
 
-const AlergyHistory = ({
-    name,
-    alergyHistory,
-    handleAlergy,
-}) => {
-  const [isSwitchAlergyOn, setIsSwitchAlergyOn] = useState(false);
-  const [checkAntibiotics, setCheckAntibiotics] = useState(false);
-  const [checkFood, setCheckFood] = useState(false);
-  const [checkOtherAlergies, setCheckOtherAlergies] = useState(false);
+const AlergyHistory = ({ name, alergyHistory, handleAlergy }) => {
+  const [isSwitchAlergyOn, setIsSwitchAlergyOn] = useState(
+    alergyHistory.find((history) => history !== "")
+  );
+  const [checkAntibiotics, setCheckAntibiotics] = useState(alergyHistory[0]!=="");
+  const [checkFood, setCheckFood] = useState(alergyHistory[alergyHistory.length-2]!=="");
+  const [checkOtherAlergies, setCheckOtherAlergies] = useState(alergyHistory[alergyHistory.length-1]!=="");
 
   const onToggleAlergySwitch = () => setIsSwitchAlergyOn(!isSwitchAlergyOn);
 

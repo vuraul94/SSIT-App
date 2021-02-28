@@ -8,7 +8,9 @@ const MedicamentHistory = ({
   medicamentHistory,
   setMedicamentHistory,
 }) => {
-  const [isSwitchMedicamentOn, setIsSwitchMedicamentOn] = useState(false);
+  const [isSwitchMedicamentOn, setIsSwitchMedicamentOn] = useState(
+    medicamentHistory !== ""
+  );
   const onToggleMedicamentSwitch = () =>
     setIsSwitchMedicamentOn(!isSwitchMedicamentOn);
 

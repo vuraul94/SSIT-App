@@ -4,8 +4,12 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Checkbox, TextInput, Switch } from "react-native-paper";
 
 const PatologyHistory = ({ name, patologicalHistory, handlePatology }) => {
-  const [isSwitchPatologyOn, setIsSwitchPatologyOn] = useState(false);
-  const [checkOtherPatology, setOtherPatology] = useState(false);
+  const [isSwitchPatologyOn, setIsSwitchPatologyOn] = useState(
+    patologicalHistory.find((history) => history !== "")
+  );
+  const [checkOtherPatology, setOtherPatology] = useState(
+    patologicalHistory[patologicalHistory.length - 1] !== ""
+  );
 
   const onTogglePatalogySwitch = () =>
     setIsSwitchPatologyOn(!isSwitchPatologyOn);

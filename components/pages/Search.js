@@ -7,23 +7,23 @@ import { CONSTANTS } from "../../misc/constants";
 import { locations } from "../../misc/locations";
 
 const styles = StyleSheet.create({
-  button:{
+  button: {
     width: "80%",
     marginLeft: "10%",
     marginTop: "5%",
     marginBottom: "5%",
   },
-  menu:{
+  menu: {
     marginTop: "14%",
     marginLeft: "2%",
     marginRight: "2%",
     width: "90%",
   },
-  searchbar:{
+  searchbar: {
     width: "98%",
     marginLeft: "1%",
   },
-  text:{
+  text: {
     fontSize: 15,
     marginLeft: "10%",
     marginTop: "5%",
@@ -97,6 +97,9 @@ const Search = ({
           const patient = res.data.Response;
           if (res.data.Status === 204) {
             cleanPatient();
+            setProvince("P1");
+            setCanton("C1");
+            setDistrict("D1");
             history.push("/create");
           } else {
             setPatientId(patient.PatientId);
@@ -110,26 +113,48 @@ const Search = ({
             setOccupation(patient.Occupation);
             setStatus(patient.PatientStatus);
 
-            const patologyHistory = patient.PathologicalHistoryList[0].Detail.split("*");
+            const patologyHistory = patient.PathologicalHistoryList.find(
+              (history) => history.PathologicalHistoryId === 1
+            ).Detail.split(
+              "*"
+            );
             setPatologicalHistory(patologyHistory);
-            const medicamentHistory = patient.PathologicalHistoryList[1];
-            setPatologicalHistory(medicamentHistory);
-            const alergyHistory = patient.PathologicalHistoryList[2].Detail.split("*");
-            setPatologicalHistory(alergyHistory);
-            
-            const personalHistory = patient.PathologicalHistoryList[3].Detail.split("*");
-            setPatologicalHistory(personalHistory);
-            const glasses = personalHistory[1].split("/");
-            const contactLens = personalHistory[2].split("/");
+            const medicamentHistory = patient.PathologicalHistoryList.find(
+              (history) => history.PathologicalHistoryId === 2
+            ).Detail;
+            setMedicamentHistory(medicamentHistory);
+            const alergyHistory = patient.PathologicalHistoryList.find(
+              (history) => history.PathologicalHistoryId === 3
+            ).Detail.split("*");
+            setAlergyHistory(alergyHistory);
+
+            const personalHistory = patient.PathologicalHistoryList.find(
+              (history) => history.PathologicalHistoryId === 4
+            ).Detail.split(
+              "*"
+            );
+            setPersonalHistory(personalHistory);
+            const glasses = personalHistory[4].split("/");
+            const contactLens = personalHistory[5].split("/");
             setCheckGlassesList(glasses);
             setCheckContactLensList(contactLens);
 
-            const heritageHistory = patient.PathologicalHistoryList[4].Detail.split("*");
-            setPatologicalHistory(heritageHistory);
-            const traumaHistory = patient.PathologicalHistoryList[5];
-            setPatologicalHistory(traumaHistory);
-            const ophthalmologistHistory = patient.PathologicalHistoryList[6].Detail.split("*");
-            setPatologicalHistory(ophthalmologistHistory);
+            const heritageHistory = patient.PathologicalHistoryList.find(
+              (history) => history.PathologicalHistoryId === 5
+            ).Detail.split(
+              "*"
+            );
+            setHeritageHistory(heritageHistory);
+            const traumaHistory = patient.PathologicalHistoryList.find(
+              (history) => history.PathologicalHistoryId === 6
+            ).Detail;
+            setTraumaHistory(traumaHistory);
+            const ophthalmologistHistory = patient.PathologicalHistoryList.find(
+              (history) => history.PathologicalHistoryId === 7
+            ).Detail.split(
+              "*"
+            );
+            setOphthalmologistHistory(ophthalmologistHistory);
 
             const addressArray = patient.AddressDetail.split(".");
             let regions = [];
@@ -181,13 +206,20 @@ const Search = ({
   return (
     <View>
       {(!token || token === "") && <Redirect to="/" />}
-      <Text style={styles.text}>Seleccione el país al que pertenece el paciente:</Text>
+      <Text style={styles.text}>
+        Seleccione el país al que pertenece el paciente:
+      </Text>
       <Menu
         style={styles.menu}
         visible={visbleCountry}
         onDismiss={() => setVisibleCountry(false)}
         anchor={
-          <Button icon="chevron-down" style={styles.button} onPress={() => setVisibleCountry(true)} mode="outlined">
+          <Button
+            icon="chevron-down"
+            style={styles.button}
+            onPress={() => setVisibleCountry(true)}
+            mode="outlined"
+          >
             {country !== 0 ? countryCatalog[country - 1].Name : "País"}
           </Button>
         }
@@ -213,14 +245,14 @@ const Search = ({
       </Menu>
 
       <Searchbar
-      keyboardType="number-pad"
+        keyboardType="number-pad"
         style={styles.searchbar}
         onChangeText={(e) => {
           setIdentificationNumber(e);
         }}
         value={identificationNumber}
       />
-      <Button 
+      <Button
         style={styles.button}
         mode="contained"
         onPress={() => {

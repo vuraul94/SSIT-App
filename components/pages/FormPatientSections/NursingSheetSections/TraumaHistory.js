@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Checkbox, TextInput, Switch } from "react-native-paper";
 
 const TraumaHistory = ({ name, traumaHistory, setTraumaHistory}) => {
-  const [isSwitchTraumaHistoryOn, setIsSwitchTraumaHistoryOn] = useState(false);
+  const [isSwitchTraumaHistoryOn, setIsSwitchTraumaHistoryOn] = useState(traumaHistory!=="");
   const onToggleTraumaHistorySwitch = () =>
     setIsSwitchTraumaHistoryOn(!isSwitchTraumaHistoryOn);
 

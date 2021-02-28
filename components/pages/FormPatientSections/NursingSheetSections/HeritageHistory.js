@@ -3,17 +3,13 @@ import { Redirect, useHistory } from "react-router-native";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Checkbox, TextInput, Switch } from "react-native-paper";
 
-const HeritageHistory = ({ 
-    name,
-    heritageHistory,
-    handleHeritageHistory, 
-}) => {
+const HeritageHistory = ({ name, heritageHistory, handleHeritageHistory }) => {
   const [isSwitchHeritageHistoryOn, setIsSwitchHeritageHistoryOn] = useState(
-    false
+    heritageHistory.find((history) => history !== "")
   );
 
-  const [checkEyeDisease, setEyeDisease] = useState(false);
-  const [checkOtherHeritageHistory, setOtherHeritageHistory] = useState(false);
+  const [checkEyeDisease, setEyeDisease] = useState(heritageHistory[heritageHistory.length-2]!=="");
+  const [checkOtherHeritageHistory, setOtherHeritageHistory] = useState(heritageHistory[heritageHistory.length-1]!=="");
 
   const onToggleHeritageHistorySwitch = () =>
     setIsSwitchHeritageHistoryOn(!isSwitchHeritageHistoryOn);

@@ -11,12 +11,14 @@ const OphtalmologistHistory = ({
   const [
     isSwitchOphthalmologistHistoryOn,
     setIsSwitchOphthalmologistHistoryOn,
-  ] = useState(false);
-  const onToggleOphthalmologistHistorySwitch = () =>
-    setIsSwitchOphthalmologistHistoryOn(!isSwitchOphthalmologistHistoryOn);
+  ] = useState(ophthalmologistHistory.find((history) => history !== ""));
+  const [checkConsultation, setCheckConsultation] = useState(ophthalmologistHistory[0]!==""||ophthalmologistHistory[1]!=="");
+  const [checkSurgery, setCheckSurgery] = useState(ophthalmologistHistory[2]!=="");
 
-  const [checkConsultation, setCheckConsultation] = useState(false);
-  const [checkSurgery, setCheckSurgery] = useState(false);
+  const onToggleOphthalmologistHistorySwitch = () => {
+    setIsSwitchOphthalmologistHistoryOn(!isSwitchOphthalmologistHistoryOn);
+  };
+
 
   return (
     <>
@@ -64,15 +66,16 @@ const OphtalmologistHistory = ({
           />
           {checkSurgery && (
             <>
-            <TextInput
+              <TextInput
                 label="¿Cuáles?¿Cuándo?"
                 mode="outlined"
                 value={ophthalmologistHistory[2]}
                 onChangeText={(text) =>
-                handleOphthalmologistHistory(2, text, true)
+                  handleOphthalmologistHistory(2, text, true)
                 }
               />
-            </>)}
+            </>
+          )}
         </>
       )}
     </>

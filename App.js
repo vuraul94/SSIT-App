@@ -298,6 +298,8 @@ export default function App() {
                 heritageHistory={heritageHistory}
                 traumaHistory={traumaHistory}
                 ophthalmologistHistory={ophthalmologistHistory}
+                checkGlassesList={checkGlassesList}
+                checkContactLensList={checkContactLensList}
               />
             )}
           />

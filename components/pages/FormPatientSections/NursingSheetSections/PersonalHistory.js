@@ -13,10 +13,12 @@ const PersonalHistory = ({
   checkContactLensList,
 }) => {
   const [isSwitchPersonalHistoryOn, setIsSwitchPersonalHistoryOn] = useState(
-    false
+    personalHistory.find((history) => history !== "")
   );
 
-  const [checkDrugs, setDrugs] = useState(false);
+  const [checkDrugs, setDrugs] = useState(personalHistory[2]!=="");
+  const [checkGlasses, setCheckGlasses] = useState(checkGlassesList.find(glasses=>glasses!==""));
+  const [checkContactLens, setCheckContactLens] = useState(checkContactLensList.find(lens=>lens!==""));
 
   const onTogglePersonalHistorySwitch = () =>
     setIsSwitchPersonalHistoryOn(!isSwitchPersonalHistoryOn);
@@ -69,12 +71,12 @@ const PersonalHistory = ({
           />
           <Text>Usuario de anteojos</Text>
           <Checkbox
-            status={personalHistory[4] !== "" ? "checked" : "unchecked"}
+            status={checkGlasses ? "checked" : "unchecked"}
             onPress={() => {
-              handlePersonalHistory(4, "Ok");
+              setCheckGlasses(!checkGlasses)
             }}
           />
-          {personalHistory[4] !== "" && (
+          {checkGlasses && (
             <>
               <Text>Bifocales</Text>
               <Checkbox
@@ -101,17 +103,17 @@ const PersonalHistory = ({
           )}
           <Text>Usuario de lentes de contacto</Text>
           <Checkbox
-            status={personalHistory[5] !== "" ? "checked" : "unchecked"}
+            status={checkContactLens ? "checked" : "unchecked"}
             onPress={() => {
-              handlePersonalHistory(5, "Ok");
+              setCheckContactLens(!checkContactLens)
             }}
           />
-          {personalHistory[5] !== "" && (
+          {checkContactLens && (
             <>
               <Text>Blandos</Text>
               <Checkbox
                 status={
-                  checkContactLensList[0] !== "" ? "checked" : "unchecked"
+                  checkContactLensList[0]  !== "" ? "checked" : "unchecked"
                 }
                 onPress={() => {
                   handleCotactLens(0, "Blandos");
