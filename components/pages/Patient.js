@@ -67,6 +67,7 @@ const Patient = ({
   ophthalmologistHistory,
   checkGlassesList,
   checkContactLensList,
+  patientStatusCatalog,
   validateForm = () => true,
 }) => {
   let history = useHistory();
@@ -126,7 +127,9 @@ const Patient = ({
           <Text>
             <Text style={styles.label}>Estado:</Text>{" "}
             {status && status !== 0 ? (
-              status
+              patientStatusCatalog.find(
+                (patientStatus) => patientStatus.PatientStatusId === status
+              ).Name
             ) : (
               <Text style={styles.error}>* El estado es obligatorio</Text>
             )}
@@ -202,9 +205,7 @@ const Patient = ({
             )}
           </Text>
           <Divider />
-          <Text>
-            {"\n"}
-          </Text>
+          <Text>{"\n"}</Text>
           <Text>
             <Text style={styles.label}>
               Antecedentes personales patológicos:

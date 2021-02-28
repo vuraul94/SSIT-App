@@ -76,6 +76,7 @@ const Login = ({
         setCountryCatalog(data.CountryCatalog);
         setGenderCatalog(data.GenderCatalog);
         setPatientStatusCatalog(data.PatientStatus);
+        console.log(data.PatientStatus);
         setPathologicalCatalog(data.PathologicalCatalog)
         setToken(token);
       });

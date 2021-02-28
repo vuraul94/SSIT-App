@@ -300,6 +300,7 @@ export default function App() {
                 ophthalmologistHistory={ophthalmologistHistory}
                 checkGlassesList={checkGlassesList}
                 checkContactLensList={checkContactLensList}
+                patientStatusCatalog={patientStatusCatalog}
               />
             )}
           />
