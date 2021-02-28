@@ -3,6 +3,40 @@ import { Redirect, useHistory } from "react-router-native";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Checkbox, TextInput, Switch } from "react-native-paper";
 
+const styles = StyleSheet.create({
+  container: {
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+  innerContainer: {
+    flexWrap: "wrap",
+    flexDirection: "row",
+  },
+  switch: {
+    marginTop: 20,
+    position: "absolute",
+    marginBottom: 30,
+    right: 10,
+  },
+  text: {
+    marginTop: 20,
+    marginBottom: 10,
+    left: 10,
+  },
+  innerText: {
+    marginTop: 8,
+    marginBottom: 15,
+    paddingRight: 50,
+    left: 10,
+  },
+  input: {
+    marginLeft: 15,
+    marginBottom: 20,
+    marginRight: 15,
+  },
+});
+
 const PersonalHistory = ({
   name,
   personalHistory,
@@ -16,145 +50,182 @@ const PersonalHistory = ({
     personalHistory.find((history) => history !== "")
   );
 
-  const [checkDrugs, setDrugs] = useState(personalHistory[2]!=="");
-  const [checkGlasses, setCheckGlasses] = useState(checkGlassesList.find(glasses=>glasses!==""));
-  const [checkContactLens, setCheckContactLens] = useState(checkContactLensList.find(lens=>lens!==""));
+  const [checkDrugs, setDrugs] = useState(personalHistory[2] !== "");
+  const [checkGlasses, setCheckGlasses] = useState(
+    checkGlassesList.find((glasses) => glasses !== "")
+  );
+  const [checkContactLens, setCheckContactLens] = useState(
+    checkContactLensList.find((lens) => lens !== "")
+  );
 
   const onTogglePersonalHistorySwitch = () =>
     setIsSwitchPersonalHistoryOn(!isSwitchPersonalHistoryOn);
 
   return (
     <>
-      <Text>{name}</Text>
-      <Switch
-        value={isSwitchPersonalHistoryOn}
-        onValueChange={onTogglePersonalHistorySwitch}
-      />
+      <View style={styles.container}>
+        <Text style={styles.text}>{name}</Text>
+        <Switch
+          style={styles.switch}
+          value={isSwitchPersonalHistoryOn}
+          onValueChange={onTogglePersonalHistorySwitch}
+        />
+      </View>
       {isSwitchPersonalHistoryOn && (
         <>
-          <Text>Tabaco</Text>
-          <Checkbox
-            status={personalHistory[0] !== "" ? "checked" : "unchecked"}
-            onPress={() => {
-              handlePersonalHistory(0, "Tabaco");
-            }}
-          />
-          <Text>Alcohol</Text>
-          <Checkbox
-            status={personalHistory[1] !== "" ? "checked" : "unchecked"}
-            onPress={() => {
-              handlePersonalHistory(1, "Alcohol");
-            }}
-          />
-          <Text>Drogas</Text>
-          <Checkbox
-            status={checkDrugs ? "checked" : "unchecked"}
-            onPress={() => {
-              setDrugs(!checkDrugs);
-            }}
-          />
+          <View style={styles.innerContainer}>
+            <Checkbox
+              status={personalHistory[0] !== "" ? "checked" : "unchecked"}
+              onPress={() => {
+                handlePersonalHistory(0, "Tabaco");
+              }}
+            />
+            <Text style={styles.innerText}>Tabaco</Text>
+          </View>
+          <View style={styles.innerContainer}>
+            <Checkbox
+              status={personalHistory[1] !== "" ? "checked" : "unchecked"}
+              onPress={() => {
+                handlePersonalHistory(1, "Alcohol");
+              }}
+            />
+            <Text style={styles.innerText}>Alcohol</Text>
+          </View>
+          <View style={styles.innerContainer}>
+            <Checkbox
+              status={checkDrugs ? "checked" : "unchecked"}
+              onPress={() => {
+                setDrugs(!checkDrugs);
+              }}
+            />
+            <Text style={styles.innerText}>Drogas</Text>
+          </View>
           {checkDrugs && (
             <TextInput
+              style={styles.input}
               label="Detalles"
               mode="outlined"
               value={personalHistory[2]}
               onChangeText={(text) => handlePersonalHistory(2, text, true)}
             />
           )}
-          <Text>Horas de exposición a dispositivos electrónicos</Text>
+          <Text style={styles.innerText}>
+            Horas de exposición a dispositivos electrónicos
+          </Text>
           <TextInput
+            style={styles.input}
             keyboardType="number-pad"
             label="Horas de exposición"
             mode="outlined"
             value={personalHistory[3]}
             onChangeText={(text) => handlePersonalHistory(3, text, true)}
           />
-          <Text>Usuario de anteojos</Text>
-          <Checkbox
-            status={checkGlasses ? "checked" : "unchecked"}
-            onPress={() => {
-              setCheckGlasses(!checkGlasses)
-            }}
-          />
+          <View style={styles.innerContainer}>
+            <Checkbox
+              status={checkGlasses ? "checked" : "unchecked"}
+              onPress={() => {
+                setCheckGlasses(!checkGlasses);
+              }}
+            />
+            <Text style={styles.innerText}>Usuario de anteojos</Text>
+          </View>
           {checkGlasses && (
             <>
-              <Text>Bifocales</Text>
-              <Checkbox
-                status={checkGlassesList[0] !== "" ? "checked" : "unchecked"}
-                onPress={() => {
-                  handleGlassesList(0, "Bifocales");
-                }}
-              />
-              <Text>Visión sencilla</Text>
-              <Checkbox
-                status={checkGlassesList[1] !== "" ? "checked" : "unchecked"}
-                onPress={() => {
-                  handleGlassesList(1, "Visión sencilla");
-                }}
-              />
-              <Text>Progresivos</Text>
-              <Checkbox
-                status={checkGlassesList[2] !== "" ? "checked" : "unchecked"}
-                onPress={() => {
-                  handleGlassesList(2, "Progresivos");
-                }}
-              />
+              <View style={styles.innerContainer}>
+                <Checkbox
+                  status={checkGlassesList[0] !== "" ? "checked" : "unchecked"}
+                  onPress={() => {
+                    handleGlassesList(0, "Bifocales");
+                  }}
+                />
+                <Text style={styles.innerText}>Bifocales</Text>
+              </View>
+              <View style={styles.innerContainer}>
+                <Checkbox
+                  status={checkGlassesList[1] !== "" ? "checked" : "unchecked"}
+                  onPress={() => {
+                    handleGlassesList(1, "Visión sencilla");
+                  }}
+                />
+                <Text style={styles.innerText}>Visión sencilla</Text>
+              </View>
+              <View style={styles.innerContainer}>
+                <Checkbox
+                  status={checkGlassesList[2] !== "" ? "checked" : "unchecked"}
+                  onPress={() => {
+                    handleGlassesList(2, "Progresivos");
+                  }}
+                />
+                <Text style={styles.innerText}>Progresivos</Text>
+              </View>
             </>
           )}
-          <Text>Usuario de lentes de contacto</Text>
-          <Checkbox
-            status={checkContactLens ? "checked" : "unchecked"}
-            onPress={() => {
-              setCheckContactLens(!checkContactLens)
-            }}
-          />
+          <View style={styles.innerContainer}>
+            <Checkbox
+              status={checkContactLens ? "checked" : "unchecked"}
+              onPress={() => {
+                setCheckContactLens(!checkContactLens);
+              }}
+            />
+            <Text style={styles.innerText}>Usuario de lentes de contacto</Text>
+          </View>
           {checkContactLens && (
             <>
-              <Text>Blandos</Text>
-              <Checkbox
-                status={
-                  checkContactLensList[0]  !== "" ? "checked" : "unchecked"
-                }
-                onPress={() => {
-                  handleCotactLens(0, "Blandos");
-                }}
-              />
-              <Text>Híbridos</Text>
-              <Checkbox
-                status={
-                  checkContactLensList[1] !== "" ? "checked" : "unchecked"
-                }
-                onPress={() => {
-                  handleCotactLens(1, "Híbridos");
-                }}
-              />
-              <Text>Esclerales</Text>
-              <Checkbox
-                status={
-                  checkContactLensList[2] !== "" ? "checked" : "unchecked"
-                }
-                onPress={() => {
-                  handleCotactLens(2, "Esclerales");
-                }}
-              />
-              <Text>Tóricos</Text>
-              <Checkbox
-                status={
-                  checkContactLensList[3] !== "" ? "checked" : "unchecked"
-                }
-                onPress={() => {
-                  handleCotactLens(3, "Tóricos");
-                }}
-              />
-              <Text>Gas Permeable</Text>
-              <Checkbox
-                status={
-                  checkContactLensList[4] !== "" ? "checked" : "unchecked"
-                }
-                onPress={() => {
-                  handleCotactLens(4, "Gas Permeable");
-                }}
-              />
+              <View style={styles.innerContainer}>
+                <Checkbox
+                  status={
+                    checkContactLensList[0] !== "" ? "checked" : "unchecked"
+                  }
+                  onPress={() => {
+                    handleCotactLens(0, "Blandos");
+                  }}
+                />
+                <Text style={styles.innerText}>Blandos</Text>
+              </View>
+              <View style={styles.innerContainer}>
+                <Checkbox
+                  status={
+                    checkContactLensList[1] !== "" ? "checked" : "unchecked"
+                  }
+                  onPress={() => {
+                    handleCotactLens(1, "Híbridos");
+                  }}
+                />
+                <Text style={styles.innerText}>Híbridos</Text>
+              </View>
+              <View style={styles.innerContainer}>
+                <Checkbox
+                  status={
+                    checkContactLensList[2] !== "" ? "checked" : "unchecked"
+                  }
+                  onPress={() => {
+                    handleCotactLens(2, "Esclerales");
+                  }}
+                />
+                <Text style={styles.innerText}>Esclerales</Text>
+              </View>
+              <View style={styles.innerContainer}>
+                <Checkbox
+                  status={
+                    checkContactLensList[3] !== "" ? "checked" : "unchecked"
+                  }
+                  onPress={() => {
+                    handleCotactLens(3, "Tóricos");
+                  }}
+                />
+                <Text style={styles.innerText}>Tóricos</Text>
+              </View>
+              <View style={styles.innerContainer}>
+                <Checkbox
+                  status={
+                    checkContactLensList[4] !== "" ? "checked" : "unchecked"
+                  }
+                  onPress={() => {
+                    handleCotactLens(4, "Gas Permeable");
+                  }}
+                />
+                <Text style={styles.innerText}>Gas permeable</Text>
+              </View>
             </>
           )}
         </>
