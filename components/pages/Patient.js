@@ -200,13 +200,28 @@ const Patient = ({
                 Distrito y Dirección)
               </Text>
             )}
-            <Divider />
+          </Text>
+          <Divider />
+          <Text>
             {"\n"}
-            {"\n"}
+          </Text>
+          <Text>
             <Text style={styles.label}>
               Antecedentes personales patológicos:
             </Text>
-            {patologicalHistory && <Text>{patologicalHistory.join(",")}</Text>}
+            {patologicalHistory && (
+              <Text>
+                {`${patologicalHistory
+                  .slice(0, patologicalHistory.length - 1)
+                  .filter((history) => history !== "")
+                  .join(", ")}${
+                  patologicalHistory[patologicalHistory.length - 1] !== "" &&
+                  `, Otros: ${
+                    patologicalHistory[patologicalHistory.length - 1]
+                  }`
+                }`}
+              </Text>
+            )}
             {"\n"}
             {"\n"}
             <Text style={styles.label}>Medicamentos:</Text>
@@ -214,27 +229,55 @@ const Patient = ({
             {"\n"}
             {"\n"}
             <Text style={styles.label}>Alergias:</Text>
-            {alergyHistory && <Text>{alergyHistory.join(",")}</Text>}
+            {alergyHistory && (
+              <Text>
+                {`${alergyHistory
+                  .filter((history) => history !== "")
+                  .slice(0, patologicalHistory.length - 2)
+                  .join(", ")}${
+                  alergyHistory[alergyHistory.length - 2] !== "" &&
+                  `, Alimentos: ${alergyHistory[alergyHistory.length - 2]}`
+                }${
+                  alergyHistory[alergyHistory.length - 1] !== "" &&
+                  `Otros: ${alergyHistory[alergyHistory.length - 1]}`
+                }`}
+              </Text>
+            )}
             {"\n"}
             {"\n"}
             <Text style={styles.label}>
               Antecedentes personales no patológicos:
             </Text>
             {personalHistory && (
-              <Text>{`${personalHistory.slice(0, 4).join(",")}${
-                personalHistory[4] !== "" &&
-                `,Usuario de antejos :(${checkGlassesList.join(",")})`
+              <Text>{`${personalHistory
+                .slice(0, 4)
+                .filter((history) => history !== "")
+                .join(", ")}${
+                checkGlassesList.find((glasses) => glasses !== "") &&
+                `, Usuario de antejos :(${checkGlassesList
+                  .filter((history) => history !== "")
+                  .join(", ")})`
               }${
-                personalHistory[5] !== "" &&
-                `,Usuario de lentes de contacto :(${checkContactLensList.join(
-                  ","
-                )})`
+                checkContactLensList.find((lens) => lens !== "") &&
+                `, Usuario de lentes de contacto :(${checkContactLensList
+                  .filter((history) => history !== "")
+                  .join(", ")})`
               }`}</Text>
             )}
             {"\n"}
             {"\n"}
             <Text style={styles.label}>Antecedentes heredo familiares:</Text>
-            {heritageHistory && <Text>{heritageHistory.join(",")}</Text>}
+            {heritageHistory && (
+              <Text>
+                {`${heritageHistory
+                  .slice(0, heritageHistory.length - 1)
+                  .filter((history) => history !== "")
+                  .join(", ")}${
+                  heritageHistory[heritageHistory.length - 1] !== "" &&
+                  `, Otros: ${heritageHistory[heritageHistory.length - 1]}`
+                }`}
+              </Text>
+            )}
             {"\n"}
             {"\n"}
             <Text style={styles.label}>
@@ -245,7 +288,18 @@ const Patient = ({
             {"\n"}
             <Text style={styles.label}>Antecedentes oftalmológicos:</Text>
             {ophthalmologistHistory && (
-              <Text>{ophthalmologistHistory.join(",")}</Text>
+              <Text>
+                {`${
+                  ophthalmologistHistory[0] !== "" &&
+                  `Detalles consulta: ${ophthalmologistHistory[0]}`
+                }${
+                  ophthalmologistHistory[1] !== "" &&
+                  `, Diagnótico de consulta: ${ophthalmologistHistory[1]}`
+                }${
+                  ophthalmologistHistory[2] !== "" &&
+                  `, Cirugía: ${ophthalmologistHistory[2]}`
+                }`}
+              </Text>
             )}
             {"\n"}
             {"\n"}
