@@ -1,6 +1,5 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 
 import {
   Provider as PaperProvider,
@@ -194,118 +193,124 @@ export default function App() {
     setStatus(0);
   };
 
-  return (
-    <PaperProvider theme={theme}>
-      <NativeRouter>
-        <View style={{ flex: 1 }}>
-          <Appbar style={styles.appbar}>
-            <Appbar.Content title="REXIS" subtitle={section} />
-            {token && token !== "" && (
-              <Appbar.Action
-                icon="logout"
-                onPress={() => {
-                  setToken(null);
-                }}
-              />
-            )}
-          </Appbar>
+  const date = Date.now();
 
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <Login
-                token={token}
-                setToken={setToken}
-                setTokenCreationTime={setTokenCreationTime}
-                setSection={setSection}
-                setCountryCatalog={setCountryCatalog}
-                setGenderCatalog={setGenderCatalog}
-                setPatientStatusCatalog={setPatientStatusCatalog}
-                setPathologicalCatalog={setPathologicalCatalog}
-              />
-            )}
-          />
+  if (date <= 1617903153000) {
+    return (
+      <PaperProvider theme={theme}>
+        <NativeRouter>
+          <View style={{ flex: 1 }}>
+            <Appbar style={styles.appbar}>
+              <Appbar.Content title="REXIS" subtitle={section} />
+              {token && token !== "" && (
+                <Appbar.Action
+                  icon="logout"
+                  onPress={() => {
+                    setToken(null);
+                  }}
+                />
+              )}
+            </Appbar>
 
-          <Route
-            path="/search"
-            render={() => (
-              <Search
-                token={token}
-                setSection={setSection}
-                identificationNumber={identificationNumber}
-                setIdentificationNumber={setIdentificationNumber}
-                province={province}
-                canton={canton}
-                country={country}
-                setCountry={setCountry}
-                countryCatalog={countryCatalog}
-                cleanPatient={cleanPatient}
-                {...patientSets}
-                setCheckGlassesList={setCheckGlassesList}
-                setCheckContactLensList={setCheckContactLensList}
-              />
-            )}
-          />
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <Login
+                  token={token}
+                  setToken={setToken}
+                  setTokenCreationTime={setTokenCreationTime}
+                  setSection={setSection}
+                  setCountryCatalog={setCountryCatalog}
+                  setGenderCatalog={setGenderCatalog}
+                  setPatientStatusCatalog={setPatientStatusCatalog}
+                  setPathologicalCatalog={setPathologicalCatalog}
+                />
+              )}
+            />
 
-          <Route
-            path="/create"
-            setSection={setSection}
-            render={() => (
-              <FormPatient
-                token={token}
-                setSection={setSection}
-                identificationNumber={`${
-                  countryCatalog[country - 1].Abbreviation
-                }:${identificationNumber}`}
-                {...patientSets}
-                {...patientData}
-                patientStatusCatalog={patientStatusCatalog}
-                countryCatalog={countryCatalog}
-                genderCatalog={genderCatalog}
-                pathologicalCatalog={pathologicalCatalog}
-                checkGlassesList={checkGlassesList}
-                setCheckGlassesList={setCheckGlassesList}
-                checkContactLensList={checkContactLensList}
-                setCheckContactLensList={setCheckContactLensList}
-              />
-            )}
-          />
+            <Route
+              path="/search"
+              render={() => (
+                <Search
+                  token={token}
+                  setSection={setSection}
+                  identificationNumber={identificationNumber}
+                  setIdentificationNumber={setIdentificationNumber}
+                  province={province}
+                  canton={canton}
+                  country={country}
+                  setCountry={setCountry}
+                  countryCatalog={countryCatalog}
+                  cleanPatient={cleanPatient}
+                  {...patientSets}
+                  setCheckGlassesList={setCheckGlassesList}
+                  setCheckContactLensList={setCheckContactLensList}
+                />
+              )}
+            />
 
-          <Route
-            path="/patient"
-            setSection={setSection}
-            render={() => (
-              <Patient
-                token={token}
-                setSection={setSection}
-                identificationNumber={`${
-                  countryCatalog[country - 1].Abbreviation
-                }:${identificationNumber}`}
-                setProvince={setProvince}
-                setCanton={setCanton}
-                setDistrict={setDistrict}
-                {...patientData}
-                address={
-                  province !== "" && canton !== "" && district !== ""
-                    ? `${locations.province[province]}, ${locations.canton[province][canton]}, ${locations.district[province][canton][district]}. \n ${address}`
-                    : address
-                }
-                patologicalHistory={patologicalHistory}
-                medicamentHistory={medicamentHistory}
-                alergyHistory={alergyHistory}
-                personalHistory={personalHistory}
-                heritageHistory={heritageHistory}
-                traumaHistory={traumaHistory}
-                ophthalmologistHistory={ophthalmologistHistory}
-                checkGlassesList={checkGlassesList}
-                checkContactLensList={checkContactLensList}
-                patientStatusCatalog={patientStatusCatalog}
-              />
-            )}
-          />
-        </View>
-      </NativeRouter>
-    </PaperProvider>
-  );
+            <Route
+              path="/create"
+              setSection={setSection}
+              render={() => (
+                <FormPatient
+                  token={token}
+                  setSection={setSection}
+                  identificationNumber={`${
+                    countryCatalog[country - 1].Abbreviation
+                  }:${identificationNumber}`}
+                  {...patientSets}
+                  {...patientData}
+                  patientStatusCatalog={patientStatusCatalog}
+                  countryCatalog={countryCatalog}
+                  genderCatalog={genderCatalog}
+                  pathologicalCatalog={pathologicalCatalog}
+                  checkGlassesList={checkGlassesList}
+                  setCheckGlassesList={setCheckGlassesList}
+                  checkContactLensList={checkContactLensList}
+                  setCheckContactLensList={setCheckContactLensList}
+                />
+              )}
+            />
+
+            <Route
+              path="/patient"
+              setSection={setSection}
+              render={() => (
+                <Patient
+                  token={token}
+                  setSection={setSection}
+                  identificationNumber={`${
+                    countryCatalog[country - 1].Abbreviation
+                  }:${identificationNumber}`}
+                  setProvince={setProvince}
+                  setCanton={setCanton}
+                  setDistrict={setDistrict}
+                  {...patientData}
+                  address={
+                    province !== "" && canton !== "" && district !== ""
+                      ? `${locations.province[province]}, ${locations.canton[province][canton]}, ${locations.district[province][canton][district]}. \n ${address}`
+                      : address
+                  }
+                  patologicalHistory={patologicalHistory}
+                  medicamentHistory={medicamentHistory}
+                  alergyHistory={alergyHistory}
+                  personalHistory={personalHistory}
+                  heritageHistory={heritageHistory}
+                  traumaHistory={traumaHistory}
+                  ophthalmologistHistory={ophthalmologistHistory}
+                  checkGlassesList={checkGlassesList}
+                  checkContactLensList={checkContactLensList}
+                  patientStatusCatalog={patientStatusCatalog}
+                />
+              )}
+            />
+          </View>
+        </NativeRouter>
+      </PaperProvider>
+    );
+  } else {
+    return <Text>{"\n\n\n"}Demo finalizada</Text>;
+  }
 }

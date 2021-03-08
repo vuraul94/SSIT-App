@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Modal, Image } from "react-native";
 import { Button, Menu, Searchbar } from "react-native-paper";
 import { Redirect, useHistory } from "react-router-native";
 import { CONSTANTS } from "../../misc/constants";
@@ -72,6 +72,7 @@ const Search = ({
 }) => {
   let history = useHistory();
   const [visbleCountry, setVisibleCountry] = useState();
+  const [searchModalVisible, setSearchtModalVisible] = useState(false);
 
   useEffect(() => {
     setSection("Search");
@@ -79,6 +80,7 @@ const Search = ({
 
   const searchPatient = (history) => {
     if (identificationNumber && identificationNumber.trim() !== "") {
+      setSearchtModalVisible(true);
       axios
         .post(
           `${CONSTANTS.API.URL}/api/Patient/GetPatient`,
@@ -100,6 +102,7 @@ const Search = ({
             setProvince("P1");
             setCanton("C1");
             setDistrict("D1");
+            setSearchtModalVisible(false);
             history.push("/create");
           } else {
             setPatientId(patient.PatientId);
@@ -115,9 +118,7 @@ const Search = ({
 
             const patologyHistory = patient.PathologicalHistoryList.find(
               (history) => history.PathologicalHistoryId === 1
-            ).Detail.split(
-              "*"
-            );
+            ).Detail.split("*");
             setPatologicalHistory(patologyHistory);
             const medicamentHistory = patient.PathologicalHistoryList.find(
               (history) => history.PathologicalHistoryId === 2
@@ -130,9 +131,7 @@ const Search = ({
 
             const personalHistory = patient.PathologicalHistoryList.find(
               (history) => history.PathologicalHistoryId === 4
-            ).Detail.split(
-              "*"
-            );
+            ).Detail.split("*");
             setPersonalHistory(personalHistory);
             const glasses = personalHistory[4].split("/");
             const contactLens = personalHistory[5].split("/");
@@ -141,9 +140,7 @@ const Search = ({
 
             const heritageHistory = patient.PathologicalHistoryList.find(
               (history) => history.PathologicalHistoryId === 5
-            ).Detail.split(
-              "*"
-            );
+            ).Detail.split("*");
             setHeritageHistory(heritageHistory);
             const traumaHistory = patient.PathologicalHistoryList.find(
               (history) => history.PathologicalHistoryId === 6
@@ -151,9 +148,7 @@ const Search = ({
             setTraumaHistory(traumaHistory);
             const ophthalmologistHistory = patient.PathologicalHistoryList.find(
               (history) => history.PathologicalHistoryId === 7
-            ).Detail.split(
-              "*"
-            );
+            ).Detail.split("*");
             setOphthalmologistHistory(ophthalmologistHistory);
 
             const addressArray = patient.AddressDetail.split(".");
@@ -167,6 +162,7 @@ const Search = ({
             if (regions.length === 3) {
               setRegions(regions, history);
             } else {
+              setSearchtModalVisible(false);
               history.push("/patient");
             }
           }
@@ -206,6 +202,22 @@ const Search = ({
   return (
     <View>
       {(!token || token === "") && <Redirect to="/" />}
+      <Modal animationType="fade" visible={searchModalVisible}>
+        <View
+          style={{
+            backgroundColor: "#F1F2F3",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+            width: "100%",
+          }}
+        >
+          <Image
+            style={{ height: 100, width: 100 }}
+            source={require("../../assets/spinner.gif")}
+          />
+        </View>
+      </Modal>
       <Text style={styles.text}>
         Seleccione el país al que pertenece el paciente:
       </Text>

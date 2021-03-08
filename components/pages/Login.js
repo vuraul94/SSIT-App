@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Modal, Image } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { Redirect } from "react-router-native";
 import axios from "axios";
@@ -10,11 +10,11 @@ const styles = StyleSheet.create({
   input: {
     margin: 12,
   },
-  button:{
+  button: {
     width: "80%",
     marginTop: 10,
     marginLeft: "10%",
-  }
+  },
 });
 
 /**
@@ -35,9 +35,9 @@ const Login = ({
   setPathologicalCatalog,
 }) => {
   const [errorMsg, setErrorMsg] = useState();
-  const [user, setUser] = useState("UserDev");
-  const [pass, setPass] = useState("Dev123");
-
+  const [user, setUser] = useState("");
+  const [pass, setPass] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     setSection("Login");
@@ -47,6 +47,7 @@ const Login = ({
    * Handle the button login and call the api to receive the authentication token
    */
   const handleLogin = () => {
+    setModalVisible(true);
     axios
       .post(`${CONSTANTS.API.URL}/api/Authentication/authenticate`, {
         Username: user,
@@ -54,6 +55,7 @@ const Login = ({
       })
       .then((response) => {
         setErrorMsg(null);
+        setModalVisible(false);
         setTokenCreationTime(Date.now());
         getCatalog(response.data.Token);
       })
@@ -77,7 +79,7 @@ const Login = ({
         setGenderCatalog(data.GenderCatalog);
         setPatientStatusCatalog(data.PatientStatus);
         console.log(data.PatientStatus);
-        setPathologicalCatalog(data.PathologicalCatalog)
+        setPathologicalCatalog(data.PathologicalCatalog);
         setToken(token);
       });
   };
@@ -85,6 +87,22 @@ const Login = ({
   return (
     <View style={styles.container}>
       {token && token !== "" && <Redirect to="/Search" />}
+      <Modal animationType="fade" visible={modalVisible}>
+        <View
+          style={{
+            backgroundColor: "#F1F2F3",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+            width: "100%",
+          }}
+        >
+          <Image
+            style={{ height: 100, width: 100 }}
+            source={require("../../assets/spinner.gif")}
+          />
+        </View>
+      </Modal>
 
       <TextInput
         label="Username"
@@ -107,7 +125,9 @@ const Login = ({
         }}
       ></TextInput>
       {errorMsg && <Text>{errorMsg}</Text>}
-      <Button  style={styles.button} mode="contained" onPress={handleLogin}>Login</Button>
+      <Button style={styles.button} mode="contained" onPress={handleLogin}>
+        Login
+      </Button>
     </View>
   );
 };

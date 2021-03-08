@@ -17,7 +17,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rexis"
     },
     "android": {
       "adaptiveIcon": {
@@ -31,7 +32,8 @@
       "build": {
         "babel": {
           "include": [
-            "react-router-dom"
+            "react-router-dom",
+            "react-router-native"
           ]
         }
       }

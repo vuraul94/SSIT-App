@@ -216,10 +216,11 @@ const Patient = ({
                   .slice(0, patologicalHistory.length - 1)
                   .filter((history) => history !== "")
                   .join(", ")}${
-                  patologicalHistory[patologicalHistory.length - 1] !== "" &&
-                  `, Otros: ${
-                    patologicalHistory[patologicalHistory.length - 1]
-                  }`
+                  patologicalHistory[patologicalHistory.length - 1] !== ""
+                    ? `, Otros: ${
+                        patologicalHistory[patologicalHistory.length - 1]
+                      }`
+                    : ""
                 }`}
               </Text>
             )}
@@ -233,14 +234,18 @@ const Patient = ({
             {alergyHistory && (
               <Text>
                 {`${alergyHistory
-                  .filter((history) => history !== "")
+                  .filter((history) => history && history !== "")
                   .slice(0, patologicalHistory.length - 2)
                   .join(", ")}${
-                  alergyHistory[alergyHistory.length - 2] !== "" &&
-                  `, Alimentos: (${alergyHistory[alergyHistory.length - 2]})`
+                  alergyHistory[alergyHistory.length - 2] !== ""
+                    ? `, Alimentos: (${
+                        alergyHistory[alergyHistory.length - 2]
+                      })`
+                    : ""
                 }${
-                  alergyHistory[alergyHistory.length - 1] !== "" &&
-                  `, Otros: (${alergyHistory[alergyHistory.length - 1]})`
+                  alergyHistory[alergyHistory.length - 1] !== ""
+                    ? `, Otros: (${alergyHistory[alergyHistory.length - 1]})`
+                    : ""
                 }`}
               </Text>
             )}
@@ -254,15 +259,17 @@ const Patient = ({
                 .slice(0, 4)
                 .filter((history) => history !== "")
                 .join(", ")}${
-                checkGlassesList.find((glasses) => glasses !== "") &&
-                `, Usuario de antejos :(${checkGlassesList
-                  .filter((history) => history !== "")
-                  .join(", ")})`
+                checkGlassesList.find((glasses) => glasses !== "")
+                  ? `, Usuario de antejos :(${checkGlassesList
+                      .filter((history) => history !== "")
+                      .join(", ")})`
+                  : ""
               }${
-                checkContactLensList.find((lens) => lens !== "") &&
-                `, Usuario de lentes de contacto :(${checkContactLensList
-                  .filter((history) => history !== "")
-                  .join(", ")})`
+                checkContactLensList.find((lens) => lens !== "")
+                  ? `, Usuario de lentes de contacto :(${checkContactLensList
+                      .filter((history) => history !== "")
+                      .join(", ")})`
+                  : ""
               }`}</Text>
             )}
             {"\n"}
@@ -274,8 +281,11 @@ const Patient = ({
                   .slice(0, heritageHistory.length - 1)
                   .filter((history) => history !== "")
                   .join(", ")}${
-                  heritageHistory[heritageHistory.length - 1] !== "" &&
-                  `, Otros: (${heritageHistory[heritageHistory.length - 1]})`
+                  heritageHistory[heritageHistory.length - 1] !== ""
+                    ? `, Otros: (${
+                        heritageHistory[heritageHistory.length - 1]
+                      })`
+                    : ""
                 }`}
               </Text>
             )}
@@ -291,14 +301,17 @@ const Patient = ({
             {ophthalmologistHistory && (
               <Text>
                 {`${
-                  ophthalmologistHistory[0] !== "" &&
-                  `Detalles consulta: (${ophthalmologistHistory[0]})`
+                  ophthalmologistHistory[0] !== ""
+                    ? `Detalles consulta: (${ophthalmologistHistory[0]})`
+                    : ""
                 }${
-                  ophthalmologistHistory[1] !== "" &&
-                  `, Diagnótico de consulta: (${ophthalmologistHistory[1]})`
+                  ophthalmologistHistory[1] !== ""
+                    ? `, Diagnótico de consulta: (${ophthalmologistHistory[1]})`
+                    : ""
                 }${
-                  ophthalmologistHistory[2] !== "" &&
-                  `, Cirugía: (${ophthalmologistHistory[2]})`
+                  ophthalmologistHistory[2] !== ""
+                    ? `, Cirugía: (${ophthalmologistHistory[2]})`
+                    : ""
                 }`}
               </Text>
             )}
