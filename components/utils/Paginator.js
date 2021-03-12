@@ -4,20 +4,18 @@ import { Button } from "react-native-paper";
 
 const styles = StyleSheet.create({
   navButtons: {
-    flexWrap: "wrap",
-    justifyContent: "space-between",
+    flex: 1,
+    alignItems: "stretch",
+    justifyContent: "space-around",
     flexDirection: "row",
   },
   buttonLeft:{
-    marginTop: 20,
+    marginTop: 10,
     marginBottom: 30,
-    left: 10,
   },
   buttonRight:{
-    marginTop: 20,
-    position: 'absolute', 
+    marginTop: 10,
     marginBottom: 30,
-    right: 10,
   }
 });
 

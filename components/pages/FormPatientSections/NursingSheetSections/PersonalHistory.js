@@ -35,6 +35,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginRight: 15,
   },
+  group: {
+    margin: 1,
+    borderColor: "#000",
+    borderRadius: 4,
+    borderWidth: 1,
+  },
 });
 
 const PersonalHistory = ({
@@ -125,12 +131,15 @@ const PersonalHistory = ({
               status={checkGlasses ? "checked" : "unchecked"}
               onPress={() => {
                 setCheckGlasses(!checkGlasses);
+                checkGlassesList.forEach((glassesType, index) => {
+                  handleGlassesList(index, "");
+                });
               }}
             />
             <Text style={styles.innerText}>Usuario de anteojos</Text>
           </View>
           {checkGlasses && (
-            <>
+            <View style={styles.group}>
               <View style={styles.innerContainer}>
                 <Checkbox
                   status={checkGlassesList[0] !== "" ? "checked" : "unchecked"}
@@ -158,19 +167,22 @@ const PersonalHistory = ({
                 />
                 <Text style={styles.innerText}>Progresivos</Text>
               </View>
-            </>
+            </View>
           )}
           <View style={styles.innerContainer}>
             <Checkbox
               status={checkContactLens ? "checked" : "unchecked"}
               onPress={() => {
                 setCheckContactLens(!checkContactLens);
+                checkContactLensList.forEach((lensType, index) => {
+                  handleCotactLens(index, "");
+                });
               }}
             />
             <Text style={styles.innerText}>Usuario de lentes de contacto</Text>
           </View>
           {checkContactLens && (
-            <>
+            <View style={styles.group}>
               <View style={styles.innerContainer}>
                 <Checkbox
                   status={
@@ -226,7 +238,7 @@ const PersonalHistory = ({
                 />
                 <Text style={styles.innerText}>Gas permeable</Text>
               </View>
-            </>
+            </View>
           )}
         </>
       )}
