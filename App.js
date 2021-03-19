@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Dimen } from "react";
+import React, { useEffect, useState, Dimen, useCallback } from "react";
 import { View, ScrollView, StyleSheet, Text } from "react-native";
 
 import {
@@ -104,6 +104,10 @@ export default function App() {
     "",
     "",
   ]);
+
+  const [error, setError] = useState(false);
+  const [mssgVisible, setMssgVisible] = useState(false);
+  const [mssg, setMssg] = useState("");
 
   const patientSets = {
     setPatientId,
@@ -246,6 +250,12 @@ export default function App() {
                     {...patientSets}
                     setCheckGlassesList={setCheckGlassesList}
                     setCheckContactLensList={setCheckContactLensList}
+                    mssg={mssg}
+                    error={error}
+                    setMssgVisible={setMssgVisible}
+                    mssgVisible={mssgVisible}
+                    setMssg={setMssg}
+                    setError={setError}
                   />
                 )}
               />
@@ -270,6 +280,9 @@ export default function App() {
                     setCheckGlassesList={setCheckGlassesList}
                     checkContactLensList={checkContactLensList}
                     setCheckContactLensList={setCheckContactLensList}
+                    setMssgVisible={setMssgVisible}
+                    setMssg={setMssg}
+                    setError={setError}
                   />
                 )}
               />

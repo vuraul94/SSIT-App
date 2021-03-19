@@ -71,6 +71,75 @@ const Patient = ({
   validateForm = () => true,
 }) => {
   let history = useHistory();
+
+  const pathologicalHistoryString =
+    patologicalHistory &&
+    `${patologicalHistory
+      .slice(0, patologicalHistory.length - 1)
+      .filter((history) => history !== "")
+      .join(", ")}${
+      patologicalHistory[patologicalHistory.length - 1] !== ""
+        ? `, Otros: ${patologicalHistory[patologicalHistory.length - 1]}`
+        : ""
+    }`;
+
+  const alergyHistoryString =
+    alergyHistory &&
+    `${alergyHistory
+      .filter((history) => history && history !== "")
+      .slice(0, patologicalHistory.length - 2)
+      .join(", ")}${
+      alergyHistory[alergyHistory.length - 2] !== ""
+        ? `, Alimentos: (${alergyHistory[alergyHistory.length - 2]})`
+        : ""
+    }${
+      alergyHistory[alergyHistory.length - 1] !== ""
+        ? `, Otros: (${alergyHistory[alergyHistory.length - 1]})`
+        : ""
+    }`;
+
+  const personalHistoryString =
+    personalHistory &&
+    `${personalHistory
+      .slice(0, 4)
+      .filter((history) => history !== "")
+      .join(", ")}${
+      checkGlassesList.find((glasses) => glasses !== "")
+        ? `, Usuario de antejos :(${checkGlassesList
+            .filter((history) => history !== "")
+            .join(", ")})`
+        : ""
+    }${
+      checkContactLensList.find((lens) => lens !== "")
+        ? `, Usuario de lentes de contacto :(${checkContactLensList
+            .filter((history) => history !== "")
+            .join(", ")})`
+        : ""
+    }`;
+
+  const heritageHistoryString = `${heritageHistory
+    .slice(0, heritageHistory.length - 1)
+    .filter((history) => history !== "")
+    .join(", ")}${
+    heritageHistory[heritageHistory.length - 1] !== ""
+      ? `, Otros: (${heritageHistory[heritageHistory.length - 1]})`
+      : ""
+  }`;
+
+  const ophthalmologistHistoryString = `${
+    ophthalmologistHistory[0] !== ""
+      ? `Detalles consulta: (${ophthalmologistHistory[0]})`
+      : ""
+  }${
+    ophthalmologistHistory[1] !== ""
+      ? `, Diagnótico de consulta: (${ophthalmologistHistory[1]})`
+      : ""
+  }${
+    ophthalmologistHistory[2] !== ""
+      ? `, Cirugía: (${ophthalmologistHistory[2]})`
+      : ""
+  }`;
+
   return (
     <>
       {(!token || token === "") && <Redirect to="/" />}
@@ -210,110 +279,88 @@ const Patient = ({
             <Text style={styles.label}>
               Antecedentes personales patológicos:
             </Text>
-            {patologicalHistory && (
+            {patologicalHistory ? (
               <Text>
-                {`${patologicalHistory
-                  .slice(0, patologicalHistory.length - 1)
-                  .filter((history) => history !== "")
-                  .join(", ")}${
-                  patologicalHistory[patologicalHistory.length - 1] !== ""
-                    ? `, Otros: ${
-                        patologicalHistory[patologicalHistory.length - 1]
-                      }`
-                    : ""
-                }`}
+                {pathologicalHistoryString !== ""
+                  ? pathologicalHistoryString
+                  : " No existen datos"}
               </Text>
+            ) : (
+              <Text> No existe datos</Text>
             )}
             {"\n"}
             {"\n"}
             <Text style={styles.label}>Medicamentos:</Text>
-            {medicamentHistory && <Text>{medicamentHistory}</Text>}
+            {medicamentHistory ? (
+              <Text>
+                {medicamentHistory.trim() !== ""
+                  ? medicamentHistory
+                  : " No existen datos"}
+              </Text>
+            ) : (
+              <Text> No existe datos</Text>
+            )}
             {"\n"}
             {"\n"}
             <Text style={styles.label}>Alergias:</Text>
-            {alergyHistory && (
+            {alergyHistory ? (
               <Text>
-                {`${alergyHistory
-                  .filter((history) => history && history !== "")
-                  .slice(0, patologicalHistory.length - 2)
-                  .join(", ")}${
-                  alergyHistory[alergyHistory.length - 2] !== ""
-                    ? `, Alimentos: (${
-                        alergyHistory[alergyHistory.length - 2]
-                      })`
-                    : ""
-                }${
-                  alergyHistory[alergyHistory.length - 1] !== ""
-                    ? `, Otros: (${alergyHistory[alergyHistory.length - 1]})`
-                    : ""
-                }`}
+                {alergyHistoryString !== ""
+                  ? alergyHistoryString
+                  : " No existen datos"}
               </Text>
+            ) : (
+              <Text> No existen datos</Text>
             )}
             {"\n"}
             {"\n"}
             <Text style={styles.label}>
               Antecedentes personales no patológicos:
             </Text>
-            {personalHistory && (
-              <Text>{`${personalHistory
-                .slice(0, 4)
-                .filter((history) => history !== "")
-                .join(", ")}${
-                checkGlassesList.find((glasses) => glasses !== "")
-                  ? `, Usuario de antejos :(${checkGlassesList
-                      .filter((history) => history !== "")
-                      .join(", ")})`
-                  : ""
-              }${
-                checkContactLensList.find((lens) => lens !== "")
-                  ? `, Usuario de lentes de contacto :(${checkContactLensList
-                      .filter((history) => history !== "")
-                      .join(", ")})`
-                  : ""
-              }`}</Text>
+            {personalHistory ? (
+              <Text>
+                {heritageHistoryString !== ""
+                  ? heritageHistoryString
+                  : " No existen datos"}
+              </Text>
+            ) : (
+              <Text> No existen datos</Text>
             )}
             {"\n"}
             {"\n"}
             <Text style={styles.label}>Antecedentes heredo familiares:</Text>
-            {heritageHistory && (
+            {heritageHistory ? (
               <Text>
-                {`${heritageHistory
-                  .slice(0, heritageHistory.length - 1)
-                  .filter((history) => history !== "")
-                  .join(", ")}${
-                  heritageHistory[heritageHistory.length - 1] !== ""
-                    ? `, Otros: (${
-                        heritageHistory[heritageHistory.length - 1]
-                      })`
-                    : ""
-                }`}
+                {heritageHistoryString !== ""
+                  ? heritageHistoryString
+                  : " No existen datos"}
               </Text>
+            ) : (
+              <Text> No existen datos</Text>
             )}
             {"\n"}
             {"\n"}
             <Text style={styles.label}>
               Antecedentes traumáticos en la cabeza:
             </Text>
-            {traumaHistory && <Text>{traumaHistory}</Text>}
+            {traumaHistory ? (
+              <Text>
+                {traumaHistory !== "" ? traumaHistory : " No existen datos"}
+              </Text>
+            ) : (
+              <Text> No existen datos</Text>
+            )}
             {"\n"}
             {"\n"}
             <Text style={styles.label}>Antecedentes oftalmológicos:</Text>
-            {ophthalmologistHistory && (
+            {ophthalmologistHistory ? (
               <Text>
-                {`${
-                  ophthalmologistHistory[0] !== ""
-                    ? `Detalles consulta: (${ophthalmologistHistory[0]})`
-                    : ""
-                }${
-                  ophthalmologistHistory[1] !== ""
-                    ? `, Diagnótico de consulta: (${ophthalmologistHistory[1]})`
-                    : ""
-                }${
-                  ophthalmologistHistory[2] !== ""
-                    ? `, Cirugía: (${ophthalmologistHistory[2]})`
-                    : ""
-                }`}
+                {ophthalmologistHistoryString !== ""
+                  ? ophthalmologistHistoryString
+                  : " No existen datos"}
               </Text>
+            ) : (
+              <Text> No existen datos</Text>
             )}
             {"\n"}
             {"\n"}

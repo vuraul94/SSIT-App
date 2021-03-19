@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, Modal, Image } from "react-native";
-import { Button, TextInput } from "react-native-paper";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Modal,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import { Button, Colors, IconButton, TextInput } from "react-native-paper";
 import { Redirect } from "react-router-native";
 import axios from "axios";
 import { CONSTANTS } from "../../misc/constants";
@@ -15,6 +22,26 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: "10%",
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  error: { color: Colors.red500 },
 });
 
 /**
@@ -37,7 +64,8 @@ const Login = ({
   const [errorMsg, setErrorMsg] = useState();
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
+  const [loaderVisible, setLoaderVisible] = useState(false);
+  const [errorVisible, setErrorVisible] = useState(false);
 
   useEffect(() => {
     setSection("Login");
@@ -47,7 +75,7 @@ const Login = ({
    * Handle the button login and call the api to receive the authentication token
    */
   const handleLogin = () => {
-    setModalVisible(true);
+    setLoaderVisible(true);
     axios
       .post(`${CONSTANTS.API.URL}/api/Authentication/authenticate`, {
         Username: user,
@@ -55,7 +83,6 @@ const Login = ({
       })
       .then((response) => {
         setErrorMsg(null);
-        setModalVisible(false);
         setTokenCreationTime(Date.now());
         getCatalog(response.data.Token);
       })
@@ -65,6 +92,11 @@ const Login = ({
         } else {
           setErrorMsg("Algo ocurrio");
         }
+        setLoaderVisible(false);
+        setErrorVisible(true);
+        setTimeout(() => {
+          setErrorVisible(false);
+        }, 5000);
       });
   };
 
@@ -78,16 +110,20 @@ const Login = ({
         setCountryCatalog(data.CountryCatalog);
         setGenderCatalog(data.GenderCatalog);
         setPatientStatusCatalog(data.PatientStatus);
-        console.log(data.PatientStatus);
         setPathologicalCatalog(data.PathologicalCatalog);
         setToken(token);
       });
   };
 
+  const closeLoader = () => {
+    setLoaderVisible(false);
+    return true;
+  };
+
   return (
     <View style={styles.container}>
-      {token && token !== "" && <Redirect to="/Search" />}
-      <Modal animationType="fade" visible={modalVisible}>
+      {token && token !== "" && closeLoader && <Redirect to="/Search" />}
+      <Modal animationType="fade" visible={loaderVisible}>
         <View
           style={{
             backgroundColor: "#F1F2F3",
@@ -98,10 +134,39 @@ const Login = ({
           }}
         >
           <Image
+            style={{ width: 110, height: 110 }}
+            source={require("../../assets/logo.png")}
+          />
+          <Image
             style={{ height: 100, width: 100 }}
             source={require("../../assets/spinner.gif")}
           />
         </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        visible={errorVisible}
+        transparent={true}
+        onRequestClose={() => {
+          setErrorVisible(!errorVisible);
+        }}
+        onDismiss={() => setErrorVisible(false)}
+      >
+        <TouchableOpacity
+          style={styles.centeredView}
+          onPress={() => setErrorVisible(false)}
+        >
+          <View style={styles.modalView}>
+            {errorMsg && <Text style={styles.error}>{errorMsg}</Text>}
+            <IconButton
+              icon="close"
+              color={Colors.red500}
+              size={20}
+              onPress={() => setErrorVisible(false)}
+            />
+          </View>
+        </TouchableOpacity>
       </Modal>
 
       <TextInput
@@ -124,7 +189,6 @@ const Login = ({
           setPass(e);
         }}
       ></TextInput>
-      {errorMsg && <Text>{errorMsg}</Text>}
       <Button style={styles.button} mode="contained" onPress={handleLogin}>
         Login
       </Button>

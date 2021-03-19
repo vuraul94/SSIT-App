@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, useHistory } from "react-router-native";
 import Paginator from "../utils/Paginator";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Modal, View, Image } from "react-native";
 import moment from "moment";
 
 import BasicInformation from "./FormPatientSections/BasicInformation";
@@ -70,7 +70,11 @@ const FormPatient = ({
   setCheckGlassesList,
   checkContactLensList,
   setCheckContactLensList,
+  setMssgVisible,
+  setMssg,
+  setError,
 }) => {
+  const [loaderVisible, setLoaderVisible] = useState(false);
   let history = useHistory();
 
   useEffect(() => {
@@ -134,6 +138,7 @@ const FormPatient = ({
         },
       ],
     };
+    setLoaderVisible(true);
     axios
       .post(`${CONSTANTS.API.URL}/api/Patient/CreatePatient`, patient, {
         headers: {
@@ -142,10 +147,18 @@ const FormPatient = ({
       })
       .then((res, rej) => {
         setPatientId(patient.PatientId);
+        setMssgVisible(true);
+        setError(false);
+        setMssg(`Operación exitosa`);
+        setLoaderVisible(false);
         history.push("/search");
       })
       .catch((error) => {
         console.error(error);
+        setMssgVisible(true);
+        setError(true);
+        setMssg(`Error: \n ${error}`);
+        setLoaderVisible(false);
       });
   };
 
@@ -290,6 +303,27 @@ const FormPatient = ({
   return (
     <>
       {(!token || token === "") && <Redirect to="/" />}
+      <Modal animationType="fade" visible={loaderVisible}>
+        <View
+          style={{
+            backgroundColor: "#F1F2F3",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+            width: "100%",
+          }}
+        >
+          <Image
+            style={{ width: 110, height: 110 }}
+            source={require("../../assets/logo.png")}
+          />
+          <Image
+            style={{ height: 100, width: 100 }}
+            source={require("../../assets/spinner.gif")}
+          />
+        </View>
+      </Modal>
+
       <Paginator sections={formSections}></Paginator>
     </>
   );

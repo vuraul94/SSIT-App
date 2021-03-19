@@ -1,7 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { View, Text, StyleSheet, Modal, Image } from "react-native";
-import { Button, Menu, Searchbar } from "react-native-paper";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Modal,
+  Image,
+  TouchableOpacity,
+  BackHandler,
+} from "react-native";
+import {
+  Button,
+  Menu,
+  Searchbar,
+  Colors,
+  IconButton,
+} from "react-native-paper";
 import { Redirect, useHistory } from "react-router-native";
 import { CONSTANTS } from "../../misc/constants";
 import { locations } from "../../misc/locations";
@@ -29,6 +43,27 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     marginBottom: "2%",
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  error: { color: Colors.red500 },
+  success: { color: Colors.green300 },
 });
 
 /**
@@ -69,18 +104,35 @@ const Search = ({
   setOphthalmologistHistory,
   setCheckGlassesList,
   setCheckContactLensList,
+  mssgVisible,
+  setMssgVisible,
+  mssg,
+  error,
+  setMssg,
+  setError,
 }) => {
   let history = useHistory();
   const [visbleCountry, setVisibleCountry] = useState();
-  const [searchModalVisible, setSearchtModalVisible] = useState(false);
+  const [loaderVisible, setLoaderVisible] = useState(false);
 
   useEffect(() => {
     setSection("Search");
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      if (
+        history.location.pathname !== "/Search" &&
+        history.location.pathname !== "/"
+      ) {
+        history.goBack();
+        return true;
+      } else {
+        return false;
+      }
+    });
   }, []);
 
   const searchPatient = (history) => {
     if (identificationNumber && identificationNumber.trim() !== "") {
-      setSearchtModalVisible(true);
+      setLoaderVisible(true);
       axios
         .post(
           `${CONSTANTS.API.URL}/api/Patient/GetPatient`,
@@ -102,7 +154,7 @@ const Search = ({
             setProvince("P1");
             setCanton("C1");
             setDistrict("D1");
-            setSearchtModalVisible(false);
+            setLoaderVisible(false);
             history.push("/create");
           } else {
             setPatientId(patient.PatientId);
@@ -162,16 +214,21 @@ const Search = ({
             if (regions.length === 3) {
               setRegions(regions, history);
             } else {
-              setSearchtModalVisible(false);
+              setLoaderVisible(false);
               history.push("/patient");
             }
           }
         })
         .catch((error) => {
+          setLoaderVisible(false);
           console.error(error);
+          setMssgVisible(true);
+          setMssg(`${error}`);
+          setError(true);
         });
     } else {
-      console.log("La identificación no puede ir vacia");
+      setMssg("La identificación no puede ir vacia");
+      setMssgVisible(true);
     }
   };
 
@@ -202,7 +259,7 @@ const Search = ({
   return (
     <View>
       {(!token || token === "") && <Redirect to="/" />}
-      <Modal animationType="fade" visible={searchModalVisible}>
+      <Modal animationType="fade" visible={loaderVisible}>
         <View
           style={{
             backgroundColor: "#F1F2F3",
@@ -213,11 +270,43 @@ const Search = ({
           }}
         >
           <Image
+            style={{ width: 110, height: 110 }}
+            source={require("../../assets/logo.png")}
+          />
+          <Image
             style={{ height: 100, width: 100 }}
             source={require("../../assets/spinner.gif")}
           />
         </View>
       </Modal>
+
+      <Modal
+        animationType="slide"
+        visible={mssgVisible}
+        transparent={true}
+        onRequestClose={() => {
+          setMssgVisible(!mssgVisible);
+        }}
+        onDismiss={() => setMssgVisible(false)}
+      >
+        <TouchableOpacity
+          style={styles.centeredView}
+          onPress={() => setMssgVisible(false)}
+        >
+          <View style={styles.modalView}>
+            {mssg && (
+              <Text style={error ? styles.error : styles.success}>{mssg}</Text>
+            )}
+            <IconButton
+              icon={error ? "close" : "check"}
+              color={error ? Colors.red500 : Colors.green300}
+              size={20}
+              onPress={() => setMssgVisible(false)}
+            />
+          </View>
+        </TouchableOpacity>
+      </Modal>
+
       <Text style={styles.text}>
         Seleccione el país al que pertenece el paciente:
       </Text>
