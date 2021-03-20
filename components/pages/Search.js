@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import {
   View,
@@ -21,6 +21,7 @@ import { Redirect, useHistory } from "react-router-native";
 import { CONSTANTS } from "../../misc/constants";
 import { locations } from "../../misc/locations";
 import Loader from "../ui/Loader";
+import { CatalogContext } from "../providers/CatalogProvider";
 
 let ScreenHeight = Dimensions.get("window").height - 190;
 
@@ -48,9 +49,10 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 15,
-    marginLeft: "10%",
+    marginHorizontal: "10%",
     marginTop: "5%",
     marginBottom: "2%",
+    textAlign: "center",
   },
   centeredView: {
     flex: 1,
@@ -103,7 +105,6 @@ const Search = ({
   setOccupation,
   setStatus,
   cleanPatient,
-  countryCatalog,
   setPatologicalHistory,
   setMedicamentHistory,
   setAlergyHistory,
@@ -120,6 +121,7 @@ const Search = ({
   setMssg,
   setError,
 }) => {
+  const { countryCatalog } = useContext(CatalogContext);
   let history = useHistory();
   const [visbleCountry, setVisibleCountry] = useState();
   const [loaderVisible, setLoaderVisible] = useState(false);
@@ -236,6 +238,7 @@ const Search = ({
           setError(true);
         });
     } else {
+      setError(true);
       setMssg("La identificación no puede ir vacia");
       setMssgVisible(true);
     }
@@ -268,7 +271,7 @@ const Search = ({
   return (
     <View style={styles.container}>
       {(!token || token === "") && <Redirect to="/" />}
-      <Loader visible={loaderVisible}/>
+      <Loader visible={loaderVisible} />
 
       <Modal
         animationType="slide"

@@ -6,6 +6,7 @@ import { Button, TextInput, Menu } from "react-native-paper";
 const styles = StyleSheet.create({
   input: {
     margin: 12,
+    paddingHorizontal: "8%",
   },
   button: {
     width: "90%",
@@ -65,7 +66,7 @@ const ContactInformation = ({
             icon="chevron-down"
             style={styles.button}
             onPress={() => setVisibleProvince(true)}
-            mode="outlined"
+            mode="contained"
           >
             {province !== "" ? locations.province[province] : "Provincia"}
           </Button>
@@ -103,7 +104,7 @@ const ContactInformation = ({
             icon="chevron-down"
             style={styles.button}
             onPress={() => setVisibleCanton(true)}
-            mode="outlined"
+            mode="contained"
           >
             {canton !== "" ? locations.canton[province][canton] : "Cantón"}
           </Button>
@@ -140,7 +141,7 @@ const ContactInformation = ({
             icon="chevron-down"
             style={styles.button}
             onPress={() => setVisibleDistrict(true)}
-            mode="outlined"
+            mode="contained"
           >
             {district !== ""
               ? locations.district[province][canton][district]

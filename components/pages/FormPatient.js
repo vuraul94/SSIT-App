@@ -1,72 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Redirect, useHistory } from "react-router-native";
 import Paginator from "../utils/Paginator";
-import { StyleSheet, Modal, View, Image } from "react-native";
+import { StyleSheet } from "react-native";
 import moment from "moment";
 
 import BasicInformation from "./FormPatientSections/BasicInformation";
 import ContactInformation from "./FormPatientSections/ContactInformation";
 import PersonalInformation from "./FormPatientSections/PersonalInformation";
-import NursingSheetForm from "./FormPatientSections/NursingSheetForm";
 import Patient from "./Patient";
 import { locations } from "../../misc/locations";
 import { CONSTANTS } from "../../misc/constants";
 import axios from "axios";
 import Loader from "../ui/Loader";
+import MedicalSections from "./FormPatientSections/MedicalSections";
+import { CatalogContext } from "../providers/CatalogProvider";
+import { Button } from "react-native-paper";
+import { PatientContext } from "../providers/PatientProvider";
 
-const styles = StyleSheet.create({}); 
+const styles = StyleSheet.create({});
 
 const FormPatient = ({
   setSection,
   token,
   identificationNumber,
-  patientId,
-  photo,
-  name,
-  lastNames,
-  phone,
-  email,
-  province,
-  canton,
-  district,
-  address,
-  country,
-  gender,
-  birthDate,
-  occupation,
-  status,
-  patologicalHistory,
-  medicamentHistory,
-  alergyHistory,
-  personalHistory,
-  heritageHistory,
-  traumaHistory,
-  ophthalmologistHistory,
-  setPatientId,
-  setPhoto,
-  setName,
-  setLastNames,
-  setPhone,
-  setEmail,
-  setProvince,
-  setCanton,
-  setDistrict,
-  setAddress,
-  setGender,
-  setBirthDate,
-  setOccupation,
-  setStatus,
-  setPatologicalHistory,
-  setMedicamentHistory,
-  setAlergyHistory,
-  setPersonalHistory,
-  setHeritageHistory,
-  setTraumaHistory,
-  setOphthalmologistHistory,
-  patientStatusCatalog,
-  genderCatalog,
-  countryCatalog,
-  pathologicalCatalog,
   checkGlassesList,
   setCheckGlassesList,
   checkContactLensList,
@@ -75,6 +31,58 @@ const FormPatient = ({
   setMssg,
   setError,
 }) => {
+  const {
+    /**Data */
+    patientId,
+    photo,
+    name,
+    lastNames,
+    phone,
+    email,
+    province,
+    canton,
+    district,
+    address,
+    country,
+    gender,
+    birthDate,
+    occupation,
+    status,
+    patologicalHistory,
+    medicamentHistory,
+    alergyHistory,
+    personalHistory,
+    heritageHistory,
+    traumaHistory,
+    ophthalmologistHistory,
+    /**SETS */
+    setPatientId,
+    setPhoto,
+    setName,
+    setLastNames,
+    setPhone,
+    setEmail,
+    setProvince,
+    setCanton,
+    setDistrict,
+    setAddress,
+    setGender,
+    setBirthDate,
+    setOccupation,
+    setStatus,
+    setPatologicalHistory,
+    setMedicamentHistory,
+    setAlergyHistory,
+    setPersonalHistory,
+    setHeritageHistory,
+    setTraumaHistory,
+    setOphthalmologistHistory,
+  } = useContext(PatientContext);
+
+  const { countryCatalog, genderCatalog, patientStatusCatalog } = useContext(
+    CatalogContext
+  );
+  
   const [loaderVisible, setLoaderVisible] = useState(false);
   let history = useHistory();
 
@@ -139,7 +147,7 @@ const FormPatient = ({
         },
       ],
     };
-    
+
     setLoaderVisible(true);
     axios
       .post(`${CONSTANTS.API.URL}/api/Patient/CreatePatient`, patient, {
@@ -244,30 +252,28 @@ const FormPatient = ({
         genderCatalog={genderCatalog}
       />
     </>,
-    <>
-      <NursingSheetForm
-        patologicalHistory={patologicalHistory}
-        medicamentHistory={medicamentHistory}
-        alergyHistory={alergyHistory}
-        personalHistory={personalHistory}
-        heritageHistory={heritageHistory}
-        traumaHistory={traumaHistory}
-        ophthalmologistHistory={ophthalmologistHistory}
-        setPatologicalHistory={setPatologicalHistory}
-        setMedicamentHistory={setMedicamentHistory}
-        setAlergyHistory={setAlergyHistory}
-        setPersonalHistory={setPersonalHistory}
-        setHeritageHistory={setHeritageHistory}
-        setTraumaHistory={setTraumaHistory}
-        setOphthalmologistHistory={setOphthalmologistHistory}
-        pathologicalCatalog={pathologicalCatalog}
-        setCheckGlassesList={setCheckGlassesList}
-        checkGlassesList={checkGlassesList}
-        setCheckContactLensList={setCheckContactLensList}
-        checkContactLensList={checkContactLensList}
-        ophthalmologistHistory={ophthalmologistHistory}
-      />
-    </>,
+    <MedicalSections
+      patologicalHistory={patologicalHistory}
+      medicamentHistory={medicamentHistory}
+      alergyHistory={alergyHistory}
+      personalHistory={personalHistory}
+      heritageHistory={heritageHistory}
+      traumaHistory={traumaHistory}
+      ophthalmologistHistory={ophthalmologistHistory}
+      setPatologicalHistory={setPatologicalHistory}
+      setMedicamentHistory={setMedicamentHistory}
+      setAlergyHistory={setAlergyHistory}
+      setPersonalHistory={setPersonalHistory}
+      setHeritageHistory={setHeritageHistory}
+      setTraumaHistory={setTraumaHistory}
+      setOphthalmologistHistory={setOphthalmologistHistory}
+      setCheckGlassesList={setCheckGlassesList}
+      checkGlassesList={checkGlassesList}
+      setCheckContactLensList={setCheckContactLensList}
+      checkContactLensList={checkContactLensList}
+      ophthalmologistHistory={ophthalmologistHistory}
+    ></MedicalSections>,
+
     <Patient
       identificationNumber={identificationNumber}
       photo={photo}
@@ -305,9 +311,22 @@ const FormPatient = ({
   return (
     <>
       {(!token || token === "") && <Redirect to="/" />}
-      <Loader visible={loaderVisible}/>
+      <Loader visible={loaderVisible} />
 
-      <Paginator sections={formSections} history={history}></Paginator>
+      <Paginator
+        sections={formSections}
+        history={history}
+        LastAction={
+          <Button
+            style={styles.button}
+            mode="contained"
+            disabled={!validateForm()}
+            onPress={() => createPatient(history)}
+          >
+            Enviar
+          </Button>
+        }
+      ></Paginator>
     </>
   );
 };

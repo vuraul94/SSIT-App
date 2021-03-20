@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Redirect, useHistory } from "react-router-native";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Checkbox, TextInput, Switch } from "react-native-paper";
@@ -9,6 +9,7 @@ import PersonalHistory from "./NursingSheetSections/PersonalHistory";
 import HeritageHistory from "./NursingSheetSections/HeritageHistory";
 import TraumaHistory from "./NursingSheetSections/TraumaHistory";
 import OphthalmologistHistory from "./NursingSheetSections/OphthalmologistHistory";
+import { CatalogContext } from "../../providers/CatalogProvider";
 
 const NursingSheetForm = ({
   patologicalHistory,
@@ -25,12 +26,12 @@ const NursingSheetForm = ({
   setHeritageHistory,
   setTraumaHistory,
   setOphthalmologistHistory,
-  pathologicalCatalog,
   checkGlassesList,
   setCheckGlassesList,
   checkContactLensList,
   setCheckContactLensList,
 }) => {
+  const { pathologicalCatalog } = useContext(CatalogContext);
   const [checkManager, setCheckMager] = useState(false);
 
   const handlePatology = (index, value, isText = false) => {

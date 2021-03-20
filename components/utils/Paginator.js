@@ -8,18 +8,23 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
     justifyContent: "space-between",
     flexDirection: "row",
-    backgroundColor:"#ffffff",
-    marginTop: -2,
+    backgroundColor: "#ffffff",
+    marginTop: -10,
+    marginHorizontal: -10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    maxHeight: 40,
   },
   buttonLeft: {
-    marginBottom: 30,
+    minWidth: "30%",
   },
   buttonRight: {
-    marginBottom: 30,
+    minWidth: "30%",
+    textAlign: "left",
   },
 });
 
-const Paginator = ({ sections = [], history }) => {
+const Paginator = ({ sections = [], history, LastAction }) => {
   const [page, setPage] = useState(0);
 
   const handlePagination = (pageChange) => {
@@ -42,7 +47,7 @@ const Paginator = ({ sections = [], history }) => {
           {"<"} Atras
         </Button>
         <View style={{ minWidth: "40%" }}>
-          {page >= 0 && sections.length > 1 && page < sections.length - 1 && (
+          {page >= 0 && sections.length > 1 && page < sections.length - 1 ? (
             <Button
               style={styles.buttonRight}
               onPress={() => {
@@ -51,7 +56,7 @@ const Paginator = ({ sections = [], history }) => {
             >
               Siguiente {">"}
             </Button>
-          )}
+          ): LastAction && LastAction}
         </View>
       </View>
       {sections.length > 0 && sections[page]}

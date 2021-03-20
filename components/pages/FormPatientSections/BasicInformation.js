@@ -1,30 +1,33 @@
 import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet, Image, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { Camera } from "expo-camera";
 import { useHistory } from "react-router-dom";
 import { IconButton } from "react-native-paper";
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    padding: "4%",
+    flex: 1,
+    justifyContent: "center",
+  },
   image_btn: {
-    width: "80%",
-    marginTop: 10,
-    marginLeft: "10%",
+    alignSelf: "center",
+    width: 200,
   },
   photo: {
-    marginBottom: 20,
-    height: 200, 
-    width: 200, 
-    alignSelf: "center",
-  },
-  camera:{
     marginBottom: 20,
     height: 200,
     width: 200,
     alignSelf: "center",
   },
-  input:{
+  camera: {
+    marginBottom: 20,
+    height: 200,
+    width: 200,
+    alignSelf: "center",
+  },
+  input: {
     marginTop: 10,
     marginLeft: 15,
     marginRight: 15,
@@ -68,21 +71,7 @@ const BasicInformation = ({
   };
 
   return (
-    <>
-      <IconButton
-        icon="chevron-left"
-        onPress={() => {
-          if(
-            history.entries[history.entries.length - 2].pathname === "/search"
-          ){
-            setProvince("P1");
-            setCanton("C1");
-            setDistrict("D1");
-          }
-          history.goBack();
-        }}
-      />
-
+    <View style={styles.container}>
       {photo ? (
         <Image
           style={styles.photo}
@@ -95,7 +84,6 @@ const BasicInformation = ({
           <Camera
             style={styles.camera}
             pictureSize="1"
-            ratio="3:2"
             type={Camera.Constants.Type.back}
             ref={cameraRef}
           ></Camera>
@@ -107,7 +95,9 @@ const BasicInformation = ({
         mode="contained"
         style={styles.image_btn}
         onPress={snap}
-      ></Button>
+      >
+        {photo ? "Elimninar Foto" : "Tomar Foto"}
+      </Button>
 
       <TextInput
         style={styles.input}
@@ -123,7 +113,7 @@ const BasicInformation = ({
         value={lastNames}
         onChangeText={setLastNames}
       />
-    </>
+    </View>
   );
 };
 

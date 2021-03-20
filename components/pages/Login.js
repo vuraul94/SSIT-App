@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -12,7 +12,8 @@ import { Button, Colors, IconButton, TextInput } from "react-native-paper";
 import { Redirect } from "react-router-native";
 import axios from "axios";
 import { CONSTANTS } from "../../misc/constants";
-import Loader from "../ui/Loader"; 
+import Loader from "../ui/Loader";
+import { CatalogContext } from "../providers/CatalogProvider";
 
 let ScreenHeight = Dimensions.get("window").height - 190;
 
@@ -62,16 +63,13 @@ const styles = StyleSheet.create({
  * receive the setTokenCreationTime "function"
  * receive the setSection "function"
  */
-const Login = ({
-  token,
-  setToken,
-  setTokenCreationTime,
-  setSection,
-  setCountryCatalog,
-  setGenderCatalog,
-  setPatientStatusCatalog,
-  setPathologicalCatalog,
-}) => {
+const Login = ({ token, setToken, setTokenCreationTime, setSection }) => {
+  const {
+    setCountryCatalog,
+    setGenderCatalog,
+    setPatientStatusCatalog,
+    setPathologicalCatalog,
+  } = useContext(CatalogContext);
   const [errorMsg, setErrorMsg] = useState();
   const [user, setUser] = useState("UserDev ");
   const [pass, setPass] = useState("Dev123");

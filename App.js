@@ -1,5 +1,12 @@
 import React, { useEffect, useState, Dimen, useCallback } from "react";
-import { View, ScrollView, StyleSheet, Text, Image, Dimensions } from "react-native";
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  Text,
+  Image,
+  Dimensions,
+} from "react-native";
 
 import {
   Provider as PaperProvider,
@@ -15,8 +22,10 @@ import Patient from "./components/pages/Patient";
 import { locations } from "./misc/locations";
 import Header from "./components/ui/Header";
 import Footer from "./components/ui/Footer";
+import CatalogProvider from "./components/providers/CatalogProvider";
+import PatientProvider from "./components/providers/PatientProvider";
 
-let ScreenHeight = Dimensions.get("window").height - 220;
+let ScreenHeight = Dimensions.get("window").height - 190;
 
 const styles = StyleSheet.create({
   container: {
@@ -24,7 +33,8 @@ const styles = StyleSheet.create({
     flex: 1,
     minHeight: ScreenHeight,
     alignItems: "stretch",
-    textAlign: "center"
+    textAlign: "center",
+    backgroundColor: "#f0f0f0",
   },
 });
 
@@ -49,10 +59,11 @@ export default function App() {
   const [genderCatalog, setGenderCatalog] = useState([]);
   const [patientStatusCatalog, setPatientStatusCatalog] = useState([]);
   const [pathologicalCatalog, setPathologicalCatalog] = useState([]);
+
+  /**Patient data: START */
   const [patientId, setPatientId] = useState(0);
   const [identificationNumber, setIdentificationNumber] = useState("");
 
-  /**Patient data: START */
   const [country, setCountry] = useState(60);
   const [photo, setPhoto] = useState("");
   const [name, setName] = useState("");
@@ -204,118 +215,127 @@ export default function App() {
   if (date <= 1617903153000) {
     return (
       <PaperProvider theme={theme}>
-        <NativeRouter>
-          <ScrollView style={{ flex: 1 }}>
-            <Header token={token} setToken={setToken} />
+        <CatalogProvider
+          value={{
+            countryCatalog,
+            setCountryCatalog,
+            genderCatalog,
+            setGenderCatalog,
+            patientStatusCatalog,
+            setPatientStatusCatalog,
+            pathologicalCatalog,
+            setPathologicalCatalog,
+          }}
+        >
+          <PatientProvider value={{ ...patientSets, ...patientData }}>
+            <NativeRouter>
+              <ScrollView style={{ flex: 1 }}>
+                <Header token={token} setToken={setToken} />
 
-            <View style={styles.container}>
-              <Route
-                exact
-                path="/"
-                render={() => (
-                  <Login
-                    token={token}
-                    setToken={setToken}
-                    setTokenCreationTime={setTokenCreationTime}
-                    setSection={setSection}
-                    setCountryCatalog={setCountryCatalog}
-                    setGenderCatalog={setGenderCatalog}
-                    setPatientStatusCatalog={setPatientStatusCatalog}
-                    setPathologicalCatalog={setPathologicalCatalog}
+                <View style={styles.container}>
+                  <Route
+                    exact
+                    path="/"
+                    render={() => (
+                      <Login
+                        token={token}
+                        setToken={setToken}
+                        setTokenCreationTime={setTokenCreationTime}
+                        setSection={setSection}
+                      />
+                    )}
                   />
-                )}
-              />
 
-              <Route
-                path="/search"
-                render={() => (
-                  <Search
-                    token={token}
-                    setSection={setSection}
-                    identificationNumber={identificationNumber}
-                    setIdentificationNumber={setIdentificationNumber}
-                    province={province}
-                    canton={canton}
-                    country={country}
-                    setCountry={setCountry}
-                    countryCatalog={countryCatalog}
-                    cleanPatient={cleanPatient}
-                    {...patientSets}
-                    setCheckGlassesList={setCheckGlassesList}
-                    setCheckContactLensList={setCheckContactLensList}
-                    mssg={mssg}
-                    error={error}
-                    setMssgVisible={setMssgVisible}
-                    mssgVisible={mssgVisible}
-                    setMssg={setMssg}
-                    setError={setError}
+                  <Route
+                    path="/search"
+                    render={() => (
+                      <Search
+                        token={token}
+                        setSection={setSection}
+                        identificationNumber={identificationNumber}
+                        setIdentificationNumber={setIdentificationNumber}
+                        province={province}
+                        canton={canton}
+                        country={country}
+                        setCountry={setCountry}
+                        cleanPatient={cleanPatient}
+                        {...patientSets}
+                        setCheckGlassesList={setCheckGlassesList}
+                        setCheckContactLensList={setCheckContactLensList}
+                        mssg={mssg}
+                        error={error}
+                        setMssgVisible={setMssgVisible}
+                        mssgVisible={mssgVisible}
+                        setMssg={setMssg}
+                        setError={setError}
+                      />
+                    )}
                   />
-                )}
-              />
 
-              <Route
-                path="/create"
-                setSection={setSection}
-                render={() => (
-                  <FormPatient
-                    token={token}
+                  <Route
+                    path="/create"
                     setSection={setSection}
-                    identificationNumber={`${
-                      countryCatalog[country - 1].Abbreviation
-                    }:${identificationNumber}`}
-                    {...patientSets}
-                    {...patientData}
-                    patientStatusCatalog={patientStatusCatalog}
-                    countryCatalog={countryCatalog}
-                    genderCatalog={genderCatalog}
-                    pathologicalCatalog={pathologicalCatalog}
-                    checkGlassesList={checkGlassesList}
-                    setCheckGlassesList={setCheckGlassesList}
-                    checkContactLensList={checkContactLensList}
-                    setCheckContactLensList={setCheckContactLensList}
-                    setMssgVisible={setMssgVisible}
-                    setMssg={setMssg}
-                    setError={setError}
+                    render={() => (
+                      <FormPatient
+                        token={token}
+                        setSection={setSection}
+                        identificationNumber={`${
+                          countryCatalog[country - 1].Abbreviation
+                        }:${identificationNumber}`}
+                        {...patientSets}
+                        {...patientData}
+                        patientStatusCatalog={patientStatusCatalog}
+                        genderCatalog={genderCatalog}
+                        pathologicalCatalog={pathologicalCatalog}
+                        checkGlassesList={checkGlassesList}
+                        setCheckGlassesList={setCheckGlassesList}
+                        checkContactLensList={checkContactLensList}
+                        setCheckContactLensList={setCheckContactLensList}
+                        setMssgVisible={setMssgVisible}
+                        setMssg={setMssg}
+                        setError={setError}
+                      />
+                    )}
                   />
-                )}
-              />
 
-              <Route
-                path="/patient"
-                setSection={setSection}
-                render={() => (
-                  <Patient
-                    token={token}
+                  <Route
+                    path="/patient"
                     setSection={setSection}
-                    identificationNumber={`${
-                      countryCatalog[country - 1].Abbreviation
-                    }:${identificationNumber}`}
-                    setProvince={setProvince}
-                    setCanton={setCanton}
-                    setDistrict={setDistrict}
-                    {...patientData}
-                    address={
-                      province !== "" && canton !== "" && district !== ""
-                        ? `${locations.province[province]}, ${locations.canton[province][canton]}, ${locations.district[province][canton][district]}. \n ${address}`
-                        : address
-                    }
-                    patologicalHistory={patologicalHistory}
-                    medicamentHistory={medicamentHistory}
-                    alergyHistory={alergyHistory}
-                    personalHistory={personalHistory}
-                    heritageHistory={heritageHistory}
-                    traumaHistory={traumaHistory}
-                    ophthalmologistHistory={ophthalmologistHistory}
-                    checkGlassesList={checkGlassesList}
-                    checkContactLensList={checkContactLensList}
-                    patientStatusCatalog={patientStatusCatalog}
+                    render={() => (
+                      <Patient
+                        token={token}
+                        setSection={setSection}
+                        identificationNumber={`${
+                          countryCatalog[country - 1].Abbreviation
+                        }:${identificationNumber}`}
+                        setProvince={setProvince}
+                        setCanton={setCanton}
+                        setDistrict={setDistrict}
+                        {...patientData}
+                        address={
+                          province !== "" && canton !== "" && district !== ""
+                            ? `${locations.province[province]}, ${locations.canton[province][canton]}, ${locations.district[province][canton][district]}. \n ${address}`
+                            : address
+                        }
+                        patologicalHistory={patologicalHistory}
+                        medicamentHistory={medicamentHistory}
+                        alergyHistory={alergyHistory}
+                        personalHistory={personalHistory}
+                        heritageHistory={heritageHistory}
+                        traumaHistory={traumaHistory}
+                        ophthalmologistHistory={ophthalmologistHistory}
+                        checkGlassesList={checkGlassesList}
+                        checkContactLensList={checkContactLensList}
+                        patientStatusCatalog={patientStatusCatalog}
+                      />
+                    )}
                   />
-                )}
-              />
-            </View>
-            <Footer />
-          </ScrollView>
-        </NativeRouter>
+                </View>
+                <Footer />
+              </ScrollView>
+            </NativeRouter>
+          </PatientProvider>
+        </CatalogProvider>
       </PaperProvider>
     );
   } else {

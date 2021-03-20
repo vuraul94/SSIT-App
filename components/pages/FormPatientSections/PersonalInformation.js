@@ -6,32 +6,47 @@ import moment from "moment";
 
 const styles = StyleSheet.create({
   radioGroup: {
-    marginLeft: 20,
-    marginTop: 3,
-    flexDirection: 'row',
-    alignSelf: 'flex-start'
+    marginHorizontal: "8%",
+    alignItems: "flex-start",
+    flexDirection: "row",
+    flexWrap: "wrap",
+   
   },
-  text:{
+  radio: {
+    marginTop: 3,
+    width: "33%",
+    justifyContent: "center",
+    alignItems: "center",
+  
+  },
+  text: {
     paddingTop: 7,
+    color: "#074c76",
+    fontWeight: "bold",
   },
   title: {
     marginTop: 20,
     marginLeft: 10,
     fontSize: 18,
+    backgroundColor: "#074c76",
+    color: "#ffffff",
+    borderRadius: 8,
+    paddingVertical: 8,
+    textAlign: "center",
   },
-  button:{
+  button: {
     width: "90%",
     margin: "5%",
   },
   input: {
     margin: 10,
+    marginHorizontal: "8%",
   },
-  menu:{
+  menu: {
     margin: "10%",
     width: "80%",
   },
 });
-
 
 const PersonalInformation = ({
   gender,
@@ -60,18 +75,20 @@ const PersonalInformation = ({
         onValueChange={(newValue) => setGender(newValue)}
         value={gender}
       >
-        {genderCatalog &&
-          genderCatalog.map((genderItem) => (
-            <View style={styles.radioGroup} key={`gender_${genderItem.GenderId}`}>
-              <Text style={styles.text}>{genderItem.Name}</Text>
-              <RadioButton
-                value={genderItem.GenderId}
-                status={
-                  genderItem.GenderId === gender ? "checked" : "unchecked"
-                }
-              />
-            </View>
-          ))}
+        <View style={styles.radioGroup}>
+          {genderCatalog &&
+            genderCatalog.map((genderItem) => (
+              <View style={styles.radio} key={`gender_${genderItem.GenderId}`}>
+                <Text style={styles.text}>{genderItem.Name}</Text>
+                <RadioButton
+                  value={genderItem.GenderId}
+                  status={
+                    genderItem.GenderId === gender ? "checked" : "unchecked"
+                  }
+                />
+              </View>
+            ))}
+        </View>
       </RadioButton.Group>
 
       <DateTimePickerModal
@@ -85,7 +102,7 @@ const PersonalInformation = ({
       <Button
         style={styles.button}
         icon="chevron-down"
-        mode="outlined"
+        mode="contained"
         onPress={() => {
           setDatePickerVisibility(true);
         }}
@@ -105,16 +122,17 @@ const PersonalInformation = ({
         onChangeText={setOccupation}
       />
 
-      <Text style={styles.title}>Estado del paciente</Text>
       <Menu
         style={styles.menu}
         visible={visbleStatus}
         onDismiss={() => setVisibleStatus(false)}
         anchor={
-          <Button 
+          <Button
             style={styles.button}
-            icon="chevron-down" 
-            onPress={() => setVisibleStatus(true)} mode="outlined">
+            icon="chevron-down"
+            onPress={() => setVisibleStatus(true)}
+            mode="contained"
+          >
             {status !== 0
               ? patientStatusCatalog[status - 1].Name
               : "Estado del paciente"}
