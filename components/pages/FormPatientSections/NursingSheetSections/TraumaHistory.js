@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Redirect, useHistory } from "react-router-native";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Checkbox, TextInput, Switch } from "react-native-paper";
+import CheckTab from "../../../ui/CheckTab";
 
 const TraumaHistory = ({ name, traumaHistory, setTraumaHistory }) => {
   const [isSwitchTraumaHistoryOn, setIsSwitchTraumaHistoryOn] = useState(
@@ -11,40 +12,21 @@ const TraumaHistory = ({ name, traumaHistory, setTraumaHistory }) => {
     setIsSwitchTraumaHistoryOn(!isSwitchTraumaHistoryOn);
 
   const styles = StyleSheet.create({
-    container: {
-      flexWrap: "wrap",
-      justifyContent: "space-between",
-      flexDirection: "row",
-    },
-    switch: {
-      marginTop: 20,
-      position: "absolute",
-      marginBottom: 30,
-      right: 10,
-    },
-    text: {
-      marginTop: 20,
-      marginBottom: 10,
-      left: 10,
-    },
     input: {
       marginLeft: 15,
       marginBottom: 20,
       marginRight: 15,
+      paddingHorizontal: "4%",
     },
   });
 
   return (
     <>
-      <View style={styles.container}>
-        <Text style={styles.text}>{name}</Text>
-        <Switch
-          style={styles.switch}
-          value={isSwitchTraumaHistoryOn}
-          onValueChange={onToggleTraumaHistorySwitch}
-        />
-      </View>
-      {isSwitchTraumaHistoryOn && (
+      <CheckTab
+        name={name}
+        checkOn={isSwitchTraumaHistoryOn}
+        setCheckOn={onToggleTraumaHistorySwitch}
+      >
         <>
           <TextInput
             style={styles.input}
@@ -54,7 +36,7 @@ const TraumaHistory = ({ name, traumaHistory, setTraumaHistory }) => {
             onChangeText={(text) => setTraumaHistory(text)}
           />
         </>
-      )}
+      </CheckTab>
     </>
   );
 };

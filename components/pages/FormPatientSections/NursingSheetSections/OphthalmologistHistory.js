@@ -2,30 +2,21 @@ import React, { useState } from "react";
 import { Redirect, useHistory } from "react-router-native";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Checkbox, TextInput, Switch } from "react-native-paper";
+import CheckTab from "../../../ui/CheckTab";
 
 const styles = StyleSheet.create({
   endMargin: {
     marginBottom: 70,
   },
-  container: {
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    flexDirection: "row",
-  },
+
   innerContainer: {
     flexWrap: "wrap",
     flexDirection: "row",
+    paddingHorizontal: "4%",
   },
-  switch: {
-    marginTop: 20,
-    position: "absolute",
-    marginBottom: 30,
-    right: 10,
-  },
-  text: {
-    marginTop: 20,
-    marginBottom: 10,
-    left: 10,
+  innerContainerInput: {
+    flex: 1,
+    paddingHorizontal: "4%",
   },
   innerText: {
     marginTop: 8,
@@ -62,73 +53,67 @@ const OphtalmologistHistory = ({
 
   return (
     <>
-      <View style={styles.endMargin}>
-        <View style={styles.container}>
-          <Text style={styles.text}>{name}</Text>
-          <Switch
-            style={styles.switch}
-            value={isSwitchOphthalmologistHistoryOn}
-            onValueChange={onToggleOphthalmologistHistorySwitch}
-          />
-        </View>
-        {isSwitchOphthalmologistHistoryOn && (
-          <>
-            <View style={styles.innerContainer}>
-              <Checkbox
-                status={checkConsultation ? "checked" : "unchecked"}
-                onPress={() => {
-                  setCheckConsultation(!checkConsultation);
-                }}
+      <CheckTab
+        name={name}
+        checkOn={isSwitchOphthalmologistHistoryOn}
+        setCheckOn={onToggleOphthalmologistHistorySwitch}
+      >
+        <>
+          <View style={styles.innerContainer}>
+            <Checkbox
+              status={checkConsultation ? "checked" : "unchecked"}
+              onPress={() => {
+                setCheckConsultation(!checkConsultation);
+              }}
+            />
+            <Text style={styles.innerText}>Consultas</Text>
+          </View>
+          {checkConsultation && (
+            <View style={styles.innerContainerInput}>
+              <TextInput
+                style={styles.input}
+                label="Detalles de la consulta"
+                mode="outlined"
+                value={ophthalmologistHistory[0]}
+                onChangeText={(text) =>
+                  handleOphthalmologistHistory(0, text, true)
+                }
               />
-              <Text style={styles.innerText}>Consultas</Text>
-            </View>
-            {checkConsultation && (
-              <>
-                <TextInput
-                  style={styles.input}
-                  label="Detalles de la consulta"
-                  mode="outlined"
-                  value={ophthalmologistHistory[0]}
-                  onChangeText={(text) =>
-                    handleOphthalmologistHistory(0, text, true)
-                  }
-                />
-                <Text style={styles.innerText}>Diagnóstico de la consulta</Text>
-                <TextInput
-                  style={styles.input}
-                  label="Detalles"
-                  mode="outlined"
-                  value={ophthalmologistHistory[1]}
-                  onChangeText={(text) =>
-                    handleOphthalmologistHistory(1, text, true)
-                  }
-                />
-              </>
-            )}
-            <View style={styles.innerContainer}>
-              <Checkbox
-                status={checkSurgery ? "checked" : "unchecked"}
-                onPress={() => {
-                  setCheckSurgery(!checkSurgery);
-                }}
+              <Text style={styles.innerText}>Diagnóstico de la consulta</Text>
+              <TextInput
+                style={styles.input}
+                label="Detalles"
+                mode="outlined"
+                value={ophthalmologistHistory[1]}
+                onChangeText={(text) =>
+                  handleOphthalmologistHistory(1, text, true)
+                }
               />
-              <Text style={styles.innerText}>Cirugías</Text>
             </View>
-            {checkSurgery && (
-              <>
-                <TextInput
-                  label="¿Cuáles?¿Cuándo?"
-                  mode="outlined"
-                  value={ophthalmologistHistory[2]}
-                  onChangeText={(text) =>
-                    handleOphthalmologistHistory(2, text, true)
-                  }
-                />
-              </>
-            )}
-          </>
-        )}
-      </View>
+          )}
+          <View style={styles.innerContainer}>
+            <Checkbox
+              status={checkSurgery ? "checked" : "unchecked"}
+              onPress={() => {
+                setCheckSurgery(!checkSurgery);
+              }}
+            />
+            <Text style={styles.innerText}>Cirugías</Text>
+          </View>
+          {checkSurgery && (
+            <View style={styles.innerContainerInput}>
+              <TextInput
+                label="¿Cuáles?¿Cuándo?"
+                mode="outlined"
+                value={ophthalmologistHistory[2]}
+                onChangeText={(text) =>
+                  handleOphthalmologistHistory(2, text, true)
+                }
+              />
+            </View>
+          )}
+        </>
+      </CheckTab>
     </>
   );
 };

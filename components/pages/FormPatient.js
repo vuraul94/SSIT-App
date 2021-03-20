@@ -7,13 +7,14 @@ import moment from "moment";
 import BasicInformation from "./FormPatientSections/BasicInformation";
 import ContactInformation from "./FormPatientSections/ContactInformation";
 import PersonalInformation from "./FormPatientSections/PersonalInformation";
-import NursingSheet from "./FormPatientSections/NursingSheet";
+import NursingSheetForm from "./FormPatientSections/NursingSheetForm";
 import Patient from "./Patient";
 import { locations } from "../../misc/locations";
 import { CONSTANTS } from "../../misc/constants";
 import axios from "axios";
+import Loader from "../ui/Loader";
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({}); 
 
 const FormPatient = ({
   setSection,
@@ -138,6 +139,7 @@ const FormPatient = ({
         },
       ],
     };
+    
     setLoaderVisible(true);
     axios
       .post(`${CONSTANTS.API.URL}/api/Patient/CreatePatient`, patient, {
@@ -243,7 +245,7 @@ const FormPatient = ({
       />
     </>,
     <>
-      <NursingSheet
+      <NursingSheetForm
         patologicalHistory={patologicalHistory}
         medicamentHistory={medicamentHistory}
         alergyHistory={alergyHistory}
@@ -303,28 +305,9 @@ const FormPatient = ({
   return (
     <>
       {(!token || token === "") && <Redirect to="/" />}
-      <Modal animationType="fade" visible={loaderVisible}>
-        <View
-          style={{
-            backgroundColor: "#F1F2F3",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-            width: "100%",
-          }}
-        >
-          <Image
-            style={{ width: 110, height: 110 }}
-            source={require("../../assets/logo.png")}
-          />
-          <Image
-            style={{ height: 100, width: 100 }}
-            source={require("../../assets/spinner.gif")}
-          />
-        </View>
-      </Modal>
+      <Loader visible={loaderVisible}/>
 
-      <Paginator sections={formSections}></Paginator>
+      <Paginator sections={formSections} history={history}></Paginator>
     </>
   );
 };

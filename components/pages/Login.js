@@ -6,16 +6,27 @@ import {
   Modal,
   Image,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import { Button, Colors, IconButton, TextInput } from "react-native-paper";
 import { Redirect } from "react-router-native";
 import axios from "axios";
 import { CONSTANTS } from "../../misc/constants";
+import Loader from "../ui/Loader"; 
+
+let ScreenHeight = Dimensions.get("window").height - 190;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    flexGrow: 100,
+    paddingHorizontal: 24,
+    minHeight: ScreenHeight,
+  },
   input: {
-    margin: 12,
+    marginBottom: 12,
+    marginHorizontal: 12,
   },
   button: {
     width: "80%",
@@ -62,8 +73,8 @@ const Login = ({
   setPathologicalCatalog,
 }) => {
   const [errorMsg, setErrorMsg] = useState();
-  const [user, setUser] = useState("");
-  const [pass, setPass] = useState("");
+  const [user, setUser] = useState("UserDev ");
+  const [pass, setPass] = useState("Dev123");
   const [loaderVisible, setLoaderVisible] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
 
@@ -123,26 +134,7 @@ const Login = ({
   return (
     <View style={styles.container}>
       {token && token !== "" && closeLoader && <Redirect to="/Search" />}
-      <Modal animationType="fade" visible={loaderVisible}>
-        <View
-          style={{
-            backgroundColor: "#F1F2F3",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-            width: "100%",
-          }}
-        >
-          <Image
-            style={{ width: 110, height: 110 }}
-            source={require("../../assets/logo.png")}
-          />
-          <Image
-            style={{ height: 100, width: 100 }}
-            source={require("../../assets/spinner.gif")}
-          />
-        </View>
-      </Modal>
+      <Loader visible={loaderVisible} />
 
       <Modal
         animationType="slide"

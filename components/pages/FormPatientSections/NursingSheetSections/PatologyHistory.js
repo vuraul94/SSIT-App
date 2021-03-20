@@ -2,26 +2,13 @@ import React, { useState } from "react";
 import { Redirect, useHistory } from "react-router-native";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Checkbox, TextInput, Switch } from "react-native-paper";
+import CheckTab from "../../../ui/CheckTab";
 
 const styles = StyleSheet.create({
-  container: {
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    flexDirection: "row",
-  },
   innerContainer: {
-    flexWrap: "wrap",
+    flex: 1,
     flexDirection: "row",
-  },
-  switch: {
-    marginTop: 20,
-    position: "absolute",
-    right: 10,
-  },
-  text: {
-    marginTop: 20,
-    marginBottom: 10,
-    left: 10,
+    paddingHorizontal: "16%"
   },
   innerText: {
     marginTop: 8,
@@ -29,7 +16,7 @@ const styles = StyleSheet.create({
     paddingRight: 50,
     left: 10,
   },
-  input:{
+  input: {
     marginLeft: 15,
     marginBottom: 20,
     marginRight: 15,
@@ -49,16 +36,11 @@ const PatologyHistory = ({ name, patologicalHistory, handlePatology }) => {
 
   return (
     <>
-      <View style={styles.container}>
-        <Text style={styles.text}>{name}</Text>
-        <Switch
-          style={styles.switch}
-          value={isSwitchPatologyOn}
-          onValueChange={onTogglePatalogySwitch}
-        />
-      </View>
-      {isSwitchPatologyOn && (
-        <>
+      <CheckTab
+        name={name}
+        checkOn={isSwitchPatologyOn}
+        setCheckOn={onTogglePatalogySwitch}
+      >
           <View style={styles.innerContainer}>
             <Checkbox
               status={patologicalHistory[0] !== "" ? "checked" : "unchecked"}
@@ -150,15 +132,15 @@ const PatologyHistory = ({ name, patologicalHistory, handlePatology }) => {
             <Text style={styles.innerText}>Otros</Text>
           </View>
           {checkOtherPatology && (
-            <TextInput style={styles.input}
+            <TextInput
+              style={styles.input}
               label="Detalles"
               mode="outlined"
               value={patologicalHistory[9]}
               onChangeText={(text) => handlePatology(9, text, true)}
             />
           )}
-        </>
-      )}
+      </CheckTab>
     </>
   );
 };

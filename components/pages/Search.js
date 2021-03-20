@@ -8,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   BackHandler,
+  Dimensions,
 } from "react-native";
 import {
   Button,
@@ -19,8 +20,16 @@ import {
 import { Redirect, useHistory } from "react-router-native";
 import { CONSTANTS } from "../../misc/constants";
 import { locations } from "../../misc/locations";
+import Loader from "../ui/Loader";
+
+let ScreenHeight = Dimensions.get("window").height - 190;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    minHeight: ScreenHeight,
+  },
   button: {
     width: "80%",
     marginLeft: "10%",
@@ -151,9 +160,9 @@ const Search = ({
           const patient = res.data.Response;
           if (res.data.Status === 204) {
             cleanPatient();
-            setProvince("P1");
-            setCanton("C1");
-            setDistrict("D1");
+            setProvince("");
+            setCanton("");
+            setDistrict("");
             setLoaderVisible(false);
             history.push("/create");
           } else {
@@ -257,28 +266,9 @@ const Search = ({
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       {(!token || token === "") && <Redirect to="/" />}
-      <Modal animationType="fade" visible={loaderVisible}>
-        <View
-          style={{
-            backgroundColor: "#F1F2F3",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-            width: "100%",
-          }}
-        >
-          <Image
-            style={{ width: 110, height: 110 }}
-            source={require("../../assets/logo.png")}
-          />
-          <Image
-            style={{ height: 100, width: 100 }}
-            source={require("../../assets/spinner.gif")}
-          />
-        </View>
-      </Modal>
+      <Loader visible={loaderVisible}/>
 
       <Modal
         animationType="slide"
@@ -308,7 +298,8 @@ const Search = ({
       </Modal>
 
       <Text style={styles.text}>
-        Seleccione el país al que pertenece el paciente:
+        Seleccione el país al que pertenece el paciente, luego coloque la
+        identificación (cedula, passaporte u otro)
       </Text>
       <Menu
         style={styles.menu}

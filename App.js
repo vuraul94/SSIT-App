@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Dimen, useCallback } from "react";
-import { View, ScrollView, StyleSheet, Text } from "react-native";
+import { View, ScrollView, StyleSheet, Text, Image, Dimensions } from "react-native";
 
 import {
   Provider as PaperProvider,
@@ -13,18 +13,18 @@ import Search from "./components/pages/Search";
 import FormPatient from "./components/pages/FormPatient";
 import Patient from "./components/pages/Patient";
 import { locations } from "./misc/locations";
+import Header from "./components/ui/Header";
+import Footer from "./components/ui/Footer";
+
+let ScreenHeight = Dimensions.get("window").height - 220;
 
 const styles = StyleSheet.create({
   container: {
     padding: 10,
     flex: 1,
-  },
-  appbar: {
-    height: 100,
-    padding: 10,
-    paddingTop: 30,
-    justifyContent: "flex-end",
-    color: "#ffffff",
+    minHeight: ScreenHeight,
+    alignItems: "stretch",
+    textAlign: "center"
   },
 });
 
@@ -39,13 +39,16 @@ const theme = {
 };
 
 export default function App() {
+  /**Authentication states */
   const [token, setToken] = useState();
   const [tokenCreationTime, setTokenCreationTime] = useState(Date.now());
+  /**Stetical states */
+  const [section, setSection] = useState("");
+  /**Catalog states */
   const [countryCatalog, setCountryCatalog] = useState([]);
   const [genderCatalog, setGenderCatalog] = useState([]);
   const [patientStatusCatalog, setPatientStatusCatalog] = useState([]);
   const [pathologicalCatalog, setPathologicalCatalog] = useState([]);
-  const [section, setSection] = useState("");
   const [patientId, setPatientId] = useState(0);
   const [identificationNumber, setIdentificationNumber] = useState("");
 
@@ -203,19 +206,9 @@ export default function App() {
       <PaperProvider theme={theme}>
         <NativeRouter>
           <ScrollView style={{ flex: 1 }}>
-            <View style={{ alignItems: "stretch" }}>
-              <Appbar style={styles.appbar}>
-                <Appbar.Content title="REXIS" subtitle={section} />
-                {token && token !== "" && (
-                  <Appbar.Action
-                    icon="logout"
-                    onPress={() => {
-                      setToken(null);
-                    }}
-                  />
-                )}
-              </Appbar>
+            <Header token={token} setToken={setToken} />
 
+            <View style={styles.container}>
               <Route
                 exact
                 path="/"
@@ -320,6 +313,7 @@ export default function App() {
                 )}
               />
             </View>
+            <Footer />
           </ScrollView>
         </NativeRouter>
       </PaperProvider>

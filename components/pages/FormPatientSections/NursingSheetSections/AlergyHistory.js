@@ -2,28 +2,16 @@ import React, { useState } from "react";
 import { Redirect, useHistory } from "react-router-native";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Checkbox, TextInput, Switch } from "react-native-paper";
+import CheckTab from "../../../ui/CheckTab";
 
 const styles = StyleSheet.create({
-  container: {
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    flexDirection: "row",
-  },
+
   innerContainer: {
-    flexWrap: "wrap",
+    flex: 1,
     flexDirection: "row",
+    paddingHorizontal: "16%"
   },
-  switch: {
-    marginTop: 20,
-    position: "absolute",
-    marginBottom: 30,
-    right: 10,
-  },
-  text: {
-    marginTop: 20,
-    marginBottom: 10,
-    left: 10,
-  },
+
   innerText: {
     marginTop: 8,
     marginBottom: 15,
@@ -55,100 +43,94 @@ const AlergyHistory = ({ name, alergyHistory, handleAlergy }) => {
 
   return (
     <>
-      <View style={styles.container}>
-        <Text style={styles.text}>{name}</Text>
-        <Switch
-          style={styles.switch}
-          value={isSwitchAlergyOn}
-          onValueChange={onToggleAlergySwitch}
-        />
-      </View>
-      {isSwitchAlergyOn && (
-        <>
-          <View style={styles.innerContainer}>
-            <Checkbox
-              status={checkAntibiotics ? "checked" : "unchecked"}
-              onPress={() => {
-                setCheckAntibiotics(!checkAntibiotics);
-              }}
-            />
-            <Text style={styles.innerText}>Antibióticos</Text>
-          </View>
-          {checkAntibiotics && (
-            <TextInput
-              style={styles.input}
-              label="Detalles"
-              placeholder="¿Cuáles antibioticos?"
-              mode="outlined"
-              value={alergyHistory[0]}
-              onChangeText={(text) => handleAlergy(0, text, true)}
-            />
-          )}
-          <View style={styles.innerContainer}>
-            <Checkbox
-              status={alergyHistory[1] !== "" ? "checked" : "unchecked"}
-              onPress={() => {
-                handleAlergy(1, "Sulfas");
-              }}
-            />
-            <Text style={styles.innerText}>Sulfas</Text>
-          </View>
-          <View style={styles.innerContainer}>
-            <Checkbox
-              status={alergyHistory[2] !== "" ? "checked" : "unchecked"}
-              onPress={() => {
-                handleAlergy(2, "Aines");
-              }}
-            />
-            <Text style={styles.innerText}>Aines</Text>
-          </View>
-          <View style={styles.innerContainer}>
-            <Checkbox
-              status={alergyHistory[3] !== "" ? "checked" : "unchecked"}
-              onPress={() => {
-                handleAlergy(3, "Anestésia");
-              }}
-            />
-            <Text style={styles.innerText}>Anestésia</Text>
-          </View>
-          <View style={styles.innerContainer}>
-            <Checkbox
-              status={checkFood ? "checked" : "unchecked"}
-              onPress={() => {
-                setCheckFood(!checkFood);
-              }}
-            />
+      <CheckTab
+        name={name}
+        checkOn={isSwitchAlergyOn}
+        setCheckOn={onToggleAlergySwitch}
+      >
+        <View style={styles.innerContainer}>
+          <Checkbox
+            status={checkAntibiotics ? "checked" : "unchecked"}
+            onPress={() => {
+              setCheckAntibiotics(!checkAntibiotics);
+            }}
+          />
+          <Text style={styles.innerText}>Antibióticos</Text>
+        </View>
+        {checkAntibiotics && (
+          <TextInput
+            style={styles.input}
+            label="Detalles"
+            placeholder="¿Cuáles antibioticos?"
+            mode="outlined"
+            value={alergyHistory[0]}
+            onChangeText={(text) => handleAlergy(0, text, true)}
+          />
+        )}
+        <View style={styles.innerContainer}>
+          <Checkbox
+            status={alergyHistory[1] !== "" ? "checked" : "unchecked"}
+            onPress={() => {
+              handleAlergy(1, "Sulfas");
+            }}
+          />
+          <Text style={styles.innerText}>Sulfas</Text>
+        </View>
+        <View style={styles.innerContainer}>
+          <Checkbox
+            status={alergyHistory[2] !== "" ? "checked" : "unchecked"}
+            onPress={() => {
+              handleAlergy(2, "Aines");
+            }}
+          />
+          <Text style={styles.innerText}>Aines</Text>
+        </View>
+        <View style={styles.innerContainer}>
+          <Checkbox
+            status={alergyHistory[3] !== "" ? "checked" : "unchecked"}
+            onPress={() => {
+              handleAlergy(3, "Anestésia");
+            }}
+          />
+          <Text style={styles.innerText}>Anestésia</Text>
+        </View>
+        <View style={styles.innerContainer}>
+          <Checkbox
+            status={checkFood ? "checked" : "unchecked"}
+            onPress={() => {
+              setCheckFood(!checkFood);
+            }}
+          />
           <Text style={styles.innerText}>Alimentos</Text>
-          </View>
-          {checkFood && (
-            <TextInput
-              style={styles.input}
-              label="Detalles"
-              mode="outlined"
-              value={alergyHistory[4]}
-              onChangeText={(text) => handleAlergy(4, text, true)}
-            />
-          )}
-          <View style={styles.innerContainer}>
-            <Checkbox
-              status={checkOtherAlergies ? "checked" : "unchecked"}
-              onPress={() => {
-                setCheckOtherAlergies(!checkOtherAlergies);
-              }}
-            />
-            <Text style={styles.innerText}>Otros</Text>
-          </View>
-          {checkOtherAlergies && (
-            <TextInput
-              style={styles.input}
-              label="Detalles"
-              mode="outlined"
-              value={alergyHistory[5]}
-              onChangeText={(text) => handleAlergy(5, text, true)}
-            />
-          )}
-        </>
-      )}
+        </View>
+        {checkFood && (
+          <TextInput
+            style={styles.input}
+            label="Detalles"
+            mode="outlined"
+            value={alergyHistory[4]}
+            onChangeText={(text) => handleAlergy(4, text, true)}
+          />
+        )}
+        <View style={styles.innerContainer}>
+          <Checkbox
+            status={checkOtherAlergies ? "checked" : "unchecked"}
+            onPress={() => {
+              setCheckOtherAlergies(!checkOtherAlergies);
+            }}
+          />
+          <Text style={styles.innerText}>Otros</Text>
+        </View>
+        {checkOtherAlergies && (
+          <TextInput
+            style={styles.input}
+            label="Detalles"
+            mode="outlined"
+            value={alergyHistory[5]}
+            onChangeText={(text) => handleAlergy(5, text, true)}
+          />
+        )}
+      </CheckTab>
     </>
   );
 };

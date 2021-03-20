@@ -10,7 +10,7 @@ import HeritageHistory from "./NursingSheetSections/HeritageHistory";
 import TraumaHistory from "./NursingSheetSections/TraumaHistory";
 import OphthalmologistHistory from "./NursingSheetSections/OphthalmologistHistory";
 
-const NursingSheet = ({
+const NursingSheetForm = ({
   patologicalHistory,
   medicamentHistory,
   alergyHistory,
@@ -161,4 +161,4 @@ const NursingSheet = ({
   );
 };
 
-export default NursingSheet;
+export default NursingSheetForm;
