@@ -17,15 +17,33 @@ const styles = StyleSheet.create({
   },
   photo: {
     marginBottom: 20,
-    height: 200,
-    width: 200,
+    height: 160,
+    width: 160,
     alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+
+    elevation: 24,
   },
   camera: {
     marginBottom: 20,
-    height: 200,
-    width: 200,
+    height: 160,
+    width: 160,
     alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+
+    elevation: 24,
   },
   input: {
     marginTop: 10,

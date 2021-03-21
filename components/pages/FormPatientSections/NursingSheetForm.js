@@ -33,6 +33,15 @@ const NursingSheetForm = ({
 }) => {
   const { pathologicalCatalog } = useContext(CatalogContext);
   const [checkManager, setCheckMager] = useState(false);
+  const [checkTabs, setCheckTabs] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
   const handlePatology = (index, value, isText = false) => {
     let newPatologicalHistory = patologicalHistory;
@@ -115,6 +124,14 @@ const NursingSheetForm = ({
     setCheckMager(!checkManager);
   };
 
+  const handleCheckTabs = (index) => {
+    let newCheckTabs = [false, false, false, false, false, false, false];
+    if (!checkTabs[index]) {
+      newCheckTabs = checkTabs.map((checkTab, i) => i === index);
+    }
+    setCheckTabs(newCheckTabs);
+  };
+
   return (
     <ScrollView>
       <View>
@@ -122,16 +139,22 @@ const NursingSheetForm = ({
           name={pathologicalCatalog[0].Name}
           patologicalHistory={patologicalHistory}
           handlePatology={handlePatology}
+          checkTab={checkTabs[0]}
+          setCheckTab={() => handleCheckTabs(0)}
         />
         <MedicamentHistory
           name={pathologicalCatalog[1].Name}
           medicamentHistory={medicamentHistory}
           setMedicamentHistory={setMedicamentHistory}
+          checkTab={checkTabs[1]}
+          setCheckTab={() => handleCheckTabs(1)}
         />
         <AlergyHistory
           name={pathologicalCatalog[2].Name}
           alergyHistory={alergyHistory}
           handleAlergy={handleAlergy}
+          checkTab={checkTabs[2]}
+          setCheckTab={() => handleCheckTabs(2)}
         />
         <PersonalHistory
           name={pathologicalCatalog[3].Name}
@@ -141,21 +164,29 @@ const NursingSheetForm = ({
           handleCotactLens={handleCotactLens}
           checkGlassesList={checkGlassesList}
           checkContactLensList={checkContactLensList}
+          checkTab={checkTabs[3]}
+          setCheckTab={() => handleCheckTabs(3)}
         />
         <HeritageHistory
           name={pathologicalCatalog[4].Name}
           heritageHistory={heritageHistory}
           handleHeritageHistory={handleHeritageHistory}
+          checkTab={checkTabs[4]}
+          setCheckTab={() => handleCheckTabs(4)}
         />
         <TraumaHistory
           name={pathologicalCatalog[5].Name}
           traumaHistory={traumaHistory}
           setTraumaHistory={setTraumaHistory}
+          checkTab={checkTabs[5]}
+          setCheckTab={() => handleCheckTabs(5)}
         />
         <OphthalmologistHistory
           name={pathologicalCatalog[6].Name}
           ophthalmologistHistory={ophthalmologistHistory}
           handleOphthalmologistHistory={handleOphthalmologistHistory}
+          checkTab={checkTabs[6]}
+          setCheckTab={() => handleCheckTabs(6)}
         />
       </View>
     </ScrollView>

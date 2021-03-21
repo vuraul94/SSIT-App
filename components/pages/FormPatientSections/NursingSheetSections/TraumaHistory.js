@@ -4,13 +4,13 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Checkbox, TextInput, Switch } from "react-native-paper";
 import CheckTab from "../../../ui/CheckTab";
 
-const TraumaHistory = ({ name, traumaHistory, setTraumaHistory }) => {
-  const [isSwitchTraumaHistoryOn, setIsSwitchTraumaHistoryOn] = useState(
-    traumaHistory !== ""
-  );
-  const onToggleTraumaHistorySwitch = () =>
-    setIsSwitchTraumaHistoryOn(!isSwitchTraumaHistoryOn);
-
+const TraumaHistory = ({
+  name,
+  traumaHistory,
+  setTraumaHistory,
+  checkTab,
+  setCheckTab,
+}) => {
   const styles = StyleSheet.create({
     input: {
       marginLeft: 15,
@@ -22,11 +22,7 @@ const TraumaHistory = ({ name, traumaHistory, setTraumaHistory }) => {
 
   return (
     <>
-      <CheckTab
-        name={name}
-        checkOn={isSwitchTraumaHistoryOn}
-        setCheckOn={onToggleTraumaHistorySwitch}
-      >
+      <CheckTab name={name} checkOn={checkTab} setCheckOn={setCheckTab}>
         <>
           <TextInput
             style={styles.input}

@@ -16,6 +16,7 @@ import MedicalSections from "./FormPatientSections/MedicalSections";
 import { CatalogContext } from "../providers/CatalogProvider";
 import { Button } from "react-native-paper";
 import { PatientContext } from "../providers/PatientProvider";
+import PatientData from "./PatientViews/PatientData";
 
 const styles = StyleSheet.create({});
 
@@ -30,6 +31,7 @@ const FormPatient = ({
   setMssgVisible,
   setMssg,
   setError,
+  updatePatient
 }) => {
   const {
     /**Data */
@@ -82,7 +84,7 @@ const FormPatient = ({
   const { countryCatalog, genderCatalog, patientStatusCatalog } = useContext(
     CatalogContext
   );
-  
+
   const [loaderVisible, setLoaderVisible] = useState(false);
   let history = useHistory();
 
@@ -90,6 +92,9 @@ const FormPatient = ({
     setSection(`ID: ${identificationNumber}`);
   }, [history]);
 
+  /**
+   * As it name says this function create the Patient
+   */
   const createPatient = (history) => {
     const patient = {
       PatientId: patientId,
@@ -172,6 +177,9 @@ const FormPatient = ({
       });
   };
 
+  /**
+   * Make some validations and disable the submit button
+   */
   const validateForm = () => {
     if (!name || name.trim() === "") {
       return false;
@@ -274,35 +282,8 @@ const FormPatient = ({
       ophthalmologistHistory={ophthalmologistHistory}
     ></MedicalSections>,
 
-    <Patient
+    <PatientData
       identificationNumber={identificationNumber}
-      photo={photo}
-      name={name}
-      lastNames={lastNames}
-      phone={phone}
-      email={email}
-      address={
-        province !== "" &&
-        canton !== "" &&
-        district !== "" &&
-        `${locations.province[province]}, ${locations.canton[province][canton]}, ${locations.district[province][canton][district]}. \n ${address}`
-      }
-      patologicalHistory={patologicalHistory}
-      medicamentHistory={medicamentHistory}
-      alergyHistory={alergyHistory}
-      personalHistory={personalHistory}
-      heritageHistory={heritageHistory}
-      traumaHistory={traumaHistory}
-      ophthalmologistHistory={ophthalmologistHistory}
-      gender={gender}
-      birthDate={birthDate}
-      occupation={occupation}
-      status={status}
-      preview={true}
-      createPatient={createPatient}
-      token={token}
-      genderCatalog={genderCatalog}
-      patientStatusCatalog={patientStatusCatalog}
       checkGlassesList={checkGlassesList}
       checkContactLensList={checkContactLensList}
       validateForm={validateForm}
@@ -323,7 +304,7 @@ const FormPatient = ({
             disabled={!validateForm()}
             onPress={() => createPatient(history)}
           >
-            Enviar
+            {updatePatient? "Actualizar" : "Crear"}
           </Button>
         }
       ></Paginator>

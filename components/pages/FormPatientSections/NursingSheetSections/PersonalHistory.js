@@ -5,13 +5,11 @@ import { Checkbox, TextInput, Switch } from "react-native-paper";
 import CheckTab from "../../../ui/CheckTab";
 
 const styles = StyleSheet.create({
-  container: {
-    
-  },
+  container: {},
   innerContainer: {
     flex: 1,
     flexDirection: "row",
-    paddingHorizontal: "16%"
+    paddingHorizontal: "16%",
   },
   text: {
     marginTop: 20,
@@ -24,7 +22,7 @@ const styles = StyleSheet.create({
     paddingRight: 50,
     left: 10,
   },
-  labelText:{
+  labelText: {
     flex: 1,
     paddingHorizontal: "8%",
     paddingTop: 8,
@@ -42,7 +40,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 1,
     marginHorizontal: "8%",
-    marginBottom: "4%"
+    marginBottom: "4%",
   },
 });
 
@@ -54,11 +52,9 @@ const PersonalHistory = ({
   handleCotactLens,
   checkGlassesList,
   checkContactLensList,
+  checkTab,
+  setCheckTab,
 }) => {
-  const [isSwitchPersonalHistoryOn, setIsSwitchPersonalHistoryOn] = useState(
-    personalHistory.find((history) => history !== "")
-  );
-
   const [checkDrugs, setDrugs] = useState(personalHistory[2] !== "");
   const [checkGlasses, setCheckGlasses] = useState(
     checkGlassesList.find((glasses) => glasses !== "")
@@ -67,16 +63,9 @@ const PersonalHistory = ({
     checkContactLensList.find((lens) => lens !== "")
   );
 
-  const onTogglePersonalHistorySwitch = () =>
-    setIsSwitchPersonalHistoryOn(!isSwitchPersonalHistoryOn);
-
   return (
     <>
-      <CheckTab
-        name={name}
-        checkOn={isSwitchPersonalHistoryOn}
-        setCheckOn={onTogglePersonalHistorySwitch}
-      >
+      <CheckTab name={name} checkOn={checkTab} setCheckOn={setCheckTab}>
         <View style={styles.innerContainer}>
           <Checkbox
             status={personalHistory[0] !== "" ? "checked" : "unchecked"}

@@ -11,13 +11,28 @@ const styles = StyleSheet.create({
     minHeight: ScreenHeight,
     flex: 1,
     justifyContent: "center",
+    padding: "8%",
   },
-  sectionBtn:{
-      
+  btn: {
+    backgroundColor: "#ffffff",
   },
-  backBtn:{
-
-  }
+  navButtons: {
+    flex: 1,
+    justifyContent: "space-between",
+    flexDirection: "row",
+    backgroundColor: "#ffffff",
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    height: 40,
+  },
+  modal: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    backgroundColor: "#f0f0f0",
+  },
 });
 
 const MedicalSections = ({
@@ -40,26 +55,28 @@ const MedicalSections = ({
   checkContactLensList,
   setCheckContactLensList,
 }) => {
-    
   const [nursingVisible, setNursingVisible] = useState(false);
   return (
     <View style={styles.container}>
       <Button
-        mode="outlined"
+        style={styles.btn}
         icon="stethoscope"
         onPress={() => setNursingVisible(true)}
       >
         Hoja de Enfermería
       </Button>
       <Modal visible={nursingVisible}>
-        <View
-          style={{ position: "absolute", top: 0, right: 0, left: 0, bottom: 0 }}
-        >
+        <View style={styles.modal}>
           <Header></Header>
-          <Button onPress={() => setNursingVisible(false)}>
-            {" "}
-            {"<"} Regresar{" "}
-          </Button>
+          <View style={styles.navButtons}>
+            <Button
+              style={styles.buttonLeft}
+              onPress={() => setNursingVisible(false)}
+            >
+              {"<"} Atras
+            </Button>
+            <View style={{ minWidth: "10%" }}></View>
+          </View>
           <ScrollView>
             <NursingSheetForm
               patologicalHistory={patologicalHistory}

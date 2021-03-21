@@ -25,19 +25,16 @@ const MedicamentHistory = ({
   name,
   medicamentHistory,
   setMedicamentHistory,
+  checkTab,
+  setCheckTab,
 }) => {
-  const [isSwitchMedicamentOn, setIsSwitchMedicamentOn] = useState(
-    medicamentHistory !== ""
-  );
-  const onToggleMedicamentSwitch = () =>
-    setIsSwitchMedicamentOn(!isSwitchMedicamentOn);
 
   return (
     <>
       <CheckTab
         name={name}
-        checkOn={isSwitchMedicamentOn}
-        setCheckOn={onToggleMedicamentSwitch}
+        checkOn={checkTab}
+        setCheckOn={setCheckTab}
       >
         <View style={styles.innerContainer}>
           <Text style={styles.text}>

@@ -5,11 +5,10 @@ import { Checkbox, TextInput, Switch } from "react-native-paper";
 import CheckTab from "../../../ui/CheckTab";
 
 const styles = StyleSheet.create({
-
   innerContainer: {
     flex: 1,
     flexDirection: "row",
-    paddingHorizontal: "16%"
+    paddingHorizontal: "16%",
   },
   innerText: {
     marginTop: 8,
@@ -24,11 +23,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const HeritageHistory = ({ name, heritageHistory, handleHeritageHistory }) => {
-  const [isSwitchHeritageHistoryOn, setIsSwitchHeritageHistoryOn] = useState(
-    heritageHistory.find((history) => history !== "")
-  );
-
+const HeritageHistory = ({
+  name,
+  heritageHistory,
+  handleHeritageHistory,
+  checkTab,
+  setCheckTab,
+}) => {
   const [checkEyeDisease, setEyeDisease] = useState(
     heritageHistory[heritageHistory.length - 2] !== ""
   );
@@ -36,15 +37,9 @@ const HeritageHistory = ({ name, heritageHistory, handleHeritageHistory }) => {
     heritageHistory[heritageHistory.length - 1] !== ""
   );
 
-  const onToggleHeritageHistorySwitch = () =>
-    setIsSwitchHeritageHistoryOn(!isSwitchHeritageHistoryOn);
   return (
     <>
-      <CheckTab
-        name={name}
-        checkOn={isSwitchHeritageHistoryOn}
-        setCheckOn={onToggleHeritageHistorySwitch}
-      >
+      <CheckTab name={name} checkOn={checkTab} setCheckOn={setCheckTab}>
         <View style={styles.innerContainer}>
           <Checkbox
             status={heritageHistory[0] !== "" ? "checked" : "unchecked"}

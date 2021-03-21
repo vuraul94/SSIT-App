@@ -1,35 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Modal,
-  Image,
-  TouchableOpacity,
-  BackHandler,
-  Dimensions,
-} from "react-native";
-import {
-  Button,
-  Menu,
-  Searchbar,
-  Colors,
-  IconButton,
-} from "react-native-paper";
+import { View, Text, StyleSheet, BackHandler, Dimensions } from "react-native";
+import { Button, Menu, Searchbar } from "react-native-paper";
 import { Redirect, useHistory } from "react-router-native";
 import { CONSTANTS } from "../../misc/constants";
 import { locations } from "../../misc/locations";
 import Loader from "../ui/Loader";
 import { CatalogContext } from "../providers/CatalogProvider";
+import { PatientContext } from "../providers/PatientProvider";
 
 let ScreenHeight = Dimensions.get("window").height - 190;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     minHeight: ScreenHeight,
+    paddingTop: "20%"
   },
   button: {
     width: "80%",
@@ -54,27 +40,6 @@ const styles = StyleSheet.create({
     marginBottom: "2%",
     textAlign: "center",
   },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  error: { color: Colors.red500 },
-  success: { color: Colors.green300 },
 });
 
 /**
@@ -86,48 +51,54 @@ const Search = ({
   setSection,
   identificationNumber,
   setIdentificationNumber,
-  province,
-  canton,
-  country,
-  setCountry,
-  setPatientId,
-  setPhoto,
-  setName,
-  setLastNames,
-  setPhone,
-  setEmail,
-  setProvince,
-  setCanton,
-  setDistrict,
-  setAddress,
-  setGender,
-  setBirthDate,
-  setOccupation,
-  setStatus,
-  cleanPatient,
-  setPatologicalHistory,
-  setMedicamentHistory,
-  setAlergyHistory,
-  setPersonalHistory,
-  setHeritageHistory,
-  setTraumaHistory,
-  setOphthalmologistHistory,
   setCheckGlassesList,
   setCheckContactLensList,
-  mssgVisible,
   setMssgVisible,
-  mssg,
-  error,
   setMssg,
   setError,
+  cleanPatient,
+  setUpdatePatient,
 }) => {
   const { countryCatalog } = useContext(CatalogContext);
+
+  const {
+    province,
+    canton,
+    country,
+    setCountry,
+    setPatientId,
+    setPhoto,
+    setName,
+    setLastNames,
+    setPhone,
+    setEmail,
+    setProvince,
+    setCanton,
+    setDistrict,
+    setAddress,
+    setGender,
+    setBirthDate,
+    setOccupation,
+    setStatus,
+    setPatologicalHistory,
+    setMedicamentHistory,
+    setAlergyHistory,
+    setPersonalHistory,
+    setHeritageHistory,
+    setTraumaHistory,
+    setOphthalmologistHistory,
+  } = useContext(PatientContext);
+
   let history = useHistory();
   const [visbleCountry, setVisibleCountry] = useState();
   const [loaderVisible, setLoaderVisible] = useState(false);
 
   useEffect(() => {
     setSection("Search");
+    setProvince("P1");
+    setCanton("C1");
+    setDistrict("D1");
+    setUpdatePatient(false);
     BackHandler.addEventListener("hardwareBackPress", () => {
       if (
         history.location.pathname !== "/Search" &&
@@ -168,6 +139,8 @@ const Search = ({
             setLoaderVisible(false);
             history.push("/create");
           } else {
+            setUpdatePatient(true);
+            setLoaderVisible(false);
             setPatientId(patient.PatientId);
             setPhoto(patient.PersonalPhoto);
             setName(patient.Name);
@@ -272,33 +245,6 @@ const Search = ({
     <View style={styles.container}>
       {(!token || token === "") && <Redirect to="/" />}
       <Loader visible={loaderVisible} />
-
-      <Modal
-        animationType="slide"
-        visible={mssgVisible}
-        transparent={true}
-        onRequestClose={() => {
-          setMssgVisible(!mssgVisible);
-        }}
-        onDismiss={() => setMssgVisible(false)}
-      >
-        <TouchableOpacity
-          style={styles.centeredView}
-          onPress={() => setMssgVisible(false)}
-        >
-          <View style={styles.modalView}>
-            {mssg && (
-              <Text style={error ? styles.error : styles.success}>{mssg}</Text>
-            )}
-            <IconButton
-              icon={error ? "close" : "check"}
-              color={error ? Colors.red500 : Colors.green300}
-              size={20}
-              onPress={() => setMssgVisible(false)}
-            />
-          </View>
-        </TouchableOpacity>
-      </Modal>
 
       <Text style={styles.text}>
         Seleccione el país al que pertenece el paciente, luego coloque la

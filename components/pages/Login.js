@@ -63,7 +63,15 @@ const styles = StyleSheet.create({
  * receive the setTokenCreationTime "function"
  * receive the setSection "function"
  */
-const Login = ({ token, setToken, setTokenCreationTime, setSection }) => {
+const Login = ({
+  token,
+  setToken,
+  setTokenCreationTime,
+  setSection,
+  setMssgVisible,
+  setMssg,
+  setError,
+}) => {
   const {
     setCountryCatalog,
     setGenderCatalog,
@@ -96,15 +104,16 @@ const Login = ({ token, setToken, setTokenCreationTime, setSection }) => {
         getCatalog(response.data.Token);
       })
       .catch((error) => {
+        setError(true);
         if (error.message === "Request failed with status code 401") {
-          setErrorMsg("Credenciales equivocadas");
+          setMssg("Credenciales equivocadas");
         } else {
-          setErrorMsg("Algo ocurrio");
+          setMssg("Algo ocurrio");
         }
         setLoaderVisible(false);
-        setErrorVisible(true);
+        setMssgVisible(true);
         setTimeout(() => {
-          setErrorVisible(false);
+          setMssgVisible(false);
         }, 5000);
       });
   };
@@ -133,32 +142,6 @@ const Login = ({ token, setToken, setTokenCreationTime, setSection }) => {
     <View style={styles.container}>
       {token && token !== "" && closeLoader && <Redirect to="/Search" />}
       <Loader visible={loaderVisible} />
-
-      <Modal
-        animationType="slide"
-        visible={errorVisible}
-        transparent={true}
-        onRequestClose={() => {
-          setErrorVisible(!errorVisible);
-        }}
-        onDismiss={() => setErrorVisible(false)}
-      >
-        <TouchableOpacity
-          style={styles.centeredView}
-          onPress={() => setErrorVisible(false)}
-        >
-          <View style={styles.modalView}>
-            {errorMsg && <Text style={styles.error}>{errorMsg}</Text>}
-            <IconButton
-              icon="close"
-              color={Colors.red500}
-              size={20}
-              onPress={() => setErrorVisible(false)}
-            />
-          </View>
-        </TouchableOpacity>
-      </Modal>
-
       <TextInput
         label="Username"
         style={styles.input}

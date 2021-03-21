@@ -5,13 +5,11 @@ import { Checkbox, TextInput, Switch } from "react-native-paper";
 import CheckTab from "../../../ui/CheckTab";
 
 const styles = StyleSheet.create({
-
   innerContainer: {
     flex: 1,
     flexDirection: "row",
-    paddingHorizontal: "16%"
+    paddingHorizontal: "16%",
   },
-
   innerText: {
     marginTop: 8,
     marginBottom: 15,
@@ -25,10 +23,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const AlergyHistory = ({ name, alergyHistory, handleAlergy }) => {
-  const [isSwitchAlergyOn, setIsSwitchAlergyOn] = useState(
-    alergyHistory.find((history) => history !== "")
-  );
+const AlergyHistory = ({
+  name,
+  alergyHistory,
+  handleAlergy,
+  checkTab,
+  setCheckTab,
+}) => {
   const [checkAntibiotics, setCheckAntibiotics] = useState(
     alergyHistory[0] !== ""
   );
@@ -38,16 +39,9 @@ const AlergyHistory = ({ name, alergyHistory, handleAlergy }) => {
   const [checkOtherAlergies, setCheckOtherAlergies] = useState(
     alergyHistory[alergyHistory.length - 1] !== ""
   );
-
-  const onToggleAlergySwitch = () => setIsSwitchAlergyOn(!isSwitchAlergyOn);
-
   return (
     <>
-      <CheckTab
-        name={name}
-        checkOn={isSwitchAlergyOn}
-        setCheckOn={onToggleAlergySwitch}
-      >
+      <CheckTab name={name} checkOn={checkTab} setCheckOn={setCheckTab}>
         <View style={styles.innerContainer}>
           <Checkbox
             status={checkAntibiotics ? "checked" : "unchecked"}

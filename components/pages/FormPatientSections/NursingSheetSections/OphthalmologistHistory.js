@@ -35,6 +35,8 @@ const OphtalmologistHistory = ({
   name,
   ophthalmologistHistory,
   handleOphthalmologistHistory,
+  checkTab,
+  setCheckTab,
 }) => {
   const [
     isSwitchOphthalmologistHistoryOn,
@@ -53,11 +55,7 @@ const OphtalmologistHistory = ({
 
   return (
     <>
-      <CheckTab
-        name={name}
-        checkOn={isSwitchOphthalmologistHistoryOn}
-        setCheckOn={onToggleOphthalmologistHistorySwitch}
-      >
+      <CheckTab name={name} checkOn={checkTab} setCheckOn={setCheckTab}>
         <>
           <View style={styles.innerContainer}>
             <Checkbox
